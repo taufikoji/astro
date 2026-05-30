@@ -1,6 +1,8 @@
-﻿---
+---
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
 const alumniSpotlight = [
   { nama: 'xxxxxxxxx', angkatan: 'DKV 2020', posisi: 'Senior Art Director', perusahaan: 'Ogilvy Indonesia', kata: 'STMK Trisakti memberi saya fondasi desain yang kuat dan jaringan industri yang sangat berharga.' },
@@ -15,7 +17,7 @@ const alumniSpotlight = [
     label="Lulusan"
     title="Alumni STMK Trisakti"
     desc="5.000+ alumni STMK Trisakti tersebar di industri kreatif terkemuka di Indonesia dan mancanegara."
-    breadcrumb={[{ label: 'Akademik', href: '/akademik' }, { label: 'Alumni', href: '' }]}
+    breadcrumb={[{ label: 'Akademik', href: url('/akademik') }, { label: 'Alumni', href: '' }]}
   />
 
   <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20 space-y-20">
@@ -41,7 +43,7 @@ const alumniSpotlight = [
         ))}
       </div>
       <div class="mt-5 reveal">
-        <a href="/dokumen/tracer-study-2024.pdf" class="btn-outline text-sm">
+        <a href={url('/dokumen/tracer-study-2024.pdf')} class="btn-outline text-sm">
           Unduh Laporan Tracer Study 2024 (PDF)
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
         </a>

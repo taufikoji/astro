@@ -1,6 +1,7 @@
 ---
 const year = new Date().getFullYear();
 const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 ---
 
 <footer class="bg-neutral-950 text-neutral-400 border-t border-neutral-900">
@@ -10,7 +11,7 @@ const base = import.meta.env.BASE_URL;
 
       <!-- Brand -->
       <div class="md:col-span-4">
-        <a href="/" class="flex items-center gap-3 mb-5">
+        <a href={url('/')} class="flex items-center gap-3 mb-5">
           <div class="w-10 h-10 bg-white flex items-center justify-center shrink-0">
             <span class="text-neutral-950 font-black text-[10px] leading-tight tracking-tight text-center">ST<br/>MK</span>
           </div>
@@ -56,37 +57,37 @@ const base = import.meta.env.BASE_URL;
           {
             title: 'Program Studi',
             links: [
-              { label: 'Desain Komunikasi Visual', href: '/program/dkv' },
-              { label: 'Teknologi Grafika', href: '/program/teknologi-grafika' },
-              { label: 'Kurikulum & CPL', href: '/program' },
+              { label: 'Desain Komunikasi Visual', href: url('/program/dkv') },
+              { label: 'Teknologi Grafika', href: url('/program/teknologi-grafika') },
+              { label: 'Kurikulum & CPL', href: url('/program') },
             ],
           },
           {
             title: 'Akademik',
             links: [
-              { label: 'Penjaminan Mutu', href: '/akademik/penjaminan-mutu' },
-              { label: 'Penelitian & PKM', href: '/akademik/penelitian' },
-              { label: 'Kemahasiswaan', href: '/akademik/kemahasiswaan' },
-              { label: 'Alumni', href: '/akademik/alumni' },
+              { label: 'Penjaminan Mutu', href: url('/akademik/penjaminan-mutu') },
+              { label: 'Penelitian & PKM', href: url('/akademik/penelitian') },
+              { label: 'Kemahasiswaan', href: url('/akademik/kemahasiswaan') },
+              { label: 'Alumni', href: url('/akademik/alumni') },
             ],
           },
           {
             title: 'Institusi',
             links: [
-              { label: 'Tentang STMK Trisakti', href: '/tentang' },
-              { label: 'Visi & Misi', href: '/tentang/visi-misi' },
-              { label: 'Akreditasi BAN-PT', href: '/akreditasi' },
-              { label: 'Struktur Organisasi', href: '/tentang/struktur-organisasi' },
+              { label: 'Tentang STMK Trisakti', href: url('/tentang') },
+              { label: 'Visi & Misi', href: url('/tentang/visi-misi') },
+              { label: 'Akreditasi BAN-PT', href: url('/akreditasi') },
+              { label: 'Struktur Organisasi', href: url('/tentang/struktur-organisasi') },
             ],
           },
           {
             title: 'Mahasiswa',
             links: [
-              { label: 'PMB 2026/2027', href: '/pmb' },
-              { label: 'Beasiswa', href: '/pmb#beasiswa' },
-              { label: 'Fasilitas', href: '/fasilitas' },
-              { label: 'Berita', href: '/berita' },
-              { label: 'Kontak', href: '/kontak' },
+              { label: 'PMB 2026/2027', href: url('/pmb') },
+              { label: 'Beasiswa', href: url('/pmb#beasiswa') },
+              { label: 'Fasilitas', href: url('/fasilitas') },
+              { label: 'Berita', href: url('/berita') },
+              { label: 'Kontak', href: url('/kontak') },
             ],
           },
         ].map(col => (
@@ -112,8 +113,8 @@ const base = import.meta.env.BASE_URL;
       <div class="flex items-center gap-4">
         <span class="text-green-500 font-semibold">● Terakreditasi BAN-PT</span>
         <span class="text-neutral-800">·</span>
-        <a href="/kebijakan-privasi" class="hover:text-white transition-colors">Privasi</a>
-        <a href="/syarat-ketentuan" class="hover:text-white transition-colors">Syarat</a>
+        <a href={url('/kebijakan-privasi')} class="hover:text-white transition-colors">Privasi</a>
+        <a href={url('/syarat-ketentuan')} class="hover:text-white transition-colors">Syarat</a>
       </div>
     </div>
   </div>
@@ -122,7 +123,7 @@ const base = import.meta.env.BASE_URL;
   <div class="bg-white border-t border-neutral-200">
     <div class="max-w-screen-xl mx-auto px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
       <img
-        src={`${base}images/logo-stmk.png`}
+        src={url('/images/logo-stmk.png')}
         alt="Trisakti School of Multimedia — DiktiSaintek Berdampak"
         class="h-12 w-auto object-contain"
         loading="lazy"

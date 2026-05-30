@@ -1,5 +1,7 @@
 ---
 import PuzzleCanvas from './PuzzleCanvas.astro';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
 interface Props {
   label: string;
@@ -40,7 +42,7 @@ const { label, title, desc, breadcrumb = [], tabs = [], currentPath = '' } = Ast
     <!-- Breadcrumb -->
     {breadcrumb.length > 0 && (
       <nav class="flex items-center gap-2 mb-7 fade-up" style="animation-delay:0ms">
-        <a href="/" class="text-neutral-600 hover:text-white transition-colors text-xs font-medium">Beranda</a>
+        <a href={url('/')} class="text-neutral-600 hover:text-white transition-colors text-xs font-medium">Beranda</a>
         {breadcrumb.map((b) => (
           <>
             <svg class="w-3 h-3 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">

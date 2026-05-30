@@ -1,6 +1,8 @@
-﻿---
+---
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
 const penelitian = [
   { judul: 'Visualisasi Data Berbasis AI untuk Media Komunikasi Publik', peneliti: 'xxxxxxxxx', tahun: '2025', sumber: 'Hibah Penelitian Dasar — Kemendikbudristek', status: 'Selesai', kategori: 'Penelitian Dasar' },
@@ -23,7 +25,7 @@ const jurnal = [
     label="Tri Dharma PT"
     title="Penelitian & PKM"
     desc="LPPM STMK Trisakti berkomitmen menghasilkan riset berkualitas dan mengabdi kepada masyarakat melalui keahlian multimedia."
-    breadcrumb={[{ label: 'Akademik', href: '/akademik' }, { label: 'Penelitian & PKM', href: '' }]}
+    breadcrumb={[{ label: 'Akademik', href: url('/akademik') }, { label: 'Penelitian & PKM', href: '' }]}
   />
 
   <!-- Stats -->
@@ -86,7 +88,7 @@ const jurnal = [
           ))}
         </div>
         <div class="mt-5">
-          <a href="/akademik/penelitian/publikasi" class="text-sm font-bold link-under" style="color:var(--brand)">Lihat semua publikasi →</a>
+          <a href={url('/akademik/penelitian/publikasi')} class="text-sm font-bold link-under" style="color:var(--brand)">Lihat semua publikasi →</a>
         </div>
       </div>
     </div>

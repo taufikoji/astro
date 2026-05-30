@@ -1,12 +1,14 @@
-﻿---
+---
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
 const tabs = [
-  { label: 'Profil', href: '/tentang' },
-  { label: 'Visi & Misi', href: '/tentang/visi-misi' },
-  { label: 'Sejarah', href: '/tentang/sejarah' },
-  { label: 'Struktur Organisasi', href: '/tentang/struktur-organisasi' },
+  { label: 'Profil', href: url('/tentang') },
+  { label: 'Visi & Misi', href: url('/tentang/visi-misi') },
+  { label: 'Sejarah', href: url('/tentang/sejarah') },
+  { label: 'Struktur Organisasi', href: url('/tentang/struktur-organisasi') },
 ];
 ---
 
@@ -16,7 +18,7 @@ const tabs = [
     label="Profil Institusi"
     title="Struktur Organisasi"
     desc="Tata kelola kelembagaan STMK Trisakti yang transparan dan akuntabel untuk penyelenggaraan pendidikan bermutu."
-    breadcrumb={[{ label: 'Tentang', href: '/tentang' }, { label: 'Struktur Organisasi', href: '' }]}
+    breadcrumb={[{ label: 'Tentang', href: url('/tentang') }, { label: 'Struktur Organisasi', href: '' }]}
     tabs={tabs}
     currentPath={Astro.url.pathname}
   />
@@ -113,7 +115,7 @@ const tabs = [
 
     <!-- Download -->
     <div class="mt-12 reveal">
-      <a href="/dokumen/struktur-organisasi-stmk.pdf" class="btn-outline inline-flex">
+      <a href={url('/dokumen/struktur-organisasi-stmk.pdf')} class="btn-outline inline-flex">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
         Unduh Bagan Struktur Organisasi (PDF)
       </a>

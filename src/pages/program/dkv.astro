@@ -1,6 +1,8 @@
-﻿---
+---
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
 const dosen = [
   { nama: 'xxxxxxxxx', keahlian: 'Desain Komunikasi Visual, Identitas Merek', nidn: '0301018501' },
@@ -36,7 +38,7 @@ const karir = ['Graphic Designer', 'Art Director', 'Animator 2D/3D', 'Motion Des
     label="Program Studi"
     title="Desain Komunikasi Visual"
     desc="S1 — Sarjana Desain · Gelar: S.Ds · Terakreditasi Baik Sekali BAN-PT"
-    breadcrumb={[{ label: 'Program Studi', href: '/program' }, { label: 'DKV', href: '' }]}
+    breadcrumb={[{ label: 'Program Studi', href: url('/program') }, { label: 'DKV', href: '' }]}
   />
 
   <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
@@ -120,7 +122,7 @@ const karir = ['Graphic Designer', 'Art Director', 'Animator 2D/3D', 'Motion Des
               </details>
             ))}
             <p class="text-xs text-neutral-400 text-center pt-2">
-              <a href="/program/dkv/kurikulum" class="hover:text-[var(--brand)] transition-colors font-semibold">Lihat kurikulum lengkap 8 semester →</a>
+              <a href={url('/program/dkv/kurikulum')} class="hover:text-[var(--brand)] transition-colors font-semibold">Lihat kurikulum lengkap 8 semester →</a>
             </p>
           </div>
         </div>
@@ -165,7 +167,7 @@ const karir = ['Graphic Designer', 'Art Director', 'Animator 2D/3D', 'Motion Des
           <p class="label-tag mb-3">Tertarik Kuliah di DKV?</p>
           <h3 class="text-xl font-black text-white mb-3 tracking-tight">Wujudkan Karir Desainmu</h3>
           <p class="text-neutral-400 text-xs mb-5 leading-relaxed">Daftar sekarang dan bergabung dengan komunitas desainer terbaik Indonesia.</p>
-          <a href="/pmb" class="btn-primary w-full justify-center mb-3">Daftar Sekarang</a>
+          <a href={url('/pmb')} class="btn-primary w-full justify-center mb-3">Daftar Sekarang</a>
           <a href="https://wa.me/6281388888888" target="_blank" rel="noopener noreferrer"
              class="btn-outline-white w-full justify-center text-xs py-2.5">Chat WhatsApp</a>
         </div>
@@ -183,7 +185,7 @@ const karir = ['Graphic Designer', 'Art Director', 'Animator 2D/3D', 'Motion Des
           </div>
           <div class="text-2xl font-black text-green-700">Baik Sekali</div>
           <div class="text-xs text-green-500 mt-0.5">Berlaku hingga 2028</div>
-          <a href="/akreditasi" class="text-xs font-semibold text-green-700 hover:underline mt-2 block">Lihat sertifikat →</a>
+          <a href={url('/akreditasi')} class="text-xs font-semibold text-green-700 hover:underline mt-2 block">Lihat sertifikat →</a>
         </div>
 
         <!-- Dokumen -->

@@ -1,38 +1,39 @@
 ---
 const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 const navItems = [
   {
     label: 'Tentang',
-    href: '/tentang',
+    href: url('/tentang'),
     children: [
-      { label: 'Profil Kampus', href: '/tentang' },
-      { label: 'Visi & Misi', href: '/tentang/visi-misi' },
-      { label: 'Sejarah', href: '/tentang/sejarah' },
-      { label: 'Struktur Organisasi', href: '/tentang/struktur-organisasi' },
+      { label: 'Profil Kampus', href: url('/tentang') },
+      { label: 'Visi & Misi', href: url('/tentang/visi-misi') },
+      { label: 'Sejarah', href: url('/tentang/sejarah') },
+      { label: 'Struktur Organisasi', href: url('/tentang/struktur-organisasi') },
     ],
   },
   {
     label: 'Program',
-    href: '/program',
+    href: url('/program'),
     children: [
-      { label: 'Desain Komunikasi Visual', href: '/program/dkv' },
-      { label: 'Teknologi Grafika', href: '/program/teknologi-grafika' },
+      { label: 'Desain Komunikasi Visual', href: url('/program/dkv') },
+      { label: 'Teknologi Grafika', href: url('/program/teknologi-grafika') },
     ],
   },
   {
     label: 'Akademik',
-    href: '/akademik',
+    href: url('/akademik'),
     children: [
-      { label: 'Penjaminan Mutu', href: '/akademik/penjaminan-mutu' },
-      { label: 'Penelitian & PKM', href: '/akademik/penelitian' },
-      { label: 'Kemahasiswaan', href: '/akademik/kemahasiswaan' },
-      { label: 'Alumni', href: '/akademik/alumni' },
+      { label: 'Penjaminan Mutu', href: url('/akademik/penjaminan-mutu') },
+      { label: 'Penelitian & PKM', href: url('/akademik/penelitian') },
+      { label: 'Kemahasiswaan', href: url('/akademik/kemahasiswaan') },
+      { label: 'Alumni', href: url('/akademik/alumni') },
     ],
   },
-  { label: 'Akreditasi', href: '/akreditasi' },
-  { label: 'Fasilitas', href: '/fasilitas' },
-  { label: 'Berita', href: '/berita' },
-  { label: 'Kontak', href: '/kontak' },
+  { label: 'Akreditasi', href: url('/akreditasi') },
+  { label: 'Fasilitas', href: url('/fasilitas') },
+  { label: 'Berita', href: url('/berita') },
+  { label: 'Kontak', href: url('/kontak') },
 ];
 
 const path = Astro.url.pathname;
@@ -45,10 +46,10 @@ const path = Astro.url.pathname;
   <div class="max-w-screen-xl mx-auto px-5 flex items-center h-[60px] gap-8">
 
     <!-- Logo -->
-    <a href="/" class="flex items-center gap-3 shrink-0">
+    <a href={url('/')} class="flex items-center gap-3 shrink-0">
       <!-- Combined mandatory logo: Trisakti + DiktiSaintek -->
       <img
-        src={`${base}images/logo-stmk.png`}
+        src={url('/images/logo-stmk.png')}
         alt="Trisakti School of Multimedia"
         class="h-9 w-auto object-contain"
         loading="eager"
@@ -97,7 +98,7 @@ const path = Astro.url.pathname;
          class="hidden md:block text-xs text-neutral-500 hover:text-neutral-950 transition-colors font-medium">
         SIAKAD
       </a>
-      <a href="/pmb" class="btn-primary hidden md:inline-flex py-2.5 text-xs">
+      <a href={url('/pmb')} class="btn-primary hidden md:inline-flex py-2.5 text-xs">
         Daftar 2026/2027
       </a>
       <button id="menu-btn" class="lg:hidden p-2 text-neutral-700 hover:text-neutral-950" aria-label="Menu">
@@ -133,7 +134,7 @@ const path = Astro.url.pathname;
         </div>
       ))}
       <div class="pt-3">
-        <a href="/pmb" class="btn-primary w-full justify-center">Daftar Sekarang</a>
+        <a href={url('/pmb')} class="btn-primary w-full justify-center">Daftar Sekarang</a>
       </div>
     </div>
   </div>
