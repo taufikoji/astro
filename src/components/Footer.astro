@@ -1,5 +1,6 @@
 ---
 const year = new Date().getFullYear();
+const base = import.meta.env.BASE_URL;
 ---
 
 <footer class="bg-neutral-950 text-neutral-400 border-t border-neutral-900">
@@ -121,7 +122,7 @@ const year = new Date().getFullYear();
   <div class="bg-white border-t border-neutral-200">
     <div class="max-w-screen-xl mx-auto px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
       <img
-        src="/images/logo-stmk.png"
+        src={`${base}images/logo-stmk.png`}
         alt="Trisakti School of Multimedia — DiktiSaintek Berdampak"
         class="h-12 w-auto object-contain"
         loading="lazy"

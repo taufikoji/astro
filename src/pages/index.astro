@@ -1,6 +1,7 @@
-﻿---
+---
 import Layout from '../layouts/Layout.astro';
 import PuzzleCanvas from '../components/PuzzleCanvas.astro';
+const base = import.meta.env.BASE_URL;
 
 const programs = [
   {
@@ -90,7 +91,7 @@ const whyList = [
   <div class="absolute inset-0">
     <img
       id="hero-bg"
-      src="/images/kampus.jpg"
+      src={`${base}images/kampus.jpg`}
       alt=""
       aria-hidden="true"
       class="hero-img w-full h-full object-cover object-center"

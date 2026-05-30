@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL;
 const navItems = [
   {
     label: 'Tentang',
@@ -47,7 +48,7 @@ const path = Astro.url.pathname;
     <a href="/" class="flex items-center gap-3 shrink-0">
       <!-- Combined mandatory logo: Trisakti + DiktiSaintek -->
       <img
-        src="/images/logo-stmk.png"
+        src={`${base}images/logo-stmk.png`}
         alt="Trisakti School of Multimedia"
         class="h-9 w-auto object-contain"
         loading="eager"
