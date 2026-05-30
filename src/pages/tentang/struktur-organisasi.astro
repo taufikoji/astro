@@ -1,0 +1,123 @@
+﻿---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const tabs = [
+  { label: 'Profil', href: '/tentang' },
+  { label: 'Visi & Misi', href: '/tentang/visi-misi' },
+  { label: 'Sejarah', href: '/tentang/sejarah' },
+  { label: 'Struktur Organisasi', href: '/tentang/struktur-organisasi' },
+];
+---
+
+<Layout title="Struktur Organisasi" description="Struktur organisasi dan tata kelola STMK Trisakti sebagai perguruan tinggi multimedia terakreditasi.">
+
+  <PageHeader
+    label="Profil Institusi"
+    title="Struktur Organisasi"
+    desc="Tata kelola kelembagaan STMK Trisakti yang transparan dan akuntabel untuk penyelenggaraan pendidikan bermutu."
+    breadcrumb={[{ label: 'Tentang', href: '/tentang' }, { label: 'Struktur Organisasi', href: '' }]}
+    tabs={tabs}
+    currentPath={Astro.url.pathname}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+
+    <div class="mb-12 reveal">
+      <p class="section-num mb-4">Tata Kelola</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-4">Bagan Organisasi STMK Trisakti</h2>
+      <p class="text-neutral-500 text-sm max-w-xl">Struktur organisasi yang efisien dan akuntabel untuk memastikan penyelenggaraan pendidikan bermutu tinggi.</p>
+    </div>
+
+    <!-- Bagan visual -->
+    <div class="space-y-3 reveal">
+
+      <!-- Yayasan -->
+      <div class="flex justify-center">
+        <div class="border border-neutral-300 bg-neutral-950 text-white px-8 py-4 text-center" style="border-radius:2px;min-width:260px">
+          <div class="text-[10px] text-neutral-500 uppercase tracking-widest mb-1 font-bold">Badan Penyelenggara</div>
+          <div class="font-black text-base">Yayasan Trisakti</div>
+        </div>
+      </div>
+
+      <!-- Connector -->
+      <div class="flex justify-center"><div class="w-px h-6 bg-neutral-300"></div></div>
+
+      <!-- Senat + Ketua + SPI row -->
+      <div class="flex flex-col md:flex-row justify-center items-center gap-3">
+        <div class="border border-neutral-300 bg-white px-5 py-3 text-center" style="border-radius:2px">
+          <div class="text-[9px] text-neutral-400 uppercase tracking-widest mb-0.5 font-bold">Pertimbangan</div>
+          <div class="font-black text-sm">Senat Akademik</div>
+        </div>
+
+        <div class="hidden md:block w-8 h-px bg-neutral-300"></div>
+
+        <!-- Ketua (main) -->
+        <div class="border-2 px-10 py-5 text-center" style="border-color:var(--brand);border-radius:2px;min-width:280px">
+          <div class="text-[9px] uppercase tracking-widest mb-1 font-bold" style="color:var(--brand)">Pimpinan Tertinggi</div>
+          <div class="font-black text-lg text-neutral-950">Ketua STMK Trisakti</div>
+          <div class="text-xs text-neutral-500 mt-1">xxxxxxxxx</div>
+        </div>
+
+        <div class="hidden md:block w-8 h-px bg-neutral-300"></div>
+
+        <div class="border border-neutral-300 bg-white px-5 py-3 text-center" style="border-radius:2px">
+          <div class="text-[9px] text-neutral-400 uppercase tracking-widest mb-0.5 font-bold">Pengawas</div>
+          <div class="font-black text-sm">Satuan Pengawas Internal</div>
+        </div>
+      </div>
+
+      <!-- Connector -->
+      <div class="flex justify-center"><div class="w-px h-6 bg-neutral-300"></div></div>
+
+      <!-- Wakil Ketua -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-3xl mx-auto">
+        {[
+          { role: 'Wakil Ketua I', bidang: 'Bidang Akademik', nama: 'xxxxxxxxx' },
+          { role: 'Wakil Ketua II', bidang: 'Adm & Keuangan', nama: 'xxxxxxxxx' },
+          { role: 'Wakil Ketua III', bidang: 'Kemahasiswaan', nama: 'xxxxxxxxx' },
+        ].map(wk => (
+          <div class="border border-neutral-200 bg-neutral-950 text-white px-5 py-4 text-center" style="border-radius:2px">
+            <div class="text-[9px] text-neutral-500 uppercase tracking-widest mb-0.5 font-bold">{wk.role}</div>
+            <div class="font-black text-sm">{wk.bidang}</div>
+            <div class="text-[10px] text-neutral-400 mt-1">{wk.nama}</div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Connector -->
+      <div class="flex justify-center"><div class="w-px h-6 bg-neutral-300"></div></div>
+
+      <!-- Units -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-neutral-200 stagger">
+        {[
+          { title: 'Program Studi', color: 'var(--brand)', units: ['Kaprodi DKV', 'Kaprodi Teknologi Grafika', 'Dosen & Tenaga Pengajar'] },
+          { title: 'Lembaga & Pusat', color: 'var(--dark)', units: ['LPPM — Penelitian & PKM', 'LPM — Penjaminan Mutu', 'Pusat Karir & Alumni', 'Pusat Kerjasama & Int\'l'] },
+          { title: 'Biro & Bagian', color: '#333', units: ['Biro Akademik & Registrasi', 'Biro Keuangan', 'Biro Kemahasiswaan', 'Biro IT & Sistem Informasi', 'Bagian Umum & Sarpras'] },
+        ].map(g => (
+          <div class="bg-[#FAFAF8] hover:bg-white p-6 transition-colors group">
+            <div class="w-full h-[3px] mb-4" style={`background:${g.color}`}></div>
+            <h3 class="font-black text-neutral-950 mb-4">{g.title}</h3>
+            <ul class="space-y-2">
+              {g.units.map(u => (
+                <li class="flex items-center gap-2 text-sm text-neutral-500 group-hover:text-neutral-700 transition-colors">
+                  <span class="w-1 h-1 rounded-full shrink-0" style={`background:${g.color}`}></span>
+                  {u}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Download -->
+    <div class="mt-12 reveal">
+      <a href="/dokumen/struktur-organisasi-stmk.pdf" class="btn-outline inline-flex">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        Unduh Bagan Struktur Organisasi (PDF)
+      </a>
+    </div>
+  </div>
+</Layout>
+

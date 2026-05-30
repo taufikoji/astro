@@ -1,0 +1,88 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const organisasi = [
+  { nama: 'BEM STMK Trisakti', kepanjangan: 'Badan Eksekutif Mahasiswa', desc: 'Organisasi kemahasiswaan tertinggi yang menjalankan program kerja untuk kesejahteraan mahasiswa.' },
+  { nama: 'Senat Mahasiswa', kepanjangan: 'Legislatif Mahasiswa', desc: 'Badan legislatif mahasiswa yang mengawasi dan mengevaluasi kinerja BEM.' },
+  { nama: 'HMPS DKV', kepanjangan: 'Himpunan Mahasiswa Program Studi DKV', desc: 'Menyelenggarakan kegiatan akademik dan non-akademik untuk mahasiswa DKV.' },
+  { nama: 'HMPS Tek. Grafika', kepanjangan: 'Himpunan Mahasiswa Tek. Grafika', desc: 'Menyelenggarakan kegiatan akademik dan non-akademik untuk mahasiswa Teknologi Grafika.' },
+  { nama: 'UKM Desain Studio', kepanjangan: 'Unit Kegiatan Mahasiswa Desain', desc: 'Komunitas desainer mahasiswa yang aktif berkarya dan mengikuti kompetisi.' },
+  { nama: 'UKM Sinema & Film', kepanjangan: 'Unit Kegiatan Mahasiswa Film', desc: 'Komunitas pembuat film mahasiswa yang aktif memproduksi karya sinematik.' },
+];
+
+const prestasi = [
+  { prestasi: 'Juara 1 National Packaging Design Competition 2025', mahasiswa: 'Tim Teknologi Grafika', penyelenggara: 'Kemenperin RI', tahun: '2025' },
+  { prestasi: 'Best Animation — Jakarta Animation Festival 2025', mahasiswa: 'Risky Adiputra (DKV 2022)', penyelenggara: 'JPFF', tahun: '2025' },
+  { prestasi: 'Juara 2 UI/UX Design Challenge — Google DevFest 2025', mahasiswa: 'Anissa Rahmawati (DKV 2023)', penyelenggara: 'Google Indonesia', tahun: '2025' },
+  { prestasi: 'Gold Medal — ASEAN Graphic Design Competition', mahasiswa: 'Farhan Rizki (DKV 2022)', penyelenggara: 'ASEAN Creative Design Org.', tahun: '2024' },
+  { prestasi: 'Finalis Young Creative Award — Cannes Lions Indonesia', mahasiswa: 'Tim DKV Periklanan', penyelenggara: 'Cannes Lions', tahun: '2024' },
+];
+---
+
+<Layout title="Kemahasiswaan" description="Kegiatan kemahasiswaan, organisasi mahasiswa, UKM, dan prestasi mahasiswa STMK Trisakti.">
+
+  <PageHeader
+    label="Mahasiswa"
+    title="Kemahasiswaan"
+    desc="Ekosistem kemahasiswaan yang aktif, kreatif, dan berprestasi di STMK Trisakti."
+    breadcrumb={[{ label: 'Akademik', href: '/akademik' }, { label: 'Kemahasiswaan', href: '' }]}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20 space-y-20">
+
+    <!-- Organisasi -->
+    <div>
+      <p class="section-num mb-4 reveal">Organisasi Mahasiswa</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-10 reveal">Wadah Pengembangan Diri</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-neutral-200 stagger">
+        {organisasi.map(org => (
+          <div class="card-line bg-[#FAFAF8] hover:bg-white p-7 group">
+            <div class="text-2xl font-black mb-3" style="color:var(--brand)">◆</div>
+            <h3 class="font-black text-neutral-950 mb-1 group-hover:text-[var(--brand)] transition-colors">{org.nama}</h3>
+            <div class="text-xs font-bold uppercase tracking-widest text-neutral-400 mb-3">{org.kepanjangan}</div>
+            <p class="text-sm text-neutral-500 leading-relaxed">{org.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Prestasi -->
+    <div>
+      <p class="section-num mb-4 reveal">Pencapaian</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-10 reveal">Prestasi Mahasiswa</h2>
+      <div class="space-y-0 border-t border-neutral-200 stagger">
+        {prestasi.map(p => (
+          <div class="flex items-center gap-5 py-5 border-b border-neutral-200 group hover:bg-white hover:-mx-8 hover:px-8 md:hover:-mx-14 md:hover:px-14 transition-all">
+            <div class="w-8 h-8 shrink-0 flex items-center justify-center font-black text-white text-xs"
+                 style="background:var(--brand)">★</div>
+            <div class="flex-1">
+              <div class="font-semibold text-neutral-800 text-sm group-hover:text-neutral-950 transition-colors">{p.prestasi}</div>
+              <div class="text-xs text-neutral-400 mt-0.5">{p.mahasiswa} · {p.penyelenggara}</div>
+            </div>
+            <span class="badge badge-red text-[10px] shrink-0">{p.tahun}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- MBKM -->
+    <div class="reveal" style="background:var(--dark);border-radius:2px;padding:3rem">
+      <p class="label-tag mb-4">Program Unggulan</p>
+      <h2 class="text-2xl font-black text-white tracking-tight mb-8">Merdeka Belajar — Kampus Merdeka (MBKM)</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-neutral-800">
+        {[
+          { title: 'Magang & Studi Independen', desc: 'Magang 1 semester di perusahaan kreatif mitra STMK Trisakti' },
+          { title: 'Pertukaran Mahasiswa', desc: 'Program pertukaran ke perguruan tinggi dalam & luar negeri' },
+          { title: 'Kewirausahaan Kreatif', desc: 'Program inkubasi bisnis kreatif untuk mahasiswa wirausaha' },
+        ].map(m => (
+          <div class="bg-neutral-900 hover:bg-neutral-800 p-7 group transition-colors">
+            <div class="w-8 h-[2px] mb-5" style="background:var(--brand)"></div>
+            <h3 class="font-black text-white mb-2 group-hover:text-[var(--brand-lt)] transition-colors">{m.title}</h3>
+            <p class="text-sm text-neutral-500 leading-relaxed">{m.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,264 @@
+---
+// Animated puzzle background: pieces scatter then assemble
+interface Props {
+  opacity?: number;
+  pieceSize?: number;
+  strokeColor?: string;
+  id?: string;
+}
+const {
+  opacity = 0.1,
+  pieceSize = 100,
+  strokeColor = 'white',
+  id = 'puzzle-' + Math.random().toString(36).slice(2, 7),
+} = Astro.props;
+---
+
+<canvas
+  id={id}
+  data-piece-size={pieceSize}
+  data-stroke-color={strokeColor}
+  class="absolute inset-0 w-full h-full pointer-events-none select-none"
+  style={`opacity:${opacity}; z-index:0`}
+></canvas>
+
+<script>
+class PuzzleEngine {
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  ps: number;
+  color: string;
+  pieces: any[];
+  startTime: number | null;
+  animId: number | null;
+
+  // Cycle: 0–55% = assemble, 55–75% = hold, 75–100% = scatter
+  static ASSEMBLE_END = 0.55;
+  static HOLD_END     = 0.75;
+  static CYCLE        = 7000; // ms per full loop
+
+  constructor(canvas: HTMLCanvasElement) {
+    this.canvas = canvas;
+    this.ctx    = canvas.getContext('2d')!;
+    this.ps     = parseInt(canvas.dataset.pieceSize || '100');
+    this.color  = canvas.dataset.strokeColor || 'white';
+    this.pieces = [];
+    this.startTime = null;
+    this.animId = null;
+
+    this.resize();
+    window.addEventListener('resize', () => this.resize(), { passive: true });
+  }
+
+  resize() {
+    const p = this.canvas.parentElement!;
+    this.canvas.width  = p.offsetWidth  || window.innerWidth;
+    this.canvas.height = p.offsetHeight || 500;
+    this.buildPieces();
+  }
+
+  buildPieces() {
+    const { ps, canvas } = this;
+    const cols = Math.ceil(canvas.width  / ps) + 2;
+    const rows = Math.ceil(canvas.height / ps) + 2;
+
+    // Generate interlocking edge values
+    // hEdge[r][c]: edge between row r-1 and row r at col c (+1 down, -1 up)
+    // vEdge[r][c]: edge between col c-1 and col c at row r (+1 right, -1 left)
+    const hEdge: number[][] = [];
+    const vEdge: number[][] = [];
+    for (let r = 0; r <= rows; r++) {
+      hEdge[r] = [];
+      for (let c = 0; c < cols; c++)
+        hEdge[r][c] = (r === 0 || r === rows) ? 0 : (Math.random() < .5 ? 1 : -1);
+    }
+    for (let r = 0; r < rows; r++) {
+      vEdge[r] = [];
+      for (let c = 0; c <= cols; c++)
+        vEdge[r][c] = (c === 0 || c === cols) ? 0 : (Math.random() < .5 ? 1 : -1);
+    }
+
+    const cx = canvas.width  / 2;
+    const cy = canvas.height / 2;
+
+    this.pieces = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const tx = c * ps - ps;          // target x (offset one tile left)
+        const ty = r * ps - ps;          // target y (offset one tile up)
+
+        // Scatter: random direction, far away
+        const angle = Math.random() * Math.PI * 2;
+        const dist  = Math.max(canvas.width, canvas.height) * (1.2 + Math.random() * 0.8);
+        const sx = tx + Math.cos(angle) * dist;
+        const sy = ty + Math.sin(angle) * dist;
+        const sr = (Math.random() - 0.5) * Math.PI * (0.3 + Math.random() * 0.4);
+
+        // Stagger: pieces near center arrive first
+        const dcx = (tx + ps/2 - cx);
+        const dcy = (ty + ps/2 - cy);
+        const distToCenter = Math.sqrt(dcx*dcx + dcy*dcy);
+        const maxDist = Math.sqrt(cx*cx + cy*cy);
+        const delay = 0.0 + 0.35 * (distToCenter / maxDist);  // 0–0.35
+
+        // Tabs: [top, right, bottom, left]
+        const tabs = [
+          -hEdge[r][c],        // top: opposite of above piece's bottom
+           vEdge[r][c+1],      // right
+           hEdge[r+1][c],      // bottom
+          -vEdge[r][c],        // left: opposite of left piece's right
+        ];
+
+        this.pieces.push({ tx, ty, sx, sy, sr, tabs, delay });
+      }
+    }
+  }
+
+  // Draw a single puzzle piece (outline only)
+  drawPiece(x: number, y: number, tabs: number[], alpha = 1) {
+    const { ctx, ps } = this;
+    const [top, right, bottom, left] = tabs;
+    const t  = ps * 0.28;   // tab depth
+    const nk = ps * 0.18;   // half-neck width
+
+    ctx.globalAlpha = alpha;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+
+    // TOP: left → right
+    if (top !== 0) {
+      ctx.lineTo(x + ps/2 - nk, y);
+      ctx.quadraticCurveTo(x + ps/2 - nk, y - top*t, x + ps/2, y - top*t);
+      ctx.quadraticCurveTo(x + ps/2 + nk, y - top*t, x + ps/2 + nk, y);
+    }
+    ctx.lineTo(x + ps, y);
+
+    // RIGHT: top → bottom
+    if (right !== 0) {
+      ctx.lineTo(x + ps, y + ps/2 - nk);
+      ctx.quadraticCurveTo(x + ps + right*t, y + ps/2 - nk, x + ps + right*t, y + ps/2);
+      ctx.quadraticCurveTo(x + ps + right*t, y + ps/2 + nk, x + ps, y + ps/2 + nk);
+    }
+    ctx.lineTo(x + ps, y + ps);
+
+    // BOTTOM: right → left
+    if (bottom !== 0) {
+      ctx.lineTo(x + ps/2 + nk, y + ps);
+      ctx.quadraticCurveTo(x + ps/2 + nk, y + ps + bottom*t, x + ps/2, y + ps + bottom*t);
+      ctx.quadraticCurveTo(x + ps/2 - nk, y + ps + bottom*t, x + ps/2 - nk, y + ps);
+    }
+    ctx.lineTo(x, y + ps);
+
+    // LEFT: bottom → top
+    if (left !== 0) {
+      ctx.lineTo(x, y + ps/2 + nk);
+      ctx.quadraticCurveTo(x - left*t, y + ps/2 + nk, x - left*t, y + ps/2);
+      ctx.quadraticCurveTo(x - left*t, y + ps/2 - nk, x, y + ps/2 - nk);
+    }
+    ctx.lineTo(x, y);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
+  easeOut(t: number) { return 1 - Math.pow(1 - Math.min(1, Math.max(0, t)), 3); }
+  easeIn(t: number)  { return Math.pow(Math.min(1, Math.max(0, t)), 2.5); }
+  easeInOut(t: number) {
+    t = Math.min(1, Math.max(0, t));
+    return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+  }
+
+  frame(ts: number) {
+    if (!this.startTime) this.startTime = ts;
+    const elapsed = (ts - this.startTime) % PuzzleEngine.CYCLE;
+    const cycleT  = elapsed / PuzzleEngine.CYCLE;  // 0–1 in cycle
+
+    const { ctx, canvas, pieces, ps, color } = this;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth   = 1.4;
+
+    const AE = PuzzleEngine.ASSEMBLE_END;
+    const HE = PuzzleEngine.HOLD_END;
+
+    for (const p of pieces) {
+      let px: number, py: number, rot: number;
+
+      if (cycleT < AE) {
+        // ASSEMBLE PHASE
+        const rawT = cycleT / AE;
+        // stagger: piece starts later based on delay
+        const t = this.easeOut(Math.max(0, (rawT - p.delay) / (1 - p.delay)));
+        px  = p.sx + (p.tx - p.sx) * t;
+        py  = p.sy + (p.ty - p.sy) * t;
+        rot = p.sr * (1 - t);
+
+        // Fade in as piece arrives
+        const alpha = 0.3 + 0.7 * t;
+        ctx.save();
+        ctx.translate(px + ps/2, py + ps/2);
+        ctx.rotate(rot);
+        this.drawPiece(-ps/2, -ps/2, p.tabs, alpha);
+        ctx.restore();
+
+      } else if (cycleT < HE) {
+        // HOLD PHASE — puzzle assembled, gentle pulse
+        const holdT = (cycleT - AE) / (HE - AE);
+        const pulse = 0.85 + 0.15 * Math.sin(holdT * Math.PI * 2);
+        ctx.save();
+        ctx.globalAlpha = pulse;
+        this.drawPiece(p.tx, p.ty, p.tabs);
+        ctx.globalAlpha = 1;
+        ctx.restore();
+
+      } else {
+        // SCATTER PHASE
+        const t = this.easeIn((cycleT - HE) / (1 - HE));
+        px  = p.tx + (p.sx - p.tx) * t;
+        py  = p.ty + (p.sy - p.ty) * t;
+        rot = p.sr * t;
+
+        const alpha = 1 - 0.7 * t;
+        ctx.save();
+        ctx.translate(px + ps/2, py + ps/2);
+        ctx.rotate(rot);
+        this.drawPiece(-ps/2, -ps/2, p.tabs, alpha);
+        ctx.restore();
+      }
+    }
+
+    this.animId = requestAnimationFrame((t) => this.frame(t));
+  }
+
+  start() {
+    if (this.animId) cancelAnimationFrame(this.animId);
+    this.animId = requestAnimationFrame((t) => this.frame(t));
+  }
+
+  destroy() {
+    if (this.animId) cancelAnimationFrame(this.animId);
+    window.removeEventListener('resize', () => this.resize());
+  }
+}
+
+// Initialize all puzzle canvases on the page
+document.querySelectorAll<HTMLCanvasElement>('canvas[data-piece-size]').forEach(canvas => {
+  const engine = new PuzzleEngine(canvas);
+
+  // Start when visible (IntersectionObserver for performance)
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        engine.start();
+      } else {
+        if (engine.animId) cancelAnimationFrame(engine.animId);
+        engine.animId = null;
+        engine.startTime = null;
+      }
+    });
+  }, { threshold: 0 });
+
+  io.observe(canvas);
+});
+</script>

@@ -1,0 +1,121 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const siklus = [
+  { letter: 'P', full: 'Penetapan',    color: '#1a1a2e', desc: 'Menetapkan standar mutu yang mengacu pada SN-Dikti dan standar internal STMK Trisakti.' },
+  { letter: 'P', full: 'Pelaksanaan',  color: '#16213e', desc: 'Menjalankan semua standar yang telah ditetapkan dalam setiap aspek Tri Dharma PT.' },
+  { letter: 'E', full: 'Evaluasi',     color: '#0f3460', desc: 'Melakukan audit mutu internal (AMI) dan monev berkala terhadap seluruh unit kerja.' },
+  { letter: 'P', full: 'Pengendalian', color: '#533483', desc: 'Mengidentifikasi dan mengatasi ketidaksesuaian agar standar terpenuhi secara konsisten.' },
+  { letter: 'P', full: 'Peningkatan',  color: '#C8102E', desc: 'Meningkatkan standar mutu secara berkelanjutan berdasarkan hasil evaluasi.' },
+];
+
+const standar = [
+  { kat: 'Standar Pendidikan', items: ['Kompetensi Lulusan', 'Isi Pembelajaran', 'Proses Pembelajaran', 'Penilaian Pembelajaran', 'Dosen & Tendik', 'Sarana Prasarana', 'Pengelolaan', 'Pembiayaan'] },
+  { kat: 'Standar Penelitian', items: ['Hasil Penelitian', 'Isi Penelitian', 'Proses Penelitian', 'Penilaian Penelitian', 'Peneliti', 'Sarana Penelitian', 'Pengelolaan', 'Pendanaan'] },
+  { kat: 'Standar PKM', items: ['Hasil PKM', 'Isi PKM', 'Proses PKM', 'Penilaian PKM', 'Pelaksana PKM', 'Sarana PKM', 'Pengelolaan PKM', 'Pendanaan PKM'] },
+  { kat: 'Standar Tambahan', items: ['Kemahasiswaan', 'Kerjasama', 'Sistem Informasi', 'Alumni', 'Identitas Institusi', 'Etika Akademik', 'Keterbukaan Info', 'Keberlanjutan'] },
+];
+
+const dokumen = [
+  { title: 'Kebijakan SPMI STMK Trisakti 2024', size: '1.2 MB' },
+  { title: 'Manual SPMI STMK Trisakti 2024', size: '2.4 MB' },
+  { title: 'Standar SPMI — Pendidikan 2024', size: '3.1 MB' },
+  { title: 'Standar SPMI — Penelitian 2024', size: '2.0 MB' },
+  { title: 'Standar SPMI — Pengabdian 2024', size: '1.8 MB' },
+  { title: 'Formulir Audit Mutu Internal 2024', size: '0.8 MB' },
+  { title: 'Laporan AMI Semester Gasal 2024/2025', size: '2.1 MB' },
+  { title: 'Laporan AMI Semester Genap 2024/2025', size: '1.9 MB' },
+];
+---
+
+<Layout title="Penjaminan Mutu" description="Sistem Penjaminan Mutu Internal (SPMI) STMK Trisakti — komitmen terhadap standar pendidikan tinggi berkualitas.">
+
+  <PageHeader
+    label="Mutu Pendidikan"
+    title="Penjaminan Mutu"
+    desc="LPM STMK Trisakti memastikan standar kualitas pendidikan tinggi yang konsisten dan berkelanjutan melalui siklus PPEPP."
+    breadcrumb={[{ label: 'Akademik', href: '/akademik' }, { label: 'Penjaminan Mutu', href: '' }]}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20 space-y-20">
+
+    <!-- Siklus PPEPP -->
+    <div>
+      <p class="section-num mb-4 reveal">Siklus PPEPP</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-4 reveal">Sistem Penjaminan Mutu Internal</h2>
+      <p class="text-neutral-500 text-sm mb-10 max-w-2xl reveal">STMK Trisakti menerapkan SPMI berdasarkan siklus PPEPP sesuai Permendikbud No. 53 Tahun 2023 tentang Penjaminan Mutu Pendidikan Tinggi.</p>
+
+      <!-- Siklus visual -->
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-px bg-neutral-200 stagger">
+        {siklus.map((step, i) => (
+          <div class="bg-[#FAFAF8] hover:bg-white p-7 group transition-colors border-t-4 border-t-neutral-200 hover:border-t-[var(--brand)]">
+            <div class="text-5xl font-black leading-none mb-4 text-neutral-200 group-hover:text-[var(--brand)] transition-colors">{step.letter}</div>
+            <h3 class="font-black text-neutral-950 mb-3">{step.full}</h3>
+            <p class="text-xs text-neutral-500 leading-relaxed">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <!-- Step connector visual (desktop) -->
+      <div class="hidden md:flex items-center justify-center gap-2 mt-4 reveal">
+        {siklus.map((s, i) => (
+          <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5">
+              <div class="w-7 h-7 flex items-center justify-center font-black text-xs text-white"
+                   style={`background:var(${i === 4 ? '--brand' : '--dark'})`}>{s.letter}</div>
+              <span class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">{s.full}</span>
+            </div>
+            {i < 4 && <svg class="w-4 h-4 text-neutral-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Standar Nasional -->
+    <div>
+      <p class="section-num mb-4 reveal">Standar Mutu</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-10 reveal">Standar Nasional Pendidikan Tinggi (SN-Dikti)</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-200 stagger">
+        {standar.map(group => (
+          <div class="bg-[#FAFAF8] hover:bg-white p-6 group transition-colors">
+            <h3 class="font-black text-sm text-neutral-950 mb-4 group-hover:text-[var(--brand)] transition-colors border-b border-neutral-200 pb-3">{group.kat}</h3>
+            <ul class="space-y-2">
+              {group.items.map(item => (
+                <li class="text-xs text-neutral-500 flex items-center gap-2">
+                  <span class="w-1 h-1 shrink-0 rounded-full" style="background:var(--brand)"></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Dokumen SPMI -->
+    <div class="reveal">
+      <p class="section-num mb-4">Dokumen SPMI</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-8">Unduh Dokumen Penjaminan Mutu</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        {dokumen.map(doc => (
+          <a href="#" class="flex items-center gap-4 p-4 border border-neutral-200 bg-white hover:border-neutral-400 group transition-all hover:-translate-y-px"
+             style="border-radius:2px">
+            <div class="w-9 h-9 flex items-center justify-center shrink-0" style="background:rgba(200,16,46,0.08)">
+              <svg class="w-4 h-4" style="color:var(--brand)" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <div class="text-sm font-semibold text-neutral-800 group-hover:text-neutral-950 transition-colors">{doc.title}</div>
+              <div class="text-[10px] text-neutral-400">PDF · {doc.size}</div>
+            </div>
+            <svg class="w-4 h-4 text-neutral-300 group-hover:text-[var(--brand)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>

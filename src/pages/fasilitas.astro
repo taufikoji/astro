@@ -1,0 +1,120 @@
+﻿
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const fasilitas = [
+  {
+    label: 'Studio Produksi',
+    items: [
+      { title: 'Studio Animasi 3D', tag: 'DKV', desc: 'Workstation AMD Ryzen 9 / NVIDIA RTX 4080 dengan software industri lengkap: Adobe Creative Suite, Autodesk Maya, Blender, Cinema 4D.', specs: ['30 Unit Workstation RTX', 'Adobe Creative Suite', 'Autodesk Maya 2024', '4K Display Monitor', 'Motion Capture Setup'] },
+      { title: 'Studio Fotografi', tag: 'DKV', desc: 'Studio foto profesional berstandar komersial dengan cyclorama wall, berbagai background, dan sistem lighting Profoto untuk keperluan produksi konten.', specs: ['Cyclorama Wall 6×4 m', 'Strobe Lighting Profoto', 'Green Screen Setup', 'Kamera DSLR & Mirrorless', 'Prop & Background'] },
+      { title: 'Studio Broadcast & TV', tag: 'Tek. Grafika', desc: 'Studio siaran berstandar industri dengan kamera broadcast Sony, teleprompter, vision mixer, dan sistem kontrol produksi lengkap.', specs: ['Kamera Broadcast Sony', 'Lighting Broadcast', 'Teleprompter', 'Vision Mixer', 'Green Screen 4×3 m'] },
+    ],
+  },
+  {
+    label: 'Lab Teknologi',
+    items: [
+      { title: 'Lab Printing & Reprografi', tag: 'Tek. Grafika', desc: 'Lab cetak lengkap dengan digital printing, offset skala kecil, dan finishing profesional. Mahasiswa memproduksi karya cetak berkualitas industri langsung di kampus.', specs: ['Digital Printing HP Latex', 'Plotter A0 Format', 'Mesin Laminasi', 'Mesin Cutting & Crease', 'Spectrophotometer'] },
+      { title: 'Studio Audio & Podcast', tag: 'Tek. Grafika', desc: 'Ruang rekaman suara berstandar industri dengan akustik profesional. Tersedia untuk produksi podcast, dubbing animasi, dan rekaman audio konten digital.', specs: ['Soundproof Recording Booth', 'Mixer Yamaha', 'Microphone Neumann', 'Akustik Treatment', 'Monitor Speaker Adam'] },
+      { title: 'Lab Komputer Umum', tag: 'Semua Prodi', desc: 'Lab dengan spesifikasi tinggi yang tersedia untuk pengerjaan tugas, akses internet, dan praktik software desain di luar jadwal kelas.', specs: ['60 Unit Komputer i7', '24" Monitor', 'Adobe Creative Cloud', 'Internet 1 Gbps', 'Buka 7am–10pm'] },
+    ],
+  },
+  {
+    label: 'Pendukung Akademik',
+    items: [
+      { title: 'Perpustakaan Digital', tag: 'Semua', desc: 'Koleksi 15.000+ judul buku fisik dan akses ke 50.000+ e-book & jurnal ilmiah internasional. Dilengkapi ruang baca nyaman dan ruang diskusi kelompok.', specs: ['15.000+ Koleksi Buku', '50.000+ E-Book', 'Jurnal Scopus/SINTA', 'Ruang Baca', 'Ruang Diskusi Grup'] },
+      { title: 'Galeri & Ruang Pameran', tag: 'DKV', desc: 'Ruang pameran 300m² untuk menampilkan karya terbaik mahasiswa. Setiap semester diadakan pameran tugas akhir yang terbuka untuk publik dan industri.', specs: ['Luas 300 m²', 'Pencahayaan Display', 'Exhibition Wall', 'Event Space', 'Portfolio Review Room'] },
+      { title: 'Aula & Ruang Seminar', tag: 'Semua', desc: 'Aula multifungsi berkapasitas 500 orang untuk seminar industri, kuliah tamu, dan acara kemahasiswaan berskala besar.', specs: ['Kapasitas 500 Orang', 'Sound System', 'Proyektor 4K', 'Live Streaming Setup', 'Backstage & Greenroom'] },
+    ],
+  },
+];
+---
+
+<Layout title="Fasilitas Kampus" description="Fasilitas STMK Trisakti berstandar industri — studio animasi 3D, lab fotografi, studio broadcast, lab printing, perpustakaan digital.">
+
+  <PageHeader
+    label="Infrastruktur"
+    title="Fasilitas Kampus"
+    desc="Fasilitas berstandar industri yang mendukung pembelajaran kreatif optimal dan menghasilkan karya terbaik."
+    breadcrumb={[{ label: 'Fasilitas', href: '' }]}
+  />
+
+  <!-- Quick stats -->
+  <div class="border-b border-neutral-200" style="background:var(--surface)">
+    <div class="max-w-screen-xl mx-auto px-8 md:px-14">
+      <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-neutral-200 stagger">
+        {[
+          { num: 3500, suffix: ' m²', label: 'Luas Ruang Belajar' },
+          { num: 150, suffix: '+', label: 'Unit Komputer' },
+          { num: 6, suffix: '', label: 'Studio & Lab Utama' },
+          { num: 15000, suffix: '+', label: 'Koleksi Perpustakaan' },
+        ].map(s => (
+          <div class="py-10 px-4 text-center">
+            <div class="text-3xl md:text-4xl font-black tracking-tight mb-1" style="color:var(--brand)">
+              <span data-target={s.num} data-suffix={s.suffix}>0{s.suffix}</span>
+            </div>
+            <div class="text-[10px] uppercase tracking-widest font-bold text-neutral-400">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20 space-y-20">
+    {fasilitas.map((kat, ki) => (
+      <div>
+        <div class="flex items-center gap-4 mb-10 reveal">
+          <div class="w-[3px] h-6 shrink-0" style="background:var(--brand)"></div>
+          <h2 class="text-2xl font-black text-neutral-950 tracking-tight">{kat.label}</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-neutral-200 stagger">
+          {kat.items.map(item => (
+            <div class="card-line bg-[#FAFAF8] hover:bg-white p-0 overflow-hidden group">
+              <!-- Top color strip -->
+              <div class="h-1 w-0 group-hover:w-full transition-all duration-500" style="background:var(--brand)"></div>
+              <div class="p-7">
+                <div class="flex items-center justify-between mb-4">
+                  <span class="badge badge-gray">{item.tag}</span>
+                </div>
+                <h3 class="font-black text-neutral-950 text-lg mb-3 tracking-tight">{item.title}</h3>
+                <p class="text-sm text-neutral-500 leading-relaxed mb-5">{item.desc}</p>
+                <div class="space-y-1.5">
+                  {item.specs.map(s => (
+                    <div class="flex items-center gap-2 text-xs text-neutral-600">
+                      <span class="w-1 h-1 shrink-0" style="background:var(--brand);border-radius:50%"></span>
+                      {s}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <!-- General facilities -->
+    <div class="reveal" class="puzzle-dark" style="background:var(--dark);border-radius:2px;padding:2.5rem 3rem">
+      <h2 class="text-2xl font-black text-white mb-8">Fasilitas Umum Kampus</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {[
+          ['Kantin & Food Court', '🍽️'],
+          ['Area Olahraga', '⚽'],
+          ['Mushola', '🕌'],
+          ['Klinik Kesehatan', '🏥'],
+          ['Area Parkir Luas', '🚗'],
+          ['WiFi Seluruh Area', '📶'],
+          ['ATM Center', '🏦'],
+          ['Koperasi Mahasiswa', '🛒'],
+        ].map(([name, _]) => (
+          <div class="border py-4 px-3 text-center group hover:border-[var(--brand)] transition-colors cursor-default"
+               style="border-color:rgba(255,255,255,0.08);border-radius:2px">
+            <div class="text-white/80 text-xs font-semibold group-hover:text-white transition-colors">{name}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>
+

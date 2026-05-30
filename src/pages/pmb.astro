@@ -1,0 +1,189 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const timeline = [
+  { tahap: 'Pendaftaran Online', periode: '1 Feb – 31 Jul 2026', status: 'open' },
+  { tahap: 'Tes Seleksi Gelombang I', periode: '15 Feb – 15 Mar 2026', status: 'done' },
+  { tahap: 'Pengumuman Gelombang I', periode: '20 Mar 2026', status: 'done' },
+  { tahap: 'Tes Seleksi Gelombang II', periode: '1 Apr – 30 Apr 2026', status: 'open' },
+  { tahap: 'Pengumuman Gelombang II', periode: '5 Mei 2026', status: 'upcoming' },
+  { tahap: 'Registrasi Ulang & Pembayaran', periode: '1 – 30 Jun 2026', status: 'upcoming' },
+  { tahap: 'Orientasi Mahasiswa Baru', periode: '28 – 30 Jul 2026', status: 'upcoming' },
+  { tahap: 'Awal Perkuliahan', periode: '3 Agustus 2026', status: 'upcoming' },
+];
+
+const jalur = [
+  { nama: 'Jalur Reguler', desc: 'Seleksi berbasis nilai rapor dan tes kemampuan akademik-kreatif', syarat: ['Lulusan SMA/MA/SMK sederajat', 'Nilai rata-rata rapor min. 7.0', 'Tes tertulis dan tes bakat kreatif'] },
+  { nama: 'Beasiswa KIP-K', desc: 'Beasiswa Kartu Indonesia Pintar – Kuliah untuk mahasiswa kurang mampu', syarat: ['Terdaftar di DTKS atau KIP SMA/SMK', 'Nilai akademik baik', 'Lulus seleksi KIP-K nasional'] },
+  { nama: 'Jalur Prestasi / Portofolio', desc: 'Seleksi berdasarkan prestasi akademik atau portofolio karya kreatif', syarat: ['Prestasi di bidang seni/desain', 'Portofolio karya terbaik', 'Bebas tes tertulis'] },
+  { nama: 'Jalur Kerjasama', desc: 'Untuk lulusan sekolah mitra dan keluarga civitas akademika', syarat: ['Sekolah/institusi mitra STMK', 'Surat rekomendasi resmi', 'Diskon biaya pendidikan'] },
+];
+
+const biaya = [
+  { nama: 'Desain Komunikasi Visual (S1)', low: 'Rp 2.500.000', high: 'Rp 7.500.000' },
+  { nama: 'Teknologi Grafika (D4)', low: 'Rp 2.500.000', high: 'Rp 7.000.000' },
+];
+
+const beasiswa = [
+  { nama: 'KIP-K', full: 'Kartu Indonesia Pintar – Kuliah', type: 'Beasiswa Penuh', desc: 'Mencakup biaya kuliah dan biaya hidup dari pemerintah untuk mahasiswa dari keluarga kurang mampu.' },
+  { nama: 'UTBK', full: 'Berbasis Skor UTBK', type: 'Diskon Biaya', desc: 'Apresiasi untuk mahasiswa dengan skor UTBK tinggi berupa diskon biaya kuliah.' },
+  { nama: 'YBT', full: 'Yayasan Beasiswa Trisakti', type: 'Prestasi', desc: 'Beasiswa internal Yayasan Trisakti untuk mahasiswa berprestasi dan aktif berkegiatan.' },
+];
+---
+
+<Layout title="Penerimaan Mahasiswa Baru" description="PMB STMK Trisakti 2026/2027 — jalur masuk, beasiswa KIP-K, dan biaya pendidikan DKV dan Teknologi Grafika.">
+
+  <PageHeader
+    label="PMB 2026/2027"
+    title="Penerimaan Mahasiswa Baru"
+    desc="Bergabunglah dengan komunitas mahasiswa kreatif STMK Trisakti. Wujudkan passion menjadi karir profesional di industri multimedia."
+    breadcrumb={[{ label: 'PMB', href: '' }]}
+  />
+
+  <!-- Live banner -->
+  <div class="border-b border-neutral-200 py-3" style="background:var(--brand)">
+    <div class="max-w-screen-xl mx-auto px-8 md:px-14 flex flex-col md:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3 text-white">
+        <span class="w-2 h-2 bg-white rounded-full animate-pulse shrink-0"></span>
+        <span class="text-sm font-bold">Pendaftaran Gelombang II Sedang Berlangsung — Tutup 30 April 2026</span>
+      </div>
+      <a href="https://pmb.trisaktimultimedia.ac.id" target="_blank" rel="noopener noreferrer"
+         class="bg-white text-sm font-black px-5 py-1.5 shrink-0 hover:bg-neutral-100 transition-colors"
+         style="color:var(--brand);border-radius:2px">
+        Daftar Sekarang →
+      </a>
+    </div>
+  </div>
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20 space-y-20">
+
+    <!-- Timeline -->
+    <div id="jadwal">
+      <p class="section-num mb-4 reveal">Kalender PMB</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-10 reveal">Jadwal PMB 2026/2027</h2>
+      <div class="space-y-0 border-t border-neutral-200 stagger">
+        {timeline.map(item => (
+          <div class="flex items-center gap-5 py-4 border-b border-neutral-200 group hover:bg-white hover:-mx-8 hover:px-8 md:hover:-mx-14 md:hover:px-14 transition-all">
+            <div class:list={['w-2.5 h-2.5 rounded-full shrink-0', item.status === 'done' ? 'bg-green-500' : item.status === 'upcoming' ? 'bg-neutral-300' : '']}
+                 style={item.status === 'open' ? 'background:var(--brand);animation:pulse 2s infinite' : ''}>
+            </div>
+            <span class="flex-1 text-sm font-semibold text-neutral-800">{item.tahap}</span>
+            <span class="text-xs text-neutral-500 hidden md:block">{item.periode}</span>
+            <span class:list={['badge text-[10px] shrink-0', item.status === 'done' ? 'badge-green' : item.status === 'open' ? 'badge-red' : 'badge-gray']}>
+              {item.status === 'done' ? 'Selesai' : item.status === 'open' ? 'Berlangsung' : 'Akan Datang'}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Jalur -->
+    <div id="cara-daftar">
+      <p class="section-num mb-4 reveal">Jalur Masuk</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-10 reveal">Pilihan Jalur Penerimaan</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-200 stagger">
+        {jalur.map(j => (
+          <div class="card-line bg-[#FAFAF8] hover:bg-white p-7 group">
+            <h3 class="font-black text-neutral-950 text-lg mb-2 group-hover:text-[var(--brand)] transition-colors">{j.nama}</h3>
+            <p class="text-sm text-neutral-500 mb-5 leading-relaxed">{j.desc}</p>
+            <div class="space-y-2">
+              {j.syarat.map(s => (
+                <div class="flex items-center gap-2.5 text-sm text-neutral-600">
+                  <div class="w-4 h-4 shrink-0 flex items-center justify-center border" style="border-color:var(--brand)">
+                    <svg class="w-2.5 h-2.5" style="color:var(--brand)" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                  {s}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Steps -->
+    <div id="persyaratan">
+      <p class="section-num mb-4 reveal">Langkah Pendaftaran</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-10 reveal">Cara Mendaftar</h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-px bg-neutral-200 stagger">
+        {[
+          { step: '01', title: 'Daftar Online', desc: 'Isi formulir di pmb.trisaktimultimedia.ac.id' },
+          { step: '02', title: 'Upload Dokumen', desc: 'Upload foto, ijazah/STTB, rapor, dan dokumen lain' },
+          { step: '03', title: 'Ikuti Seleksi', desc: 'Hadiri tes akademik dan bakat kreatif sesuai jadwal' },
+          { step: '04', title: 'Registrasi Ulang', desc: 'Setelah lulus, lakukan registrasi dan pembayaran' },
+        ].map(s => (
+          <div class="bg-[#FAFAF8] hover:bg-white p-7 group transition-colors">
+            <div class="text-5xl font-black leading-none mb-5" style="color:#eeeeed">{s.step}</div>
+            <h3 class="font-black text-neutral-950 mb-2 group-hover:text-[var(--brand)] transition-colors">{s.title}</h3>
+            <p class="text-sm text-neutral-500 leading-relaxed">{s.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Biaya -->
+    <div id="biaya" class="reveal">
+      <p class="section-num mb-4">Biaya Pendidikan</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-3">Biaya Pendidikan 2026/2027</h2>
+      <p class="text-neutral-500 text-sm mb-8">Sistem UKT disesuaikan kemampuan ekonomi. Tidak ada biaya tersembunyi.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-200">
+        {biaya.map(b => (
+          <div class="card-line bg-[#FAFAF8] hover:bg-white overflow-hidden">
+            <div class="px-7 py-4 border-b border-neutral-200" style="background:var(--dark)">
+              <h3 class="text-white font-black">{b.nama}</h3>
+            </div>
+            <div class="p-7 space-y-4">
+              <div class="flex justify-between items-center border-b border-neutral-100 pb-4">
+                <span class="text-sm text-neutral-500">UKT Terendah</span>
+                <span class="font-black text-neutral-950 text-lg">{b.low}<span class="text-xs font-normal text-neutral-400"> / semester</span></span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-neutral-500">UKT Tertinggi</span>
+                <span class="font-black text-neutral-950 text-lg">{b.high}<span class="text-xs font-normal text-neutral-400"> / semester</span></span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Beasiswa -->
+    <div id="beasiswa">
+      <p class="section-num mb-4 reveal">Beasiswa</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-10 reveal">Program Beasiswa</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-neutral-200 stagger">
+        {beasiswa.map(b => (
+          <div class="card-line bg-[#FAFAF8] hover:bg-white p-7 group">
+            <div class="text-3xl font-black mb-3" style="color:var(--brand)">{b.nama}</div>
+            <span class="badge badge-gray mb-4 block w-fit">{b.type}</span>
+            <div class="text-xs text-neutral-400 mb-3 font-semibold uppercase tracking-wide">{b.full}</div>
+            <p class="text-sm text-neutral-500 leading-relaxed">{b.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div id="daftar" class="reveal" style="background:var(--dark);border-radius:2px;padding:3rem 3.5rem">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <p class="text-xs font-black uppercase tracking-[0.14em] mb-4" style="color:var(--brand)">Siap Bergabung?</p>
+          <h2 class="text-3xl md:text-4xl font-black text-white tracking-tight mb-4">Mulai Perjalananmu<br/>Hari Ini.</h2>
+          <p class="text-neutral-400 text-sm leading-relaxed">Daftar online dalam 5 menit atau hubungi tim penerimaan kami.</p>
+        </div>
+        <div class="space-y-3">
+          <a href="https://pmb.trisaktimultimedia.ac.id" target="_blank" rel="noopener noreferrer" class="btn-primary w-full justify-center">
+            Daftar via Sistem PMB Online
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="https://wa.me/6287742997808" target="_blank" rel="noopener noreferrer" class="btn-outline-white w-full justify-center">Chat WhatsApp Penerimaan</a>
+          <p class="text-neutral-600 text-xs text-center pt-1">📍 Jl. Jend. Achmad Yani 85, Rawasari, Jakarta Timur · ☎ +62 21 4895787</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+

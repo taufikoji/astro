@@ -1,0 +1,135 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-neutral-950 text-neutral-400 border-t border-neutral-900">
+  <div class="max-w-screen-xl mx-auto px-5 pt-16 pb-8">
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-neutral-800">
+
+      <!-- Brand -->
+      <div class="md:col-span-4">
+        <a href="/" class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 bg-white flex items-center justify-center shrink-0">
+            <span class="text-neutral-950 font-black text-[10px] leading-tight tracking-tight text-center">ST<br/>MK</span>
+          </div>
+          <div>
+            <div class="text-white font-black text-sm tracking-wide uppercase">STMK Trisakti</div>
+            <div class="text-neutral-600 text-[11px] tracking-wide">Sekolah Tinggi Media Komunikasi</div>
+          </div>
+        </a>
+        <p class="text-neutral-500 text-sm leading-relaxed mb-6 max-w-xs">
+          Mendidik generasi kreatif multimedia yang kompetitif di era industri digital sejak 1999.
+        </p>
+
+        <!-- Contact -->
+        <div class="space-y-2 text-sm">
+          <div class="text-neutral-500 text-xs leading-relaxed">
+            Jl. Jend. Achmad Yani 85<br/>
+            Rawasari, Jakarta Timur
+          </div>
+          <a href="https://wa.me/6287742997808" class="block text-neutral-500 hover:text-white transition-colors text-xs">+62 877 4299 7808</a>
+          <a href="tel:+622148957870" class="block text-neutral-500 hover:text-white transition-colors text-xs">+62 21 4895787</a>
+          <a href="mailto:info@trisaktimultimedia.ac.id" class="block text-neutral-500 hover:text-white transition-colors text-xs">info@trisaktimultimedia.ac.id</a>
+          <a href="mailto:pmb@trisaktimultimedia.ac.id" class="block text-neutral-500 hover:text-white transition-colors text-xs">pmb@trisaktimultimedia.ac.id</a>
+        </div>
+
+        <!-- Social -->
+        <div class="flex gap-3 mt-6">
+          {[
+            { label: 'IG', href: 'https://instagram.com/stmktrisakti' },
+            { label: 'YT', href: 'https://youtube.com/stmktrisakti' },
+            { label: 'FB', href: 'https://facebook.com/stmktrisakti' },
+          ].map(s => (
+            <a href={s.href} target="_blank" rel="noopener noreferrer"
+               class="w-8 h-8 border border-neutral-700 hover:border-white hover:text-white text-neutral-500 flex items-center justify-center text-[10px] font-black tracking-wide transition-colors">
+              {s.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div class="md:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+        {[
+          {
+            title: 'Program Studi',
+            links: [
+              { label: 'Desain Komunikasi Visual', href: '/program/dkv' },
+              { label: 'Teknologi Grafika', href: '/program/teknologi-grafika' },
+              { label: 'Kurikulum & CPL', href: '/program' },
+            ],
+          },
+          {
+            title: 'Akademik',
+            links: [
+              { label: 'Penjaminan Mutu', href: '/akademik/penjaminan-mutu' },
+              { label: 'Penelitian & PKM', href: '/akademik/penelitian' },
+              { label: 'Kemahasiswaan', href: '/akademik/kemahasiswaan' },
+              { label: 'Alumni', href: '/akademik/alumni' },
+            ],
+          },
+          {
+            title: 'Institusi',
+            links: [
+              { label: 'Tentang STMK Trisakti', href: '/tentang' },
+              { label: 'Visi & Misi', href: '/tentang/visi-misi' },
+              { label: 'Akreditasi BAN-PT', href: '/akreditasi' },
+              { label: 'Struktur Organisasi', href: '/tentang/struktur-organisasi' },
+            ],
+          },
+          {
+            title: 'Mahasiswa',
+            links: [
+              { label: 'PMB 2026/2027', href: '/pmb' },
+              { label: 'Beasiswa', href: '/pmb#beasiswa' },
+              { label: 'Fasilitas', href: '/fasilitas' },
+              { label: 'Berita', href: '/berita' },
+              { label: 'Kontak', href: '/kontak' },
+            ],
+          },
+        ].map(col => (
+          <div>
+            <h4 class="text-white text-[11px] font-black uppercase tracking-widest mb-4">{col.title}</h4>
+            <ul class="space-y-2.5">
+              {col.links.map(l => (
+                <li>
+                  <a href={l.href} class="text-neutral-500 hover:text-white text-xs transition-colors leading-snug block">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Bottom row -->
+    <div class="pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-[11px] text-neutral-600">
+      <span>&copy; {year} Sekolah Tinggi Media Komunikasi Trisakti. Hak Cipta Dilindungi.</span>
+      <div class="flex items-center gap-4">
+        <span class="text-green-500 font-semibold">● Terakreditasi BAN-PT</span>
+        <span class="text-neutral-800">·</span>
+        <a href="/kebijakan-privasi" class="hover:text-white transition-colors">Privasi</a>
+        <a href="/syarat-ketentuan" class="hover:text-white transition-colors">Syarat</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mandatory logo strip — white background required by branding guidelines -->
+  <div class="bg-white border-t border-neutral-200">
+    <div class="max-w-screen-xl mx-auto px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <img
+        src="/images/logo-stmk.png"
+        alt="Trisakti School of Multimedia — DiktiSaintek Berdampak"
+        class="h-12 w-auto object-contain"
+        loading="lazy"
+      />
+      <p class="text-[10px] text-neutral-400 text-center sm:text-right leading-relaxed">
+        Terakreditasi oleh Badan Akreditasi Nasional Perguruan Tinggi (BAN-PT)<br/>
+        Di bawah naungan Yayasan Trisakti · Kemendikbudristek RI
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,143 @@
+﻿---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const tabs = [
+  { label: 'Profil', href: '/tentang' },
+  { label: 'Visi & Misi', href: '/tentang/visi-misi' },
+  { label: 'Sejarah', href: '/tentang/sejarah' },
+  { label: 'Struktur Organisasi', href: '/tentang/struktur-organisasi' },
+];
+
+const pimpinan = [
+  { jabatan: 'Ketua STMK Trisakti', nama: 'xxxxxxxxx', init: 'WP' },
+  { jabatan: 'Wakil Ketua I — Akademik', nama: 'xxxxxxxxx', init: 'DK' },
+  { jabatan: 'Wakil Ketua II — Adm & Keuangan', nama: 'xxxxxxxxx', init: 'EH' },
+  { jabatan: 'Wakil Ketua III — Kemahasiswaan', nama: 'xxxxxxxxx', init: 'RW' },
+];
+
+const identitas = [
+  { label: 'Nama Resmi', value: 'Sekolah Tinggi Media Komunikasi Trisakti' },
+  { label: 'Singkatan', value: 'STMK Trisakti' },
+  { label: 'Status', value: 'Perguruan Tinggi Swasta' },
+  { label: 'Penyelenggara', value: 'Yayasan Trisakti' },
+  { label: 'Tahun Berdiri', value: '1999' },
+  { label: 'SK Pendirian', value: 'SK Mendiknas No. 148/D/O/1999' },
+  { label: 'NPSN', value: '4120208' },
+  { label: 'Akreditasi Institusi', value: 'Baik Sekali — BAN-PT' },
+];
+
+const statsData = [
+  { num: 25, suffix: '+', label: 'Tahun Berdiri' },
+  { num: 2500, suffix: '+', label: 'Mahasiswa Aktif' },
+  { num: 5000, suffix: '+', label: 'Alumni Profesional' },
+  { num: 95, suffix: '%', label: 'Serapan Kerja' },
+];
+
+const nilai = [
+  { icon: '◆', title: 'Integritas', desc: 'Kami menjunjung tinggi kejujuran dan etika dalam setiap aspek pendidikan dan pengelolaan kampus.' },
+  { icon: '◈', title: 'Inovasi', desc: 'Terus berinovasi dalam kurikulum, metode pengajaran, dan fasilitas untuk menjawab kebutuhan industri.' },
+  { icon: '◇', title: 'Kolaborasi', desc: 'Membangun ekosistem kolaborasi antara mahasiswa, dosen, alumni, dan mitra industri.' },
+  { icon: '▲', title: 'Keunggulan', desc: 'Berkomitmen menghasilkan lulusan berkualitas tinggi yang kompetitif di tingkat nasional dan internasional.' },
+];
+---
+
+<Layout title="Tentang STMK Trisakti" description="Profil lengkap STMK Trisakti — kampus multimedia terkemuka Jakarta sejak 1999. Terakreditasi BAN-PT Baik Sekali.">
+
+  <PageHeader
+    label="Profil Institusi"
+    title="Tentang STMK Trisakti"
+    desc="Mengenal lebih dekat kampus desain dan multimedia terkemuka di Jakarta yang telah mencetak ribuan profesional kreatif."
+    breadcrumb={[{ label: 'Tentang', href: '' }]}
+    tabs={tabs}
+    currentPath={Astro.url.pathname}
+  />
+
+  <!-- ── Stats row ── -->
+  <div class="border-b border-neutral-200" style="background:var(--surface)">
+    <div class="max-w-screen-xl mx-auto px-8 md:px-14">
+      <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-neutral-200 stagger">
+        {statsData.map(s => (
+          <div class="stat-card border-0 border-r-0 py-10">
+            <div class="text-4xl md:text-5xl font-black tracking-tight mb-1" style="color:var(--brand)">
+              <span data-target={s.num} data-suffix={s.suffix}>0{s.suffix}</span>
+            </div>
+            <div class="text-xs text-neutral-400 uppercase tracking-widest font-semibold">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20 space-y-20">
+
+    <!-- ── Profil + Identitas ── -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+      <div class="lg:col-span-3 reveal">
+        <p class="section-num mb-4">Identitas Kampus</p>
+        <h2 class="text-3xl md:text-4xl font-black text-neutral-950 tracking-tight mb-6">
+          Sekolah Tinggi<br/><span class="accent-u">Media Komunikasi</span> Trisakti
+        </h2>
+        <div class="space-y-4 text-sm text-neutral-600 leading-relaxed">
+          <p><strong class="text-neutral-900">Sekolah Tinggi Media Komunikasi Trisakti (STMK Trisakti)</strong> adalah perguruan tinggi swasta di bawah naungan Yayasan Trisakti yang berfokus pada pendidikan multimedia, desain komunikasi visual, dan teknologi grafika. Kampus kami berlokasi di jantung Jakarta Barat, di kompleks kampus Trisakti, Grogol.</p>
+          <p>Berdiri sejak tahun 1999, STMK Trisakti telah menjadi salah satu kampus desain dan multimedia terkemuka di Indonesia dengan track record menghasilkan lulusan yang berkiprah di industri kreatif nasional dan internasional.</p>
+          <p>Dua program studi unggulan kami — <strong class="text-neutral-900">Desain Komunikasi Visual (S1)</strong> dan <strong class="text-neutral-900">Teknologi Grafika (D4)</strong> — keduanya terakreditasi <strong class="text-neutral-900">Baik Sekali</strong> oleh BAN-PT.</p>
+        </div>
+      </div>
+
+      <!-- Identity card -->
+      <div class="lg:col-span-2 reveal">
+        <div class="border border-neutral-200 bg-white overflow-hidden" style="border-radius:2px">
+          <div class="px-6 py-4 border-b border-neutral-100" style="background:var(--dark)">
+            <span class="text-white font-black text-sm tracking-wide">Data Institusi</span>
+          </div>
+          <div class="divide-y divide-neutral-100">
+            {identitas.map(item => (
+              <div class="px-6 py-3.5 flex flex-col gap-0.5">
+                <span class="text-[10px] text-neutral-400 uppercase tracking-widest font-bold">{item.label}</span>
+                <span class="text-sm font-semibold text-neutral-800">{item.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Pimpinan ── -->
+    <div class="reveal">
+      <p class="section-num mb-4">Pimpinan</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-10">Pimpinan STMK Trisakti</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-neutral-200 stagger">
+        {pimpinan.map((p, i) => (
+          <div class="p-6 border-r border-neutral-200 last:border-r-0 hover:bg-white transition-colors group relative overflow-hidden">
+            <!-- Red top bar on hover -->
+            <div class="absolute top-0 left-0 right-0 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" style="background:var(--brand)"></div>
+            <div class="w-14 h-14 flex items-center justify-center font-black text-white text-lg mb-4 shrink-0"
+                 style="background:var(--dark)">
+              {p.init}
+            </div>
+            <div class="font-bold text-neutral-900 text-sm leading-snug mb-1">{p.nama}</div>
+            <div class="text-xs font-semibold uppercase tracking-wide" style="color:var(--brand)">{p.jabatan}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- ── Nilai Inti ── -->
+    <div>
+      <p class="section-num mb-4 reveal">Nilai Inti</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-10 reveal">Nilai-Nilai yang Kami Pegang</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-200 stagger">
+        {nilai.map(v => (
+          <div class="bg-[#FAFAF8] hover:bg-white p-8 group transition-colors">
+            <span class="font-black text-3xl mb-5 block" style="color:var(--brand)">{v.icon}</span>
+            <h3 class="font-black text-neutral-950 mb-3 text-lg">{v.title}</h3>
+            <p class="text-sm text-neutral-500 leading-relaxed">{v.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>
+
+

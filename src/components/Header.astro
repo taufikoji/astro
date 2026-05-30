@@ -1,0 +1,155 @@
+---
+const navItems = [
+  {
+    label: 'Tentang',
+    href: '/tentang',
+    children: [
+      { label: 'Profil Kampus', href: '/tentang' },
+      { label: 'Visi & Misi', href: '/tentang/visi-misi' },
+      { label: 'Sejarah', href: '/tentang/sejarah' },
+      { label: 'Struktur Organisasi', href: '/tentang/struktur-organisasi' },
+    ],
+  },
+  {
+    label: 'Program',
+    href: '/program',
+    children: [
+      { label: 'Desain Komunikasi Visual', href: '/program/dkv' },
+      { label: 'Teknologi Grafika', href: '/program/teknologi-grafika' },
+    ],
+  },
+  {
+    label: 'Akademik',
+    href: '/akademik',
+    children: [
+      { label: 'Penjaminan Mutu', href: '/akademik/penjaminan-mutu' },
+      { label: 'Penelitian & PKM', href: '/akademik/penelitian' },
+      { label: 'Kemahasiswaan', href: '/akademik/kemahasiswaan' },
+      { label: 'Alumni', href: '/akademik/alumni' },
+    ],
+  },
+  { label: 'Akreditasi', href: '/akreditasi' },
+  { label: 'Fasilitas', href: '/fasilitas' },
+  { label: 'Berita', href: '/berita' },
+  { label: 'Kontak', href: '/kontak' },
+];
+
+const path = Astro.url.pathname;
+---
+
+<header
+  id="main-header"
+  class="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b border-neutral-200 transition-all duration-300"
+>
+  <div class="max-w-screen-xl mx-auto px-5 flex items-center h-[60px] gap-8">
+
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-3 shrink-0">
+      <!-- Combined mandatory logo: Trisakti + DiktiSaintek -->
+      <img
+        src="/images/logo-stmk.png"
+        alt="Trisakti School of Multimedia"
+        class="h-9 w-auto object-contain"
+        loading="eager"
+      />
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden lg:flex items-center gap-0.5 flex-1">
+      {navItems.map(item => (
+        <div class="relative group">
+          <a
+            href={item.href}
+            class:list={[
+              'nav-link px-3 py-2 flex items-center gap-1',
+              path.startsWith(item.href) && item.href !== '/' ? 'text-neutral-950 font-semibold' : '',
+            ]}
+          >
+            {item.label}
+            {item.children && (
+              <svg class="w-3 h-3 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            )}
+          </a>
+
+          {item.children && (
+            <div class="absolute top-full left-0 w-56 bg-white border border-neutral-200 shadow-lg
+                        opacity-0 invisible group-hover:opacity-100 group-hover:visible
+                        translate-y-1 group-hover:translate-y-0 transition-all duration-150 z-50"
+                 style="border-radius:2px">
+              {item.children.map(c => (
+                <a href={c.href}
+                   class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-neutral-950 hover:bg-neutral-50 transition-colors border-b border-neutral-100 last:border-0">
+                  {c.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </nav>
+
+    <!-- Right: PMB + mobile toggle -->
+    <div class="flex items-center gap-3 ml-auto lg:ml-0">
+      <a href="https://siakad.trisaktimultimedia.ac.id" target="_blank" rel="noopener noreferrer"
+         class="hidden md:block text-xs text-neutral-500 hover:text-neutral-950 transition-colors font-medium">
+        SIAKAD
+      </a>
+      <a href="/pmb" class="btn-primary hidden md:inline-flex py-2.5 text-xs">
+        Daftar 2026/2027
+      </a>
+      <button id="menu-btn" class="lg:hidden p-2 text-neutral-700 hover:text-neutral-950" aria-label="Menu">
+        <svg id="icon-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="lg:hidden border-t border-neutral-100 bg-white overflow-hidden">
+    <div class="max-w-screen-xl mx-auto px-5 py-4 space-y-0.5">
+      {navItems.map(item => (
+        <div>
+          <a href={item.href}
+             class="block py-2.5 text-sm font-semibold text-neutral-800 hover:text-orange-500 transition-colors border-b border-neutral-100">
+            {item.label}
+          </a>
+          {item.children && (
+            <div class="pl-4 pt-1 pb-2 space-y-0.5">
+              {item.children.map(c => (
+                <a href={c.href}
+                   class="block py-1.5 text-sm text-neutral-500 hover:text-neutral-950 transition-colors">
+                  {c.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+      <div class="pt-3">
+        <a href="/pmb" class="btn-primary w-full justify-center">Daftar Sekarang</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Header spacer -->
+<div class="h-[60px]"></div>
+
+<script>
+  const btn   = document.getElementById('menu-btn');
+  const menu  = document.getElementById('mobile-menu');
+  const open  = document.getElementById('icon-open');
+  const close = document.getElementById('icon-close');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = menu?.classList.toggle('open');
+    open?.classList.toggle('hidden', !!isOpen);
+    close?.classList.toggle('hidden', !isOpen);
+  });
+</script>

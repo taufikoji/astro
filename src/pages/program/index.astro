@@ -1,0 +1,124 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+---
+
+<Layout title="Program Studi" description="Program Studi STMK Trisakti: S1 Desain Komunikasi Visual dan D4 Teknologi Grafika — keduanya terakreditasi Baik Sekali BAN-PT.">
+
+  <PageHeader
+    label="Akademik"
+    title="Program Studi"
+    desc="Dua program studi multimedia terkemuka yang disiapkan untuk mencetak profesional kreatif berstandar internasional."
+    breadcrumb={[{ label: 'Program Studi', href: '' }]}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20 space-y-16">
+
+    <!-- Program list -->
+    <div class="border-t border-neutral-200">
+      {[
+        {
+          num: '01', href: '/program/dkv',
+          title: 'Desain Komunikasi Visual',
+          degree: 'S1 — Sarjana Desain · Gelar: S.Ds',
+          akreditasi: 'Baik Sekali',
+          tracks: ['Animasi 2D & 3D', 'Desain Periklanan', 'UI/UX Design', 'Ilustrasi Digital', 'Fotografi Komersial', 'Branding & Identity'],
+          desc: 'Kuasai storytelling visual dari konsep hingga eksekusi. Program S1 berbasis industri bersama praktisi desain terkemuka — art director, animator, dan UI/UX designer profesional.',
+          cpl: ['Mampu menerapkan prinsip desain komunikasi visual di berbagai media', 'Mampu mengoperasikan software desain industri secara profesional', 'Mampu berkolaborasi dalam tim multidisiplin'],
+        },
+        {
+          num: '02', href: '/program/teknologi-grafika',
+          title: 'Teknologi Grafika',
+          degree: 'D4 — Sarjana Terapan · Gelar: S.Tr.T',
+          akreditasi: 'Baik Sekali',
+          tracks: ['Desain Kemasan (Packaging)', 'Cetak Digital & Offset', 'Pra-cetak & Reprografi', 'Broadcasting & Video', 'Digital Media Production', 'Manajemen Produksi'],
+          desc: 'Padukan keahlian desain dengan teknologi produksi grafika modern. Program D4 mencetak ahli packaging, printing, dan broadcasting yang langsung siap kerja.',
+          cpl: ['Mampu merancang kemasan produk yang memenuhi standar estetika dan fungsi', 'Mampu mengoperasikan mesin cetak dan peralatan produksi industri', 'Mampu memproduksi konten broadcast untuk berbagai platform media'],
+        },
+      ].map((prog, i) => (
+        <div class="py-12 border-b border-neutral-200 reveal group" style={`transition-delay:${i*80}ms`}>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+            <!-- Left: number + title -->
+            <div class="lg:col-span-4">
+              <div class="text-6xl font-black leading-none mb-4" style="color:#ebebea">{prog.num}</div>
+              <h2 class="text-2xl md:text-3xl font-black text-neutral-950 tracking-tight mb-2">{prog.title}</h2>
+              <div class="text-xs text-neutral-400 font-semibold uppercase tracking-widest mb-4">{prog.degree}</div>
+              <div class="flex items-center gap-2 mb-6">
+                <span class="badge badge-green">{prog.akreditasi}</span>
+                <span class="text-xs text-neutral-400">BAN-PT</span>
+              </div>
+              <p class="text-sm text-neutral-500 leading-relaxed mb-6">{prog.desc}</p>
+              <a href={prog.href} class="btn-primary text-sm">
+                Detail Program
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </a>
+            </div>
+
+            <!-- Middle: peminatan -->
+            <div class="lg:col-span-4">
+              <h3 class="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-4">Peminatan / Konsentrasi</h3>
+              <div class="space-y-1.5">
+                {prog.tracks.map(t => (
+                  <div class="flex items-center gap-2.5 text-sm text-neutral-700">
+                    <div class="w-4 h-4 border flex items-center justify-center shrink-0" style="border-color:var(--brand)">
+                      <svg class="w-2.5 h-2.5" style="color:var(--brand)" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                    </div>
+                    {t}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <!-- Right: CPL -->
+            <div class="lg:col-span-4">
+              <h3 class="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-4">Capaian Pembelajaran Utama</h3>
+              <div class="space-y-3">
+                {prog.cpl.map((c, ci) => (
+                  <div class="flex gap-3">
+                    <span class="text-xs font-black shrink-0 w-5 h-5 flex items-center justify-center text-white mt-0.5" style="background:var(--brand)">{ci+1}</span>
+                    <p class="text-sm text-neutral-500 leading-relaxed">{c}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Comparison table -->
+    <div class="reveal">
+      <p class="section-num mb-4">Perbandingan</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-8">Perbandingan Program Studi</h2>
+      <div class="overflow-x-auto border border-neutral-200" style="border-radius:2px">
+        <table class="w-full table-pro">
+          <thead>
+            <tr>
+              <th class="w-1/3">Aspek</th>
+              <th class="text-center">DKV (S1)</th>
+              <th class="text-center">Tek. Grafika (D4)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              { aspek: 'Jenjang', dkv: 'Sarjana (S1)', tg: 'Sarjana Terapan (D4)' },
+              { aspek: 'Gelar', dkv: 'S.Ds', tg: 'S.Tr.T' },
+              { aspek: 'Durasi Studi', dkv: '4 Tahun (8 Semester)', tg: '4 Tahun (8 Semester)' },
+              { aspek: 'Total SKS', dkv: '144 SKS', tg: '144 SKS' },
+              { aspek: 'Fokus', dkv: 'Desain, Seni Visual, Kreatif', tg: 'Teknologi, Produksi, Terapan' },
+              { aspek: 'Akreditasi', dkv: 'Baik Sekali', tg: 'Baik Sekali' },
+              { aspek: 'Beasiswa', dkv: 'KIP-K, UTBK, YBT', tg: 'KIP-K, UTBK, YBT' },
+            ].map(row => (
+              <tr class="group hover:bg-red-50/20 transition-colors">
+                <td class="font-semibold text-neutral-800">{row.aspek}</td>
+                <td class="text-center">{row.dkv}</td>
+                <td class="text-center">{row.tg}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</Layout>

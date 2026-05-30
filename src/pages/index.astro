@@ -1,0 +1,596 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import PuzzleCanvas from '../components/PuzzleCanvas.astro';
+
+const programs = [
+  {
+    num: '01',
+    title: 'Desain Komunikasi Visual',
+    degree: 'S1 · Sarjana Desain',
+    href: '/program/dkv',
+    tracks: ['Animasi', 'Periklanan', 'UI/UX Design', 'Ilustrasi Digital'],
+    desc: 'Kuasai storytelling visual — dari konsep hingga eksekusi. Program S1 berbasis industri bersama praktisi desain terkemuka.',
+  },
+  {
+    num: '02',
+    title: 'Teknologi Grafika',
+    degree: 'D4 · Sarjana Terapan',
+    href: '/program/teknologi-grafika',
+    tracks: ['Packaging Design', 'Cetak Digital', 'Broadcasting', 'Produksi Digital'],
+    desc: 'Padukan keahlian desain dengan teknologi produksi grafika modern. Siap kerja sejak hari pertama.',
+  },
+];
+
+const stats = [
+  { num: '2.500+', label: 'Mahasiswa Aktif' },
+  { num: '5.000+', label: 'Alumni Profesional' },
+  { num: '25+',    label: 'Tahun Pengalaman' },
+  { num: '150+',   label: 'Mitra Industri' },
+];
+
+const videos = [
+  {
+    id: 'dQw4w9WgXcQ',
+    title: 'Showreel DKV 2025 — Animasi & Motion Graphics',
+    category: 'Animasi',
+    featured: true,
+  },
+  {
+    id: 'dQw4w9WgXcQ',
+    title: 'Packaging Design — Final Project 2025',
+    category: 'Teknologi Grafika',
+    featured: false,
+  },
+  {
+    id: 'dQw4w9WgXcQ',
+    title: 'Kampanye Sosial — Tugas Akhir DKV',
+    category: 'Periklanan',
+    featured: false,
+  },
+  {
+    id: 'dQw4w9WgXcQ',
+    title: 'UI/UX App Design — Student Project',
+    category: 'UI/UX',
+    featured: false,
+  },
+];
+
+const news = [
+  { date: '15 Mei 2026', category: 'Prestasi',  title: 'STMK Trisakti Raih Penghargaan Kampus Inovatif 2025',                      href: '/berita/penghargaan-kampus-inovatif-2025' },
+  { date: '10 Mei 2026', category: 'Kerjasama', title: 'MoU Bersama Studio Animasi Internasional untuk Program Magang',             href: '/berita/mou-studio-animasi-internasional' },
+  { date: '5 Mei 2026',  category: 'Prestasi',  title: 'Mahasiswa Teknologi Grafika Juara 1 Lomba Packaging Nasional',              href: '/berita/juara-packaging-nasional' },
+  { date: '2 Mei 2026',  category: 'Kegiatan',  title: 'Workshop Adobe After Effects Bersama Motion Designer Internasional',        href: '/berita/workshop-after-effects' },
+];
+
+const partners = [
+  'Kompas Gramedia', 'Dentsu Creative', 'MNC Group', 'Trans Media',
+  'Nuon Digital', 'Narasi TV', 'BBH Indonesia', 'Flock Studio',
+  'VCREATIVE+', 'TBWA Indonesia', 'Grey Indonesia', 'Isobar',
+];
+
+const whyList = [
+  { num: '70%',  title: 'Dosen dari Industri', desc: 'Tujuh dari sepuluh dosen adalah profesional aktif — art director, animator, packaging designer — yang masih berkarya di perusahaan terkemuka.' },
+  { num: '95%',  title: 'Serapan Kerja < 6 Bulan', desc: 'Berdasarkan Tracer Study 2024, 95% lulusan STMK Trisakti sudah bekerja di bidangnya dalam 6 bulan setelah wisuda.' },
+  { num: '144',  title: 'SKS Berbasis Praktik', desc: 'Kurikulum OBE dirancang bersama mitra industri. Lebih dari 60% waktu belajar dihabiskan untuk praktik nyata dan proyek klien.' },
+  { num: '30+',  title: 'MoU Aktif', desc: 'Kerjasama aktif dengan 30+ perusahaan dan institusi untuk magang, rekrutmen, dan proyek kolaborasi mahasiswa.' },
+];
+---
+
+<Layout
+  title="Beranda"
+  description="Trisakti School of Multimedia — Kampus Desain & Multimedia terdepan di Jakarta. Program S1 Desain Komunikasi Visual dan D4 Teknologi Grafika, terakreditasi BAN-PT Baik Sekali."
+>
+
+<!-- ══════════════════════════════════════════════════
+  §1  HERO — full-bleed campus photo background
+══════════════════════════════════════════════════ -->
+<section class="relative flex flex-col overflow-hidden" style="min-height:calc(100vh - 60px)">
+
+  <!-- ① Background: campus photo -->
+  <div class="absolute inset-0">
+    <img
+      id="hero-bg"
+      src="/images/kampus.jpg"
+      alt=""
+      aria-hidden="true"
+      class="hero-img w-full h-full object-cover object-center"
+    />
+    <!-- Layered overlay: strong on left for text, reveal building on right -->
+    <div class="absolute inset-0"
+         style="background: linear-gradient(100deg,
+           rgba(9,9,9,0.92) 0%,
+           rgba(9,9,9,0.80) 35%,
+           rgba(9,9,9,0.55) 60%,
+           rgba(9,9,9,0.40) 100%
+         )">
+    </div>
+    <!-- Bottom vignette for stats legibility -->
+    <div class="absolute bottom-0 left-0 right-0"
+         style="height:200px;background:linear-gradient(to top,rgba(9,9,9,0.95) 0%,transparent 100%)">
+    </div>
+  </div>
+
+  <!-- ② Animated puzzle canvas on top of overlay -->
+  <PuzzleCanvas id="hero-puzzle" pieceSize={110} strokeColor="white" opacity={0.09} />
+
+  <!-- ③ Red brand bar — left edge -->
+  <div class="absolute top-0 left-0 bottom-0 w-[3px]" style="background:var(--brand); z-index:1"></div>
+
+  <!-- ④ Main content -->
+  <div class="relative flex-1 flex flex-col justify-between">
+
+    <!-- Top spacer -->
+    <div class="flex-1 flex items-center">
+      <div class="w-full max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+
+        <!-- Eyebrow -->
+        <div class="flex items-center gap-3 mb-10">
+          <span class="inline-block w-8 h-[2px]" style="background:var(--brand)"></span>
+          <span class="label-tag" style="color:rgba(255,255,255,0.7); font-size:11px">
+            Trisakti School of Multimedia · Jakarta · BAN-PT Baik Sekali
+          </span>
+        </div>
+
+        <!-- Main headline — design school editorial style -->
+        <div class="mb-10">
+          <h1 class="font-black tracking-tight text-white leading-[0.88]"
+              style="font-size:clamp(3.5rem,10vw,8.5rem)">
+            DESAIN<span style="color:var(--brand)">.</span><br/>
+            KREASI<span class="text-neutral-500">.</span><br/>
+            KARYA<span class="text-neutral-600">.</span>
+          </h1>
+        </div>
+
+        <!-- Sub headline + CTAs -->
+        <div class="flex flex-col md:flex-row md:items-end gap-10 md:gap-20 max-w-4xl">
+          <div class="md:max-w-xs">
+            <p class="text-neutral-300 text-base leading-relaxed">
+              Kampus desain dan multimedia terdepan di Jakarta. Kuasai seni visual, teknologi produksi, dan kreasi konten bersama praktisi industri kelas dunia.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-3 shrink-0">
+            <a href="/pmb" class="btn-primary">
+              Daftar 2026/2027
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </a>
+            <a href="/program" class="btn-outline-white">Lihat Program</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ④ Stats strip pinned to bottom -->
+    <div class="relative border-t" style="border-color:rgba(255,255,255,0.08); background:rgba(9,9,9,0.75)">
+      <div style="backdrop-filter:blur(6px)">
+        <div class="max-w-screen-xl mx-auto px-8 md:px-14">
+          <div class="grid grid-cols-2 md:grid-cols-4 divide-x" style="border-color:rgba(255,255,255,0.08)">
+            {stats.map(s => (
+              <div class="py-5 px-4 md:px-8 first:pl-0 last:pr-0">
+                <div class="text-2xl md:text-3xl font-black text-white tracking-tight">{s.num}</div>
+                <div class="text-[10px] mt-1 uppercase tracking-widest" style="color:rgba(255,255,255,0.35)">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+  §2  MARQUEE — disciplines
+══════════════════════════════════════════════════ -->
+<div class="overflow-hidden py-3 border-b border-neutral-200" style="background:var(--brand)">
+  <div class="marquee-track whitespace-nowrap">
+    {[...Array(2)].map(() =>
+      ['Animasi 3D', 'Packaging Design', 'UI/UX Design', 'Broadcasting', 'Periklanan', 'Ilustrasi Digital', 'Motion Graphics', 'Digital Printing', 'Fotografi', 'Branding & Identitas', 'Videografi', 'Tipografi'].map(item => (
+        <span class="inline-flex items-center gap-5 px-6 text-[11px] font-black text-white uppercase tracking-[0.15em]">
+          {item}<span class="opacity-30">◆</span>
+        </span>
+      ))
+    )}
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+  §3  PROGRAMS — editorial asymmetric
+══════════════════════════════════════════════════ -->
+<section class="py-24" style="background:var(--surface)">
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14">
+
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 reveal">
+      <div>
+        <p class="section-num mb-4">Program Studi</p>
+        <h2 class="text-5xl md:text-6xl font-black text-neutral-950 tracking-tight">
+          Dua Jalur.<br/>
+          <span class="accent-u">Satu Tujuan.</span>
+        </h2>
+      </div>
+      <a href="/program" class="text-sm font-semibold text-neutral-400 hover:text-neutral-950 transition-colors self-start md:self-end mb-2">
+        Semua program →
+      </a>
+    </div>
+
+    <!-- Program cards — stacked list style, not equal grid -->
+    <div class="space-y-0 border-t border-neutral-200">
+      {programs.map((prog, i) => (
+        <a
+          href={prog.href}
+          class="group flex flex-col md:flex-row md:items-center gap-6 md:gap-12 py-10 border-b border-neutral-200
+                 hover:bg-white transition-all hover:-mx-8 hover:px-8 md:hover:-mx-14 md:hover:px-14 reveal"
+          style={`transition-delay:${i*80}ms`}
+        >
+          <!-- Number -->
+          <span class="font-black tracking-tighter leading-none select-none shrink-0 md:w-20 text-right hidden md:block"
+                style="font-size:5rem;color:#e5e7eb; transition:color 0.2s"
+                data-num>
+            {prog.num}
+          </span>
+
+          <!-- Title block -->
+          <div class="flex-1">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400 border border-neutral-300 px-2.5 py-1">
+                {prog.degree}
+              </span>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-black text-neutral-950 tracking-tight mb-2 group-hover:text-[var(--brand)] transition-colors">
+              {prog.title}
+            </h3>
+            <p class="text-sm text-neutral-500 leading-relaxed max-w-sm">{prog.desc}</p>
+          </div>
+
+          <!-- Tracks -->
+          <div class="hidden lg:flex flex-wrap gap-2 max-w-xs">
+            {prog.tracks.map(t => (
+              <span class="border border-neutral-200 text-neutral-500 text-[11px] font-semibold px-3 py-1.5 tracking-wide group-hover:border-neutral-400 transition-colors">
+                {t}
+              </span>
+            ))}
+          </div>
+
+          <!-- Arrow -->
+          <div class="hidden md:flex w-10 h-10 border border-neutral-200 items-center justify-center shrink-0 group-hover:border-[var(--brand)] group-hover:bg-[var(--brand)] transition-all">
+            <svg class="w-4 h-4 text-neutral-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+  §4  MANIFESTO — bold centered statement
+══════════════════════════════════════════════════ -->
+<section class="py-24 md:py-32 relative overflow-hidden" style="background:var(--dark)">
+  <PuzzleCanvas pieceSize={85} strokeColor="white" opacity={0.07} />
+  <div class="relative max-w-screen-xl mx-auto px-8 md:px-14 reveal" style="z-index:1">
+    <div class="max-w-4xl">
+      <div class="w-8 h-[2px] mb-10" style="background:var(--brand)"></div>
+      <p class="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.05]">
+        Di sini, desain bukan hanya dipelajari —<br/>
+        <span style="color:rgba(255,255,255,0.35)">desain dijalani.</span>
+      </p>
+      <p class="text-neutral-500 text-base mt-8 max-w-xl leading-relaxed">
+        STMK Trisakti adalah tempat di mana kreativitas bertemu industri nyata. Lebih dari 25 tahun kami membuktikan bahwa pendidikan terbaik terjadi ketika kampus dan industri berjalan beriringan.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+  §5  VIDEO SHOWCASE — karya mahasiswa
+══════════════════════════════════════════════════ -->
+<section class="py-24 puzzle-dark" style="background:#111111">
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14">
+
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 reveal">
+      <div>
+        <p class="label-tag mb-3">Karya Mahasiswa</p>
+        <h2 class="text-4xl md:text-5xl font-black text-white tracking-tight">
+          Lihat Apa yang<br/>Bisa Kamu Ciptakan
+        </h2>
+      </div>
+      <a href="/berita" class="text-sm font-semibold text-neutral-600 hover:text-white transition-colors self-start md:self-end">
+        Lihat semua karya →
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 reveal">
+      <!-- Featured -->
+      <div class="lg:col-span-2 relative overflow-hidden bg-neutral-900" style="border-radius:2px">
+        <div class="relative aspect-video">
+          <iframe
+            id="featured-video"
+            class="absolute inset-0 w-full h-full"
+            src={`https://www.youtube.com/embed/${videos[0].id}?rel=0&modestbranding=1`}
+            title={videos[0].title}
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-5 pointer-events-none"
+             style="background:linear-gradient(to top,rgba(9,9,9,0.9) 0%,transparent 100%)">
+          <span class="text-[10px] font-black uppercase tracking-widest" style="color:var(--brand)">{videos[0].category}</span>
+          <p class="text-white font-bold text-sm mt-1">{videos[0].title}</p>
+        </div>
+      </div>
+
+      <!-- Side thumbnails -->
+      <div class="flex flex-col gap-2">
+        {videos.slice(1).map((v) => (
+          <div
+            class="relative group cursor-pointer bg-neutral-900 overflow-hidden flex-1"
+            style="border-radius:2px"
+            onclick={`document.getElementById('featured-video').src='https://www.youtube.com/embed/${v.id}?autoplay=1&rel=0&modestbranding=1'`}
+          >
+            <div class="relative w-full" style="padding-bottom:56.25%">
+              <img
+                src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`}
+                alt={v.title}
+                class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-75 transition-opacity duration-300"
+                loading="lazy"
+              />
+              <!-- Play -->
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-9 h-9 flex items-center justify-center transition-colors"
+                     style="background:rgba(255,255,255,0.15)"
+                     onmouseenter="this.style.background='var(--brand)'"
+                     onmouseleave="this.style.background='rgba(255,255,255,0.15)'">
+                  <svg class="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+            </div>
+            <div class="px-3 py-2">
+              <span class="text-[9px] font-black uppercase tracking-widest" style="color:var(--brand)">{v.category}</span>
+              <p class="text-white text-[11px] font-semibold mt-0.5 line-clamp-2 leading-tight">{v.title}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <p class="text-neutral-700 text-xs mt-5 reveal">
+      Ganti ID video YouTube di atas dengan karya mahasiswa STMK Trisakti yang sesungguhnya ·
+      <a href="/kontak" class="text-neutral-500 hover:text-white transition-colors">Submit karya →</a>
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+  §6  WHY — editorial numbers
+══════════════════════════════════════════════════ -->
+<section class="py-24" style="background:var(--surface)">
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+
+      <!-- Sticky left -->
+      <div class="lg:col-span-5 lg:sticky lg:top-24 reveal">
+        <p class="section-num mb-4">Mengapa STMK Trisakti</p>
+        <h2 class="text-4xl md:text-5xl font-black text-neutral-950 tracking-tight mb-6 leading-tight">
+          Bukan Sekadar<br/>
+          Kuliah.<br/>
+          <span class="accent-u">Karir dimulai<br/>di sini.</span>
+        </h2>
+        <p class="text-neutral-500 text-sm leading-relaxed mb-8">
+          Lebih dari 25 tahun kami mencetak profesional kreatif yang langsung diserap industri. Kurikulum, dosen, dan fasilitas dirancang bersama perusahaan — bukan di menara gading.
+        </p>
+        <a href="/tentang" class="btn-dark">
+          Tentang Kampus
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Feature list -->
+      <div class="lg:col-span-7 reveal">
+        <div class="border-t border-neutral-200">
+          {whyList.map((item, i) => (
+            <div
+              class="flex gap-6 md:gap-8 py-7 border-b border-neutral-200 group
+                     hover:bg-white hover:-mx-8 hover:px-8 md:hover:-mx-14 md:hover:px-14 transition-all"
+              style={`transition-delay:${i*60}ms`}
+            >
+              <div class="text-3xl md:text-4xl font-black tracking-tighter leading-none w-20 shrink-0 text-right pt-1"
+                   style="color:var(--brand)">
+                {item.num}
+              </div>
+              <div>
+                <h3 class="font-bold text-neutral-950 mb-1.5">{item.title}</h3>
+                <p class="text-sm text-neutral-500 leading-relaxed">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+  §7  ACCREDITATION — minimal strip
+══════════════════════════════════════════════════ -->
+<div class="puzzle-dark" style="background:var(--dark); border-top:1px solid rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.06)">
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-6">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-5">
+        <div class="w-[3px] h-10 shrink-0" style="background:var(--brand)"></div>
+        <div>
+          <div class="text-white font-black text-sm tracking-wide">Terakreditasi BAN-PT</div>
+          <div class="text-neutral-600 text-xs mt-0.5">Badan Akreditasi Nasional Perguruan Tinggi — Kemendikbudristek RI</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-5">
+        {[
+          { label: 'Institusi', grade: 'Baik Sekali' },
+          { label: 'S1 DKV', grade: 'Baik Sekali' },
+          { label: 'D4 Tek. Grafika', grade: 'Baik Sekali' },
+        ].map((a, i, arr) => (
+          <div class="flex items-center gap-5">
+            <div class="text-center">
+              <div class="text-white font-black text-sm" style="color:var(--brand)">{a.grade}</div>
+              <div class="text-neutral-600 text-[10px] uppercase tracking-widest">{a.label}</div>
+            </div>
+            {i < arr.length - 1 && <div class="w-px h-7" style="background:rgba(255,255,255,0.08)"></div>}
+          </div>
+        ))}
+      </div>
+      <a href="/akreditasi" class="btn-outline-white text-xs py-2.5 px-5 shrink-0">Lihat Dokumen</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+  §8  PMB CTA — full panel
+══════════════════════════════════════════════════ -->
+<section class="py-28 relative overflow-hidden" style="background:var(--brand)">
+  <!-- Animated puzzle on brand red bg -->
+  <PuzzleCanvas pieceSize={90} strokeColor="white" opacity={0.12} />
+
+  <!-- Large faint "PMB" watermark -->
+  <div class="absolute inset-0 flex items-center justify-end pr-8 overflow-hidden pointer-events-none select-none" style="z-index:1">
+    <span class="font-black text-white opacity-[0.06] leading-none"
+          style="font-size:22vw;letter-spacing:-0.05em">PMB</span>
+  </div>
+
+  <div class="relative max-w-screen-xl mx-auto px-8 md:px-14" style="z-index:2">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div class="reveal">
+        <p class="text-white/60 text-[11px] font-black uppercase tracking-[0.14em] mb-5">
+          Penerimaan Mahasiswa Baru 2026/2027 · Sedang Berlangsung
+        </p>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.02]">
+          Mulai Perjalanan<br/>Kreatifmu<br/>Hari Ini.
+        </h2>
+      </div>
+      <div class="space-y-5 reveal">
+        <p class="text-white/80 text-base leading-relaxed">
+          Beasiswa KIP-K, UTBK, dan YBT tersedia. Daftar online dalam 5 menit, atau hubungi tim penerimaan kami langsung via WhatsApp.
+        </p>
+        <div class="flex flex-wrap gap-3 pt-2">
+          <a href="/pmb" class="btn-dark">
+            Daftar Online Sekarang
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+          <a href="https://wa.me/6287742997808" target="_blank" rel="noopener noreferrer" class="btn-outline-white">
+            Chat WhatsApp
+          </a>
+        </div>
+        <p class="text-white/40 text-xs">Senin–Jumat 08.00–17.00 WIB · +62 21 4895787</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+  §9  NEWS — editorial list
+══════════════════════════════════════════════════ -->
+<section class="py-24" style="background:var(--surface)">
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14">
+
+    <div class="flex items-end justify-between mb-12 reveal">
+      <div>
+        <p class="section-num mb-4">Berita & Kegiatan</p>
+        <h2 class="text-4xl md:text-5xl font-black text-neutral-950 tracking-tight">Kabar Terbaru</h2>
+      </div>
+      <a href="/berita" class="text-sm font-semibold text-neutral-400 hover:text-neutral-950 transition-colors hidden md:block mb-2">
+        Semua berita →
+      </a>
+    </div>
+
+    <div class="border-t border-neutral-200">
+      {news.map((item, i) => (
+        <a
+          href={item.href}
+          class="flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-5 border-b border-neutral-200 group
+                 hover:bg-white hover:-mx-8 hover:px-8 md:hover:-mx-14 md:hover:px-14 transition-all reveal"
+          style={`transition-delay:${i*50}ms`}
+        >
+          <span class="text-neutral-400 text-xs font-medium tabular-nums w-24 shrink-0">{item.date}</span>
+          <span class="border border-neutral-300 text-neutral-500 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 w-fit shrink-0">
+            {item.category}
+          </span>
+          <h3 class="text-neutral-700 font-semibold text-sm flex-1 group-hover:text-neutral-950 transition-colors leading-snug">
+            {item.title}
+          </h3>
+          <svg class="w-4 h-4 text-neutral-300 group-hover:translate-x-1 group-hover:text-[var(--brand)] transition-all shrink-0 hidden md:block"
+               fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+  §10  TESTIMONIAL — single pull-quote
+══════════════════════════════════════════════════ -->
+<section class="py-24 md:py-32 relative overflow-hidden" style="background:var(--dark)">
+  <PuzzleCanvas pieceSize={85} strokeColor="white" opacity={0.07} />
+  <div class="relative max-w-screen-xl mx-auto px-8 md:px-14 reveal" style="z-index:1">
+    <div class="max-w-3xl">
+      <div class="w-8 h-[2px] mb-10" style="background:var(--brand)"></div>
+      <blockquote class="text-2xl md:text-3xl font-bold text-white tracking-tight leading-[1.3] mb-10">
+        "Dosen-dosen STMK Trisakti bukan hanya pengajar — mereka praktisi yang masih aktif di industri. Ilmu yang saya dapat langsung bisa diterapkan dari hari pertama kerja."
+      </blockquote>
+      <div class="flex items-center gap-4">
+        <div class="w-10 h-10 flex items-center justify-center font-black text-white text-sm shrink-0"
+             style="background:var(--brand)">R</div>
+        <div>
+          <div class="text-white font-semibold text-sm">xxxxxxxxx</div>
+          <div class="text-neutral-500 text-xs">Senior Art Director, Ogilvy Indonesia · Alumni DKV 2020</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+  §11  PARTNERS
+══════════════════════════════════════════════════ -->
+<section class="py-16 border-t border-neutral-200" style="background:var(--surface)">
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14">
+    <p class="section-num text-center mb-8 reveal">150+ Mitra Industri & Pengguna Lulusan</p>
+    <div class="flex flex-wrap justify-center gap-2 md:gap-3 reveal">
+      {partners.map(p => (
+        <div class="border border-neutral-200 text-neutral-500 text-xs font-semibold px-4 py-2.5
+                    hover:border-neutral-800 hover:text-neutral-800 transition-all cursor-default tracking-wide">
+          {p}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+</Layout>
+
+<script>
+  // Trigger hero image animation after load
+  const img = document.getElementById('hero-bg') as HTMLImageElement | null;
+  if (img) {
+    if (img.complete) { img.classList.add('loaded'); }
+    else { img.addEventListener('load', () => img.classList.add('loaded')); }
+  }
+</script>
+
+
+

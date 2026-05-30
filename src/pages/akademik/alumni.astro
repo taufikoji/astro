@@ -1,0 +1,95 @@
+﻿---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const alumniSpotlight = [
+  { nama: 'xxxxxxxxx', angkatan: 'DKV 2020', posisi: 'Senior Art Director', perusahaan: 'Ogilvy Indonesia', kata: 'STMK Trisakti memberi saya fondasi desain yang kuat dan jaringan industri yang sangat berharga.' },
+  { nama: 'xxxxxxxxx', angkatan: 'Tek. Grafika 2021', posisi: 'Senior Packaging Designer', perusahaan: 'Unilever Indonesia', kata: 'Pengalaman langsung di lab printing membuat saya siap kerja dari hari pertama.' },
+  { nama: 'xxxxxxxxx', angkatan: 'DKV 2019', posisi: 'Lead Animator', perusahaan: 'MNC Animation', kata: 'Dosen-dosen saya adalah animator profesional nyata yang mengajarkan standar industri.' },
+];
+---
+
+<Layout title="Alumni" description="Tracer study dan informasi alumni STMK Trisakti — 5000+ alumni di industri kreatif nasional dan internasional.">
+
+  <PageHeader
+    label="Lulusan"
+    title="Alumni STMK Trisakti"
+    desc="5.000+ alumni STMK Trisakti tersebar di industri kreatif terkemuka di Indonesia dan mancanegara."
+    breadcrumb={[{ label: 'Akademik', href: '/akademik' }, { label: 'Alumni', href: '' }]}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20 space-y-20">
+
+    <!-- Tracer Study -->
+    <div>
+      <p class="section-num mb-4 reveal">Tracer Study 2024</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-10 reveal">Hasil Tracer Study Alumni</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-neutral-200 stagger">
+        {[
+          { num: 95, suffix: '%', label: 'Bekerja dalam 6 Bulan', sub: 'Setelah wisuda' },
+          { num: 88, suffix: '%', label: 'Sesuai Bidang', sub: 'Industri kreatif & multimedia' },
+          { num: 6.5, suffix: ' Jt', label: 'Rata-rata Gaji Pertama', sub: 'Per bulan (Rp)' },
+          { num: 12, suffix: '%', label: 'Wirausaha Mandiri', sub: 'Buka usaha kreatif sendiri' },
+        ].map(s => (
+          <div class="bg-[#FAFAF8] hover:bg-white py-10 px-6 text-center group transition-colors border-t-2 border-t-transparent hover:border-t-[var(--brand)]">
+            <div class="text-3xl md:text-4xl font-black tracking-tight mb-1" style="color:var(--brand)">
+              <span data-target={s.num} data-suffix={s.suffix}>0{s.suffix}</span>
+            </div>
+            <div class="font-bold text-neutral-800 text-sm mt-1">{s.label}</div>
+            <div class="text-xs text-neutral-400 mt-0.5">{s.sub}</div>
+          </div>
+        ))}
+      </div>
+      <div class="mt-5 reveal">
+        <a href="/dokumen/tracer-study-2024.pdf" class="btn-outline text-sm">
+          Unduh Laporan Tracer Study 2024 (PDF)
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Alumni Spotlight -->
+    <div>
+      <p class="section-num mb-4 reveal">Alumni Berprestasi</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-10 reveal">Alumni di Industri Kreatif</h2>
+      <div class="space-y-0 border-t border-neutral-200 stagger">
+        {alumniSpotlight.map(a => (
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 py-8 border-b border-neutral-200 items-start group hover:bg-white hover:-mx-8 hover:px-8 md:hover:-mx-14 md:hover:px-14 transition-all">
+            <div class="md:col-span-1">
+              <div class="w-10 h-10 flex items-center justify-center font-black text-white text-sm"
+                   style="background:var(--brand)">{a.nama.charAt(0)}</div>
+            </div>
+            <div class="md:col-span-3">
+              <div class="font-black text-neutral-950">{a.nama}</div>
+              <div class="text-xs text-neutral-400 mt-0.5">{a.angkatan}</div>
+            </div>
+            <div class="md:col-span-3">
+              <div class="text-sm font-semibold text-neutral-800">{a.posisi}</div>
+              <div class="text-xs text-neutral-400">{a.perusahaan}</div>
+            </div>
+            <div class="md:col-span-5">
+              <blockquote class="text-sm text-neutral-500 italic leading-relaxed border-l-2 pl-4"
+                          style="border-color:var(--brand)">"{a.kata}"</blockquote>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- CTA Alumni -->
+    <div class="reveal" style="background:var(--dark);border-radius:2px;padding:3rem">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <div>
+          <p class="label-tag mb-4">Komunitas Alumni</p>
+          <h2 class="text-2xl font-black text-white tracking-tight mb-3">Ikatan Alumni STMK Trisakti</h2>
+          <p class="text-neutral-400 text-sm leading-relaxed">Bergabunglah dengan komunitas IASTMKT. Networking, mentoring, dan peluang karir tersedia untuk semua anggota.</p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href="mailto:alumni@trisaktimultimedia.ac.id" class="btn-primary">Daftar Ikatan Alumni</a>
+          <a href="https://alumni.trisaktimultimedia.ac.id" target="_blank" rel="noopener noreferrer" class="btn-outline-white">Portal Alumni</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+

@@ -1,0 +1,154 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const akreditasi = [
+  { jenis: 'Akreditasi Institusi', nama: 'STMK Trisakti', status: 'Baik Sekali', nomorSK: 'SK BAN-PT No. 1234/SK/BAN-PT/Ak/PT/2022', tanggal: '15 Oktober 2022', berlaku: '14 Oktober 2027', lembaga: 'BAN-PT', doc: '/dokumen/akreditasi-institusi.pdf' },
+  { jenis: 'Akreditasi Program Studi', nama: 'Desain Komunikasi Visual (S1)', status: 'Baik Sekali', nomorSK: 'SK BAN-PT No. 5678/SK/BAN-PT/Ak/S/2023', tanggal: '20 Maret 2023', berlaku: '19 Maret 2028', lembaga: 'BAN-PT / LAMDIK', doc: '/dokumen/akreditasi-dkv.pdf' },
+  { jenis: 'Akreditasi Program Studi', nama: 'Teknologi Grafika (D4)', status: 'Baik Sekali', nomorSK: 'SK BAN-PT No. 9012/SK/BAN-PT/Ak/D4/2023', tanggal: '10 Juni 2023', berlaku: '9 Juni 2028', lembaga: 'BAN-PT / LAMDIK', doc: '/dokumen/akreditasi-tekgrafika.pdf' },
+];
+
+const kriteria = [
+  { k: 'K1', title: 'Visi, Misi, Tujuan & Strategi', nilai: 4.0 },
+  { k: 'K2', title: 'Tata Pamong & Kerjasama', nilai: 4.0 },
+  { k: 'K3', title: 'Mahasiswa', nilai: 3.8 },
+  { k: 'K4', title: 'Sumber Daya Manusia', nilai: 4.0 },
+  { k: 'K5', title: 'Keuangan, Sarana & Prasarana', nilai: 3.9 },
+  { k: 'K6', title: 'Pendidikan', nilai: 4.0 },
+  { k: 'K7', title: 'Penelitian', nilai: 3.8 },
+  { k: 'K8', title: 'Pengabdian kepada Masyarakat', nilai: 3.7 },
+  { k: 'K9', title: 'Luaran & Capaian Tri Dharma', nilai: 4.0 },
+];
+
+const dokumen = [
+  { title: 'Kebijakan SPMI STMK Trisakti 2024', size: '1.2 MB' },
+  { title: 'Manual SPMI STMK Trisakti 2024', size: '2.4 MB' },
+  { title: 'Standar SPMI STMK Trisakti 2024', size: '3.1 MB' },
+  { title: 'Laporan Evaluasi Diri Institusi', size: '5.6 MB' },
+  { title: 'Laporan Kinerja Prodi DKV', size: '4.2 MB' },
+  { title: 'Laporan Kinerja Prodi Tek. Grafika', size: '3.8 MB' },
+  { title: 'Laporan Audit Mutu Internal 2024', size: '2.1 MB' },
+];
+---
+
+<Layout title="Akreditasi BAN-PT" description="Informasi akreditasi BAN-PT STMK Trisakti — institusi dan program studi terakreditasi Baik Sekali.">
+
+  <PageHeader
+    label="Penjaminan Mutu"
+    title="Akreditasi BAN-PT"
+    desc="Komitmen STMK Trisakti terhadap standar pendidikan tinggi bermutu — terakreditasi Baik Sekali untuk institusi dan seluruh program studi."
+    breadcrumb={[{ label: 'Akreditasi', href: '' }]}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20 space-y-20">
+
+    <!-- Status banner -->
+    <div class="border border-green-200 bg-green-50/50 p-8 flex flex-col md:flex-row items-center gap-6 reveal"
+         style="border-radius:2px">
+      <div class="w-14 h-14 bg-green-500 flex items-center justify-center shrink-0">
+        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="flex-1">
+        <h2 class="text-xl font-black text-green-900 mb-1">Terakreditasi "Baik Sekali" — 3 Akreditasi Aktif</h2>
+        <p class="text-green-700 text-sm leading-relaxed">Baik institusi maupun seluruh program studi telah mendapatkan status akreditasi Baik Sekali dari Badan Akreditasi Nasional Perguruan Tinggi (BAN-PT).</p>
+      </div>
+    </div>
+
+    <!-- Sertifikat cards -->
+    <div>
+      <p class="section-num mb-4 reveal">Sertifikat Akreditasi</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-10 reveal">Status Akreditasi Resmi</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-neutral-200 stagger">
+        {akreditasi.map(a => (
+          <div class="card-line bg-[#FAFAF8] hover:bg-white p-0 overflow-hidden group">
+            <div class="px-6 py-5 border-b border-neutral-200" style="background:var(--dark)">
+              <span class="text-[10px] text-neutral-500 uppercase tracking-widest font-bold block mb-1">{a.jenis}</span>
+              <h3 class="text-white font-black text-base leading-tight">{a.nama}</h3>
+            </div>
+            <div class="p-6 space-y-4">
+              <div>
+                <div class="text-2xl font-black" style="color:var(--brand)">{a.status}</div>
+                <div class="text-xs text-neutral-400 uppercase tracking-widest font-semibold mt-0.5">{a.lembaga}</div>
+              </div>
+              <div class="space-y-2 text-xs text-neutral-500">
+                <div>
+                  <span class="text-neutral-400 block">Nomor SK</span>
+                  <span class="font-medium text-neutral-700 leading-snug">{a.nomorSK}</span>
+                </div>
+                <div class="flex gap-6">
+                  <div>
+                    <span class="text-neutral-400 block">Tanggal SK</span>
+                    <span class="font-medium text-neutral-700">{a.tanggal}</span>
+                  </div>
+                  <div>
+                    <span class="text-neutral-400 block">Berlaku s/d</span>
+                    <span class="font-medium text-neutral-700">{a.berlaku}</span>
+                  </div>
+                </div>
+              </div>
+              <a href={a.doc}
+                 class="flex items-center gap-2.5 text-xs font-bold text-neutral-600 hover:text-[var(--brand)] transition-colors pt-2 border-t border-neutral-100 group/link">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Unduh Sertifikat PDF
+                <svg class="w-3 h-3 ml-auto translate-x-0 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 9 Kriteria -->
+    <div>
+      <p class="section-num mb-4 reveal">Evaluasi Diri</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-3 reveal">9 Kriteria Akreditasi BAN-PT</h2>
+      <p class="text-neutral-500 text-sm mb-10 max-w-xl reveal">Penilaian berkelanjutan berdasarkan 9 kriteria BAN-PT untuk menjamin kualitas pendidikan secara konsisten.</p>
+      <div class="space-y-3 stagger">
+        {kriteria.map(k => (
+          <div class="flex items-center gap-4 py-4 border-b border-neutral-200 group hover:bg-white hover:-mx-8 hover:px-8 md:hover:-mx-14 md:hover:px-14 transition-all">
+            <span class="text-[10px] font-black text-neutral-400 uppercase tracking-widest w-8 shrink-0">{k.k}</span>
+            <span class="flex-1 text-sm font-semibold text-neutral-700 group-hover:text-neutral-950 transition-colors">{k.title}</span>
+            <div class="flex items-center gap-3 shrink-0">
+              <div class="w-32 bg-neutral-100 h-1.5 overflow-hidden" style="border-radius:1px">
+                <div class="h-full transition-all duration-1000 ease-out"
+                     style="background:var(--brand);width:0%"
+                     data-width={`${(k.nilai/4)*100}%`}>
+                </div>
+              </div>
+              <span class="text-sm font-black w-10 text-right" style="color:var(--brand)">{k.nilai}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Dokumen SPMI -->
+    <div class="reveal">
+      <p class="section-num mb-4">Dokumen Mutu</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-8">Unduh Dokumen Penjaminan Mutu</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        {dokumen.map(doc => (
+          <a href="#"
+             class="flex items-center gap-4 p-4 border border-neutral-200 hover:border-neutral-400 bg-white group transition-all hover:-translate-y-px"
+             style="border-radius:2px">
+            <div class="w-9 h-9 bg-red-50 border border-red-100 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4" style="color:var(--brand)" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <div class="text-sm font-semibold text-neutral-800 group-hover:text-neutral-950 transition-colors">{doc.title}</div>
+              <div class="text-[10px] text-neutral-400 mt-0.5">PDF · {doc.size}</div>
+            </div>
+            <svg class="w-4 h-4 text-neutral-300 group-hover:text-[var(--brand)] group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>
+

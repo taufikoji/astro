@@ -1,0 +1,212 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<Layout title="Kontak" description="Hubungi STMK Trisakti — informasi PMB, akademik, dan kerjasama.">
+
+  <PageHeader
+    label="Hubungi Kami"
+    title="Kontak"
+    desc="Kami siap membantu pertanyaan seputar pendaftaran, akademik, kerjasama, dan informasi kampus lainnya."
+    breadcrumb={[{ label: 'Kontak', href: '' }]}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+      <!-- Info Column -->
+      <div class="space-y-8 reveal">
+        <div>
+          <p class="section-num mb-4">Informasi Kontak</p>
+          <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-6">Cara Menghubungi Kami</h2>
+        </div>
+
+        <div class="space-y-5">
+
+          <!-- Lokasi -->
+          <div class="flex gap-4 items-start border-b border-neutral-100 pb-5">
+            <div class="w-[3px] min-h-[40px] shrink-0 mt-1 self-stretch" style="background:var(--brand)"></div>
+            <div>
+              <div class="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-1">Lokasi</div>
+              <div class="text-sm text-neutral-700 leading-relaxed">
+                Jl. Jend. Achmad Yani 85<br/>
+                Rawasari, Jakarta Timur
+              </div>
+            </div>
+          </div>
+
+          <!-- Telepon / WhatsApp -->
+          <div class="flex gap-4 items-start border-b border-neutral-100 pb-5">
+            <div class="w-[3px] min-h-[40px] shrink-0 mt-1 self-stretch" style="background:var(--brand)"></div>
+            <div>
+              <div class="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-1">Telepon / WhatsApp</div>
+              <a href="https://wa.me/6287742997808" target="_blank" rel="noopener noreferrer"
+                 class="block text-sm font-semibold text-neutral-800 hover:text-[var(--brand)] transition-colors link-under">
+                +62 877 4299 7808
+              </a>
+              <a href="tel:+622148957870"
+                 class="block text-sm font-semibold text-neutral-800 hover:text-[var(--brand)] transition-colors link-under mt-0.5">
+                +62 21 4895787
+              </a>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="flex gap-4 items-start border-b border-neutral-100 pb-5">
+            <div class="w-[3px] min-h-[40px] shrink-0 mt-1 self-stretch" style="background:var(--brand)"></div>
+            <div>
+              <div class="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-1">Alamat Email</div>
+              <a href="mailto:info@trisaktimultimedia.ac.id"
+                 class="block text-sm font-semibold text-neutral-800 hover:text-[var(--brand)] transition-colors link-under">
+                info@trisaktimultimedia.ac.id
+              </a>
+              <a href="mailto:pmb@trisaktimultimedia.ac.id"
+                 class="block text-sm font-semibold text-neutral-800 hover:text-[var(--brand)] transition-colors link-under mt-0.5">
+                pmb@trisaktimultimedia.ac.id
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Jam Operasional -->
+        <div class="border border-neutral-200 p-5" style="border-radius:2px">
+          <h3 class="font-black text-sm text-neutral-900 mb-3 uppercase tracking-wide">Jam Operasional</h3>
+          <div class="space-y-2 text-xs">
+            <div class="flex justify-between">
+              <span class="text-neutral-500">Senin – Jumat</span>
+              <span class="font-semibold text-neutral-800">07.00 – 20.00 WIB</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-neutral-500">Sabtu</span>
+              <span class="font-semibold text-neutral-800">08.00 – 15.00 WIB</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-neutral-500">Minggu & Libur</span>
+              <span class="font-semibold" style="color:var(--brand)">Tutup</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social -->
+        <div>
+          <h3 class="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-3">Media Sosial</h3>
+          <div class="flex gap-2">
+            {[
+              { label: 'Instagram', href: 'https://instagram.com/stmktrisakti' },
+              { label: 'YouTube', href: 'https://youtube.com/stmktrisakti' },
+              { label: 'Facebook', href: 'https://facebook.com/stmktrisakti' },
+            ].map(s => (
+              <a href={s.href} target="_blank" rel="noopener noreferrer"
+                 class="border border-neutral-300 hover:border-[var(--brand)] text-xs font-bold text-neutral-600 hover:text-[var(--brand)] px-3 py-2 transition-all"
+                 style="border-radius:2px">
+                {s.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="lg:col-span-2 reveal">
+        <div class="border border-neutral-200 bg-white p-8" style="border-radius:2px">
+          <h2 class="text-xl font-black text-neutral-950 tracking-tight mb-6">Kirim Pesan</h2>
+          <form action="#" method="POST" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-2">Nama Lengkap *</label>
+                <input type="text" required
+                       class="w-full border border-neutral-300 px-4 py-3 text-sm focus:outline-none focus:border-neutral-900 transition-colors bg-neutral-50 focus:bg-white"
+                       style="border-radius:2px" placeholder="Nama lengkap Anda"/>
+              </div>
+              <div>
+                <label class="block text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-2">Email *</label>
+                <input type="email" required
+                       class="w-full border border-neutral-300 px-4 py-3 text-sm focus:outline-none focus:border-neutral-900 transition-colors bg-neutral-50 focus:bg-white"
+                       style="border-radius:2px" placeholder="email@anda.com"/>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-2">Telepon</label>
+                <input type="tel"
+                       class="w-full border border-neutral-300 px-4 py-3 text-sm focus:outline-none focus:border-neutral-900 transition-colors bg-neutral-50 focus:bg-white"
+                       style="border-radius:2px" placeholder="08xxxxxxxxxx"/>
+              </div>
+              <div>
+                <label class="block text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-2">Keperluan *</label>
+                <select required
+                        class="w-full border border-neutral-300 px-4 py-3 text-sm focus:outline-none focus:border-neutral-900 transition-colors bg-neutral-50 focus:bg-white"
+                        style="border-radius:2px">
+                  <option value="">Pilih keperluan...</option>
+                  <option>Informasi PMB</option>
+                  <option>Informasi Akademik</option>
+                  <option>Informasi Beasiswa</option>
+                  <option>Kerjasama / MoU</option>
+                  <option>Alumni</option>
+                  <option>Lainnya</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="block text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-2">Pesan *</label>
+              <textarea required rows="5"
+                        class="w-full border border-neutral-300 px-4 py-3 text-sm focus:outline-none focus:border-neutral-900 transition-colors bg-neutral-50 focus:bg-white resize-none"
+                        style="border-radius:2px"
+                        placeholder="Tuliskan pertanyaan atau kebutuhan Anda..."></textarea>
+            </div>
+            <button type="submit" class="btn-primary w-full justify-center">
+              Kirim Pesan
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            </button>
+            <p class="text-xs text-neutral-400 text-center">Kami merespons dalam 1×24 jam kerja.</p>
+          </form>
+        </div>
+
+        <!-- Map embed -->
+        <div class="mt-4 overflow-hidden border border-neutral-200" style="height:260px;border-radius:2px">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.3!2d106.8696!3d-6.1977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zTrisakti+School+of+Multimedia!5e0!3m2!1sid!2sid!4v1"
+            width="100%"
+            height="260"
+            style="border:0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Lokasi STMK Trisakti"
+          ></iframe>
+        </div>
+        <a href="https://maps.google.com/maps?q=Jl.+Jend.+Achmad+Yani+85+Rawasari+Jakarta+Timur" target="_blank" rel="noopener noreferrer"
+           class="mt-2 btn-outline text-xs py-2 px-5 w-full justify-center">
+          Buka di Google Maps
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Unit contacts -->
+    <div class="mt-20 reveal">
+      <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-8 text-center">Kontak Langsung per Unit</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-200 stagger">
+        {[
+          { unit: 'Biro Akademik',      email: 'akademik@trisaktimultimedia.ac.id',     telp: '+62 21 4895787' },
+          { unit: 'Penerimaan Mhs',     email: 'pmb@trisaktimultimedia.ac.id',           telp: '+62 877 4299 7808' },
+          { unit: 'Keuangan',           email: 'keuangan@trisaktimultimedia.ac.id',      telp: '+62 21 4895787' },
+          { unit: 'Kemahasiswaan',      email: 'kemahasiswaan@trisaktimultimedia.ac.id', telp: '+62 21 4895787' },
+          { unit: 'LPPM (Penelitian)',  email: 'lppm@trisaktimultimedia.ac.id',          telp: '+62 21 4895787' },
+          { unit: 'Penjaminan Mutu',    email: 'lpm@trisaktimultimedia.ac.id',           telp: '+62 21 4895787' },
+          { unit: 'Kerjasama & Int\'l', email: 'kerjasama@trisaktimultimedia.ac.id',     telp: '+62 21 4895787' },
+          { unit: 'IT & Sistem Info',   email: 'it@trisaktimultimedia.ac.id',            telp: '+62 21 4895787' },
+        ].map(u => (
+          <div class="bg-[#FAFAF8] hover:bg-white p-5 group transition-colors border-t-2 border-t-transparent hover:border-t-[var(--brand)]">
+            <h3 class="font-black text-neutral-950 text-sm mb-2">{u.unit}</h3>
+            <a href={`mailto:${u.email}`} class="text-xs text-neutral-500 hover:text-[var(--brand)] block transition-colors truncate mb-1">{u.email}</a>
+            <a href={`tel:${u.telp.replace(/\D/g,'')}`} class="text-xs text-neutral-400 hover:text-neutral-700 transition-colors">{u.telp}</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>
+

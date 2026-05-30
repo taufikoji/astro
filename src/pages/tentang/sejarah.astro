@@ -1,0 +1,73 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const tabs = [
+  { label: 'Profil', href: '/tentang' },
+  { label: 'Visi & Misi', href: '/tentang/visi-misi' },
+  { label: 'Sejarah', href: '/tentang/sejarah' },
+  { label: 'Struktur Organisasi', href: '/tentang/struktur-organisasi' },
+];
+
+const timeline = [
+  { year: '1999', title: 'Pendirian STMK Trisakti', desc: 'STMK Trisakti resmi berdiri berdasarkan SK Mendiknas No. 148/D/O/1999 di bawah naungan Yayasan Trisakti. Program pertama yang dibuka adalah Desain Komunikasi Visual.' },
+  { year: '2003', title: 'Akreditasi Pertama BAN-PT', desc: 'Program Studi DKV berhasil mendapatkan akreditasi pertama dari BAN-PT, menjadi salah satu program desain komunikasi visual terakreditasi pertama di Indonesia.' },
+  { year: '2007', title: 'Pembukaan Program Teknologi Grafika', desc: 'Menjawab kebutuhan industri percetakan dan pengemasan yang berkembang pesat, STMK Trisakti membuka Program Studi Teknologi Grafika (D4).' },
+  { year: '2010', title: 'Renovasi & Pengembangan Fasilitas', desc: 'Gedung kampus direnovasi total dengan penambahan Studio Animasi 3D, Lab Fotografi Digital, dan Studio Broadcasting berstandar industri.' },
+  { year: '2014', title: 'Kerjasama Internasional Pertama', desc: 'MoU pertama dengan perguruan tinggi luar negeri — Shih Hsin University Taiwan — untuk program pertukaran mahasiswa dan riset bersama.' },
+  { year: '2017', title: 'Akreditasi "Baik Sekali"', desc: 'Program Studi DKV dan Teknologi Grafika meraih status akreditasi "Baik Sekali" dari BAN-PT, meningkat dari akreditasi sebelumnya.' },
+  { year: '2020', title: 'Transformasi Digital & Kurikulum Merdeka', desc: 'Implementasi kurikulum berbasis Merdeka Belajar-Kampus Merdeka (MBKM) dan peluncuran platform e-learning untuk pembelajaran hybrid.' },
+  { year: '2022', title: 'Akreditasi Institusi "Baik Sekali"', desc: 'STMK Trisakti mendapatkan akreditasi institusi "Baik Sekali" dari BAN-PT, menegaskan posisi sebagai kampus multimedia terbaik di Indonesia.' },
+  { year: '2024', title: 'Multimedia Innovation Center', desc: 'Meresmikan Multimedia Innovation Center (MIC) — ruang kolaborasi dan inkubasi bisnis kreatif bagi mahasiswa dan alumni.' },
+  { year: '2025', title: 'Program Gelar Ganda Internasional', desc: 'Meluncurkan program double degree dengan dua universitas di Korea Selatan dan Malaysia untuk program DKV dan Teknologi Grafika.' },
+];
+---
+
+<Layout title="Sejarah STMK Trisakti" description="Perjalanan panjang STMK Trisakti sejak 1999 hingga menjadi kampus multimedia terkemuka di Indonesia.">
+
+  <PageHeader
+    label="Profil Institusi"
+    title="Sejarah"
+    desc="Perjalanan 25+ tahun membangun kampus desain dan multimedia terkemuka di Indonesia."
+    breadcrumb={[{ label: 'Tentang', href: '/tentang' }, { label: 'Sejarah', href: '' }]}
+    tabs={tabs}
+    currentPath={Astro.url.pathname}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+
+    <div class="reveal mb-12">
+      <p class="section-num mb-4">Perjalanan Kami</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-4">Dari Mimpi Menjadi Kenyataan</h2>
+      <p class="text-neutral-500 text-sm leading-relaxed max-w-xl">
+        STMK Trisakti lahir dari visi para pendiri yang melihat kebutuhan besar akan tenaga ahli multimedia di Indonesia. Sejak 1999, kami telah melewati berbagai fase perkembangan — dari kampus kecil dengan satu program studi, hingga menjadi institusi multimedia terkemuka berstandar internasional.
+      </p>
+    </div>
+
+    <!-- Timeline list style -->
+    <div class="space-y-0 border-t border-neutral-200">
+      {timeline.map((item, i) => (
+        <div
+          class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-8 border-b border-neutral-200 group
+                 hover:bg-white hover:-mx-8 hover:px-8 md:hover:-mx-14 md:hover:px-14 transition-all reveal"
+          style={`transition-delay:${i*50}ms`}
+        >
+          <!-- Year -->
+          <div class="md:col-span-2">
+            <div class="text-3xl font-black tracking-tight" style="color:var(--brand)">{item.year}</div>
+          </div>
+          <!-- Red dot line (desktop) -->
+          <div class="hidden md:flex md:col-span-1 flex-col items-center pt-2">
+            <div class="w-2.5 h-2.5 border-2 rounded-full shrink-0 group-hover:bg-[var(--brand)] transition-colors" style="border-color:var(--brand)"></div>
+            {i < timeline.length - 1 && <div class="w-px flex-1 mt-2 bg-neutral-200"></div>}
+          </div>
+          <!-- Content -->
+          <div class="md:col-span-9">
+            <h3 class="font-black text-neutral-950 mb-2 group-hover:text-[var(--brand)] transition-colors">{item.title}</h3>
+            <p class="text-sm text-neutral-500 leading-relaxed max-w-2xl">{item.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+---
+
+<Layout title="Akademik" description="Informasi akademik STMK Trisakti — penelitian, kemahasiswaan, alumni, dan penjaminan mutu.">
+
+  <PageHeader
+    label="Tri Dharma Perguruan Tinggi"
+    title="Akademik"
+    desc="Informasi lengkap seputar kegiatan akademik, penelitian, kemahasiswaan, alumni, dan penjaminan mutu STMK Trisakti."
+    breadcrumb={[{ label: 'Akademik', href: '' }]}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-200 stagger">
+      {[
+        { title: 'Penjaminan Mutu',    desc: 'Sistem SPMI PPEPP dan standar nasional pendidikan tinggi.',         href: '/akademik/penjaminan-mutu',  num: '01' },
+        { title: 'Penelitian & PKM',   desc: 'Riset unggulan, publikasi ilmiah, dan pengabdian masyarakat.',       href: '/akademik/penelitian',       num: '02' },
+        { title: 'Kemahasiswaan',      desc: 'Organisasi mahasiswa, prestasi, dan program MBKM.',                  href: '/akademik/kemahasiswaan',    num: '03' },
+        { title: 'Alumni',             desc: 'Tracer study, alumni berprestasi, dan ikatan alumni STMK Trisakti.', href: '/akademik/alumni',           num: '04' },
+      ].map(item => (
+        <a href={item.href}
+           class="bg-[#FAFAF8] hover:bg-white p-10 group transition-colors flex flex-col justify-between min-h-48">
+          <div class="text-5xl font-black leading-none" style="color:#eeeeed">{item.num}</div>
+          <div>
+            <h2 class="text-2xl font-black text-neutral-950 mb-2 group-hover:text-[var(--brand)] transition-colors tracking-tight">{item.title}</h2>
+            <p class="text-sm text-neutral-500 leading-relaxed mb-5">{item.desc}</p>
+            <span class="inline-flex items-center gap-2 text-sm font-bold" style="color:var(--brand)">
+              Selengkapnya
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>

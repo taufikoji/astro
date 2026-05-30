@@ -1,0 +1,138 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const cpl = [
+  'Mampu menerapkan prinsip-prinsip teknologi grafika dalam proses produksi cetak dan digital secara profesional.',
+  'Mampu merancang kemasan produk (packaging) yang memenuhi standar estetika, fungsi, dan keberlanjutan lingkungan.',
+  'Mampu mengoperasikan mesin cetak dan peralatan produksi grafika berstandar industri.',
+  'Mampu memproduksi konten broadcast (video, audio) untuk berbagai platform media secara mandiri.',
+  'Mampu mengelola proyek produksi grafika dari pra-produksi hingga pasca-produksi secara efisien.',
+  'Mampu menerapkan quality control dalam proses produksi cetak dan digital sesuai standar industri.',
+];
+
+const karir = ['Packaging Designer', 'Pre-press Specialist', 'Production Manager', 'Color Management Expert', 'Broadcasting Engineer', 'Video Producer', 'Digital Print Operator', 'Publishing Designer', 'Brand Manager', 'Flexo Printing Specialist'];
+---
+
+<Layout title="Teknologi Grafika (D4)" description="Program D4 Teknologi Grafika STMK Trisakti — terakreditasi Baik Sekali BAN-PT. Packaging, cetak digital, dan broadcasting.">
+
+  <PageHeader
+    label="Program Studi"
+    title="Teknologi Grafika"
+    desc="D4 — Sarjana Terapan · Gelar: S.Tr.T · Terakreditasi Baik Sekali BAN-PT"
+    breadcrumb={[{ label: 'Program Studi', href: '/program' }, { label: 'Teknologi Grafika', href: '' }]}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+      <div class="lg:col-span-2 space-y-14">
+
+        <!-- Info pills -->
+        <div class="flex flex-wrap gap-2 reveal stagger">
+          {[
+            { label: 'Jenjang', val: 'D4' },
+            { label: 'Akreditasi', val: 'Baik Sekali' },
+            { label: 'Total SKS', val: '144' },
+            { label: 'Durasi', val: '4 Tahun' },
+          ].map(i => (
+            <div class="border border-neutral-200 bg-white px-5 py-3 text-center" style="border-radius:2px">
+              <div class="text-xl font-black tracking-tight" style="color:var(--brand)">{i.val}</div>
+              <div class="text-[10px] text-neutral-400 uppercase tracking-widest font-bold mt-0.5">{i.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Deskripsi -->
+        <div class="reveal">
+          <p class="section-num mb-4">Tentang Program</p>
+          <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-5">Program D4 Teknologi Grafika</h2>
+          <p class="text-sm text-neutral-600 leading-relaxed mb-4">Program Studi Teknologi Grafika (D4) STMK Trisakti memadukan seni desain dengan teknologi produksi grafika modern. Program ini menghasilkan tenaga ahli yang menguasai seluruh rantai produksi grafika — dari pra-cetak, cetak, hingga pasca-cetak dan distribusi digital.</p>
+          <p class="text-sm text-neutral-600 leading-relaxed">Dengan pendekatan praktis yang kuat, mahasiswa mendapatkan pengalaman langsung mengoperasikan mesin cetak industri, merancang kemasan produk, dan memproduksi konten broadcasting.</p>
+        </div>
+
+        <!-- Peminatan -->
+        <div class="reveal">
+          <p class="section-num mb-4">Peminatan</p>
+          <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-8">Konsentrasi / Peminatan</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-200 stagger">
+            {[
+              { title: 'Desain Kemasan', desc: 'Merancang packaging produk yang fungsional, estetis, dan ramah lingkungan untuk berbagai industri.' },
+              { title: 'Teknologi Cetak', desc: 'Menguasai teknologi cetak digital, offset, dan flexography untuk produksi massal berkualitas tinggi.' },
+              { title: 'Digital Production', desc: 'Produksi konten digital multi-platform termasuk video, animasi infografis, dan aset digital marketing.' },
+              { title: 'Broadcasting', desc: 'Produksi program televisi, radio, dan konten streaming berkualitas siaran berstandar industri.' },
+            ].map(p => (
+              <div class="card-line bg-[#FAFAF8] hover:bg-white p-6 group">
+                <h3 class="font-black text-neutral-950 mb-2 group-hover:text-[var(--brand)] transition-colors">{p.title}</h3>
+                <p class="text-xs text-neutral-500 leading-relaxed">{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- CPL -->
+        <div class="reveal">
+          <p class="section-num mb-4">Kompetensi Lulusan</p>
+          <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-8">Capaian Pembelajaran (CPL)</h2>
+          <div class="space-y-3 stagger">
+            {cpl.map((c, i) => (
+              <div class="flex gap-3 items-start border-b border-neutral-100 pb-3">
+                <span class="w-6 h-6 flex items-center justify-center text-white text-xs font-black shrink-0 mt-0.5"
+                      style="background:var(--brand)">{i+1}</span>
+                <p class="text-sm text-neutral-600 leading-relaxed">{c}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Karir -->
+        <div class="reveal">
+          <p class="section-num mb-4">Karir</p>
+          <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-8">Prospek Karir</h2>
+          <div class="flex flex-wrap gap-2 stagger">
+            {karir.map(k => (
+              <div class="border border-neutral-200 bg-white hover:border-[var(--brand)] hover:text-[var(--brand)] text-neutral-600 text-xs font-semibold px-4 py-2.5 transition-all cursor-default">
+                {k}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-4">
+        <div class="puzzle-dark p-7" style="background:var(--dark);border-radius:2px;position:sticky;top:80px">
+          <p class="label-tag mb-3">Tertarik Kuliah di Tek. Grafika?</p>
+          <h3 class="text-xl font-black text-white mb-3 tracking-tight">Kuasai Teknologi Produksi</h3>
+          <p class="text-neutral-400 text-xs mb-5 leading-relaxed">Jadikan passion produksi dan desain sebagai karirmu bersama STMK Trisakti.</p>
+          <a href="/pmb" class="btn-primary w-full justify-center mb-3">Daftar Sekarang</a>
+          <a href="https://wa.me/6281388888888" target="_blank" rel="noopener noreferrer"
+             class="btn-outline-white w-full justify-center text-xs py-2.5">Chat WhatsApp</a>
+        </div>
+        <div class="border border-green-200 bg-green-50 p-5" style="border-radius:2px">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 bg-green-500 flex items-center justify-center">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            </div>
+            <div>
+              <div class="font-black text-green-800 text-sm">Terakreditasi BAN-PT</div>
+              <div class="text-[10px] text-green-600">BAN-PT</div>
+            </div>
+          </div>
+          <div class="text-2xl font-black text-green-700">Baik Sekali</div>
+          <div class="text-xs text-green-500 mt-0.5">Berlaku hingga 2028</div>
+          <a href="/akreditasi" class="text-xs font-semibold text-green-700 hover:underline mt-2 block">Lihat sertifikat →</a>
+        </div>
+        <div class="border border-neutral-200 bg-white p-5" style="border-radius:2px">
+          <h4 class="text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-4">Dokumen Program</h4>
+          {['Buku Pedoman Akademik', 'Kurikulum Tek. Grafika 2024', 'Profil Program Studi', 'Sertifikat Akreditasi'].map(d => (
+            <a href="#" class="flex items-center gap-2.5 py-2.5 border-b border-neutral-100 last:border-0 text-sm text-neutral-600 hover:text-[var(--brand)] transition-colors">
+              <svg class="w-3.5 h-3.5 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              {d}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

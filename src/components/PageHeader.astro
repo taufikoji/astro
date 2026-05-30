@@ -1,0 +1,93 @@
+---
+import PuzzleCanvas from './PuzzleCanvas.astro';
+
+interface Props {
+  label: string;
+  title: string;
+  desc?: string;
+  breadcrumb?: { label: string; href: string }[];
+  tabs?: { label: string; href: string }[];
+  currentPath?: string;
+}
+
+const { label, title, desc, breadcrumb = [], tabs = [], currentPath = '' } = Astro.props;
+---
+
+<!-- ── Page Header ── -->
+<div class="relative overflow-hidden" style="background:var(--dark)">
+
+  <!-- Animated puzzle background -->
+  <PuzzleCanvas pieceSize={80} strokeColor="white" opacity={0.08} />
+
+  <!-- Red left bar -->
+  <div class="absolute top-0 left-0 bottom-0 w-[3px]" style="background:var(--brand); z-index:2"></div>
+
+  <!-- Bottom fade -->
+  <div class="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+       style="background:linear-gradient(to top,var(--dark) 0%,transparent 100%); z-index:2"></div>
+
+  <!-- Large faint title echo behind -->
+  <div class="absolute right-0 bottom-0 overflow-hidden leading-none select-none pointer-events-none"
+       aria-hidden="true">
+    <span class="font-black text-white opacity-[0.025] block"
+          style="font-size:clamp(5rem,18vw,16rem);letter-spacing:-0.04em;line-height:0.85;transform:translateY(20%)">
+      {title.split(' ')[0].toUpperCase()}
+    </span>
+  </div>
+
+  <div class="relative max-w-screen-xl mx-auto px-8 md:px-14 pt-14 pb-12" style="z-index:2">
+
+    <!-- Breadcrumb -->
+    {breadcrumb.length > 0 && (
+      <nav class="flex items-center gap-2 mb-7 fade-up" style="animation-delay:0ms">
+        <a href="/" class="text-neutral-600 hover:text-white transition-colors text-xs font-medium">Beranda</a>
+        {breadcrumb.map((b) => (
+          <>
+            <svg class="w-3 h-3 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+            </svg>
+            {b.href ? (
+              <a href={b.href} class="text-neutral-500 hover:text-white transition-colors text-xs font-medium">{b.label}</a>
+            ) : (
+              <span class="text-neutral-400 text-xs font-medium">{b.label}</span>
+            )}
+          </>
+        ))}
+      </nav>
+    )}
+
+    <!-- Label -->
+    <p class="label-tag mb-4 fade-up" style="animation-delay:60ms">{label}</p>
+
+    <!-- Title -->
+    <h1
+      class="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight max-w-3xl fade-up"
+      style="animation-delay:120ms"
+    >
+      {title}
+    </h1>
+
+    <!-- Desc -->
+    {desc && (
+      <p class="text-neutral-400 text-base leading-relaxed mt-4 max-w-xl fade-up" style="animation-delay:180ms">
+        {desc}
+      </p>
+    )}
+  </div>
+
+  <!-- Sub-nav tabs -->
+  {tabs.length > 0 && (
+    <div class="border-t" style="border-color:rgba(255,255,255,0.07)">
+      <div class="max-w-screen-xl mx-auto px-8 md:px-14 flex gap-0 overflow-x-auto">
+        {tabs.map(tab => (
+          <a
+            href={tab.href}
+            class:list={['sub-tab', currentPath === tab.href ? 'active' : '']}
+          >
+            {tab.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+</div>

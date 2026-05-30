@@ -1,0 +1,114 @@
+﻿---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const penelitian = [
+  { judul: 'Visualisasi Data Berbasis AI untuk Media Komunikasi Publik', peneliti: 'xxxxxxxxx', tahun: '2025', sumber: 'Hibah Penelitian Dasar — Kemendikbudristek', status: 'Selesai', kategori: 'Penelitian Dasar' },
+  { judul: 'Pengembangan Modul Pembelajaran Animasi Berbasis Game untuk Generasi Z', peneliti: 'xxxxxxxxx', tahun: '2025', sumber: 'Hibah PDP — Kemendikbudristek', status: 'Selesai', kategori: 'Penelitian Terapan' },
+  { judul: 'Desain Kemasan Ramah Lingkungan untuk UMKM Kuliner Jakarta', peneliti: 'xxxxxxxxx', tahun: '2026', sumber: 'Hibah Penerapan Iptek — Kemendikbudristek', status: 'Berjalan', kategori: 'Pengabdian Masyarakat' },
+  { judul: 'Aksesibilitas UI/UX Aplikasi Mobile untuk Difabilitas Visual', peneliti: 'xxxxxxxxx', tahun: '2026', sumber: 'Riset Internal STMK Trisakti', status: 'Berjalan', kategori: 'Penelitian Terapan' },
+];
+
+const jurnal = [
+  { title: 'Design Thinking in Multimedia Education', penulis: 'xxxxxxxxx', jurnal: 'Jurnal Desain — Sinta 2', tahun: '2025' },
+  { title: 'Sustainable Packaging Design Framework', penulis: 'xxxxxxxxx', jurnal: 'Jurnal Teknologi Grafika — Sinta 3', tahun: '2025' },
+  { title: 'AI-Assisted Animation Learning System', penulis: 'xxxxxxxxx', jurnal: 'International Journal of Creative Arts', tahun: '2024' },
+  { title: 'Visual Communication for Public Health', penulis: 'xxxxxxxxx', jurnal: 'Jurnal Komunikasi Visual — Sinta 2', tahun: '2024' },
+];
+---
+
+<Layout title="Penelitian & Pengabdian Masyarakat" description="Kegiatan penelitian dan pengabdian kepada masyarakat STMK Trisakti di bidang multimedia dan desain.">
+
+  <PageHeader
+    label="Tri Dharma PT"
+    title="Penelitian & PKM"
+    desc="LPPM STMK Trisakti berkomitmen menghasilkan riset berkualitas dan mengabdi kepada masyarakat melalui keahlian multimedia."
+    breadcrumb={[{ label: 'Akademik', href: '/akademik' }, { label: 'Penelitian & PKM', href: '' }]}
+  />
+
+  <!-- Stats -->
+  <div class="border-b border-neutral-200" style="background:var(--surface)">
+    <div class="max-w-screen-xl mx-auto px-8 md:px-14">
+      <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-neutral-200 stagger">
+        {[
+          { num: 40, suffix: '+', label: 'Penelitian Aktif' },
+          { num: 120, suffix: '+', label: 'Publikasi Ilmiah' },
+          { num: 25, suffix: '+', label: 'Hibah Dikti' },
+          { num: 50, suffix: '+', label: 'Kegiatan PKM' },
+        ].map(s => (
+          <div class="py-10 px-4 text-center">
+            <div class="text-3xl md:text-4xl font-black tracking-tight mb-1" style="color:var(--brand)">
+              <span data-target={s.num} data-suffix={s.suffix}>0{s.suffix}</span>
+            </div>
+            <div class="text-[10px] uppercase tracking-widest font-bold text-neutral-400">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20 space-y-20">
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <!-- Penelitian -->
+      <div>
+        <p class="section-num mb-4 reveal">Riset Unggulan</p>
+        <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-8 reveal">Penelitian Terbaru</h2>
+        <div class="space-y-3 stagger">
+          {penelitian.map(p => (
+            <div class="card-line bg-white p-5 group">
+              <div class="flex items-start justify-between gap-3 mb-3">
+                <span class="badge badge-gray text-[10px]">{p.kategori}</span>
+                <span class:list={['badge text-[10px]', p.status === 'Selesai' ? 'badge-green' : 'badge-orange']}>{p.status}</span>
+              </div>
+              <h3 class="font-bold text-neutral-900 text-sm mb-1 leading-snug">{p.judul}</h3>
+              <p class="text-xs text-neutral-500">{p.peneliti} · {p.tahun}</p>
+              <p class="text-xs mt-1" style="color:var(--brand)">{p.sumber}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Publikasi -->
+      <div>
+        <p class="section-num mb-4 reveal">Publikasi</p>
+        <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-8 reveal">Publikasi Ilmiah</h2>
+        <div class="space-y-3 stagger">
+          {jurnal.map(j => (
+            <div class="card-line bg-white p-5 group">
+              <h3 class="font-bold text-neutral-900 text-sm mb-2 leading-snug">{j.title}</h3>
+              <p class="text-xs text-neutral-500 mb-2">{j.penulis}</p>
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs font-semibold" style="color:var(--brand)">{j.jurnal}</span>
+                <span class="text-xs text-neutral-400">{j.tahun}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="mt-5">
+          <a href="/akademik/penelitian/publikasi" class="text-sm font-bold link-under" style="color:var(--brand)">Lihat semua publikasi →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PKM -->
+    <div>
+      <p class="section-num mb-4 reveal">Pengabdian Masyarakat</p>
+      <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-10 reveal">Program Pengabdian kepada Masyarakat</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-neutral-200 stagger">
+        {[
+          { title: 'Pelatihan Desain Digital untuk UMKM', desc: 'Membantu pelaku UMKM Jakarta meningkatkan kualitas visual produk dan pemasaran digital.' },
+          { title: 'Workshop Animasi untuk Pelajar', desc: 'Mengenalkan animasi dan produksi video kepada siswa SMA/SMK di wilayah sekitar kampus.' },
+          { title: 'Desain Komunikasi Kesehatan', desc: 'Merancang materi komunikasi visual untuk puskesmas dan fasilitas kesehatan masyarakat.' },
+        ].map(item => (
+          <div class="card-line bg-[#FAFAF8] hover:bg-white p-7 group">
+            <div class="w-[3px] h-6 mb-5" style="background:var(--brand)"></div>
+            <h3 class="font-black text-neutral-950 mb-3 group-hover:text-[var(--brand)] transition-colors">{item.title}</h3>
+            <p class="text-sm text-neutral-500 leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>
+
