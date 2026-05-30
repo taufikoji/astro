@@ -1,93 +1,64 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import { getCollection } from 'astro:content';
 
-const berita = [
-  { date: '15 Mei 2026', category: 'Prestasi',   title: 'STMK Trisakti Raih Penghargaan Kampus Inovatif 2025',                  excerpt: 'Penghargaan atas inovasi kurikulum berbasis industri kreatif dan kemitraan strategis nasional & internasional.',         href: '/berita/penghargaan-kampus-inovatif-2025', featured: true },
-  { date: '10 Mei 2026', category: 'Kerjasama',  title: 'MoU Bersama Studio Animasi Internasional untuk Program Magang',       excerpt: 'Mahasiswa DKV kini berkesempatan magang di studio animasi di Seoul, Korea Selatan.',                                   href: '/berita/mou-studio-animasi', featured: false },
-  { date: '5 Mei 2026',  category: 'Prestasi',   title: 'Mahasiswa Teknologi Grafika Juara 1 Lomba Packaging Nasional',        excerpt: 'Tim Teknologi Grafika berhasil meraih juara pertama dalam kompetisi desain kemasan UMKM nasional.',                   href: '/berita/juara-packaging', featured: false },
-  { date: '2 Mei 2026',  category: 'Kegiatan',   title: 'Workshop After Effects Bersama Motion Designer Internasional',        excerpt: 'Ratusan mahasiswa mengikuti workshop intensif bersama motion designer dari Nexus Studios London.',                    href: '/berita/workshop-after-effects', featured: false },
-  { date: '28 Apr 2026', category: 'Wisuda',     title: 'Wisuda ke-25: 356 Lulusan Siap Masuki Industri Kreatif',             excerpt: '356 mahasiswa resmi diwisuda dan siap berkontribusi di industri kreatif nasional dan internasional.',                href: '/berita/wisuda-ke-25', featured: false },
-  { date: '20 Apr 2026', category: 'Inovasi',    title: 'STMK Trisakti Buka Multimedia Innovation Center',                    excerpt: 'Pusat kolaborasi dan inkubasi bisnis kreatif bagi mahasiswa dan alumni resmi dibuka.',                               href: '/berita/multimedia-innovation-center', featured: false },
-  { date: '15 Apr 2026', category: 'Penelitian', title: 'Dua Dosen Raih Hibah Penelitian Dikti 2026',                         excerpt: 'Dua dosen program studi DKV berhasil meraih hibah penelitian dari Kemendikbudristek.',                              href: '/berita/hibah-penelitian', featured: false },
-  { date: '10 Apr 2026', category: 'Kerjasama',  title: 'Program Pertukaran Mahasiswa Internasional Dibuka Kembali',          excerpt: 'Program student exchange dengan 3 universitas di Asia tersedia untuk semester gasal 2026/2027.',                   href: '/berita/pertukaran-mahasiswa', featured: false },
-];
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
-const categories = ['Semua', 'Prestasi', 'Kerjasama', 'Kegiatan', 'Penelitian', 'Wisuda', 'Inovasi'];
+// Fetch and sort news by date (newest first)
+const semuaBerita = await getCollection('berita');
+const sortedBerita = semuaBerita.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+
+// Format date
+const formatDate = (dateString: string | Date) => {
+  const d = new Date(dateString);
+  return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+};
 ---
 
-<Layout title="Berita & Kegiatan" description="Berita terkini, prestasi, dan kegiatan STMK Trisakti.">
-
+<Layout title="Berita & Informasi" description="Kumpulan berita, artikel, dan informasi terbaru seputar kegiatan di STMK Trisakti.">
   <PageHeader
-    label="Informasi Terkini"
-    title="Berita & Kegiatan"
-    desc="Ikuti perkembangan terbaru STMK Trisakti — prestasi mahasiswa, kerjasama industri, dan kegiatan kampus."
+    label="Informasi"
+    title="Berita STMK Trisakti"
+    desc="Kabar terbaru seputar kegiatan akademik, kemahasiswaan, dan prestasi kampus."
     breadcrumb={[{ label: 'Berita', href: '' }]}
   />
 
-  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-16">
-
-    <!-- Category filter -->
-    <div class="flex flex-wrap gap-2 mb-12 reveal">
-      {categories.map(cat => (
-        <button
-          class="border text-xs font-bold uppercase tracking-widest px-4 py-2 transition-all hover:-translate-y-px"
-          style={`border-radius:2px; ${cat === 'Semua' ? 'background:var(--brand);color:white;border-color:var(--brand)' : 'border-color:#d1d5db;color:#6b7280'}`}
-        >
-          {cat}
-        </button>
-      ))}
-    </div>
-
-    <!-- Featured article -->
-    {berita.filter(b => b.featured).map(item => (
-      <a href={item.href}
-         class="group flex flex-col md:flex-row border border-neutral-200 bg-white hover:border-neutral-400 mb-3 overflow-hidden transition-all hover:-translate-y-px reveal"
-         style="border-radius:2px">
-        <div class="md:w-80 shrink-0 flex items-center justify-center py-16 md:py-0" style="background:var(--dark)">
-          <div class="text-center">
-            <div class="text-5xl font-black text-white mb-2">★</div>
-            <span class="badge badge-red">Berita Utama</span>
-          </div>
-        </div>
-        <div class="p-8 flex flex-col justify-center">
-          <div class="flex gap-2 mb-4">
-            <span class="badge badge-red">{item.category}</span>
-            <span class="text-xs text-neutral-400 self-center">{item.date}</span>
-          </div>
-          <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-3 group-hover:text-[var(--brand)] transition-colors">{item.title}</h2>
-          <p class="text-neutral-500 text-sm leading-relaxed mb-5">{item.excerpt}</p>
-          <span class="text-sm font-bold flex items-center gap-2" style="color:var(--brand)">
-            Baca Selengkapnya
-            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </span>
-        </div>
-      </a>
-    ))}
-
-    <!-- News list — editorial -->
-    <div class="border-t border-neutral-200">
-      {berita.filter(b => !b.featured).map((item, i) => (
-        <a
-          href={item.href}
-          class="flex flex-col md:flex-row md:items-center gap-3 md:gap-7 py-5 border-b border-neutral-200 group
-                 hover:bg-white hover:-mx-8 hover:px-8 md:hover:-mx-14 md:hover:px-14 transition-all reveal"
-          style={`transition-delay:${i*50}ms`}
-        >
-          <span class="text-neutral-400 text-xs font-medium tabular-nums w-24 shrink-0">{item.date}</span>
-          <span class="badge badge-gray shrink-0 w-fit">{item.category}</span>
-          <h3 class="flex-1 text-sm font-semibold text-neutral-700 group-hover:text-neutral-950 transition-colors leading-snug">{item.title}</h3>
-          <p class="text-xs text-neutral-400 leading-relaxed max-w-xs hidden lg:block">{item.excerpt}</p>
-          <svg class="w-4 h-4 text-neutral-300 group-hover:text-[var(--brand)] group-hover:translate-x-1 transition-all shrink-0 hidden md:block"
-               fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
-      ))}
-    </div>
-
-    <div class="text-center mt-10 reveal">
-      <button class="btn-outline">Muat Lebih Banyak Berita</button>
-    </div>
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+    {sortedBerita.length === 0 ? (
+      <div class="text-center py-20 bg-neutral-50 border border-neutral-200">
+        <p class="text-neutral-500">Belum ada berita yang diterbitkan.</p>
+      </div>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger">
+        {sortedBerita.map(berita => (
+          <a href={url(`/berita/${berita.id}`)} class="group block border border-neutral-200 bg-white hover:border-[var(--brand)] transition-colors overflow-hidden h-full flex flex-col">
+            {berita.data.image && (
+              <div class="aspect-[16/10] overflow-hidden bg-neutral-100 shrink-0">
+                <img src={url(berita.data.image)} alt={berita.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              </div>
+            )}
+            {!berita.data.image && (
+              <div class="aspect-[16/10] bg-neutral-100 flex items-center justify-center shrink-0">
+                <span class="text-neutral-300 font-bold text-xl">STMK</span>
+              </div>
+            )}
+            <div class="p-6 flex flex-col grow">
+              <div class="flex items-center gap-3 text-[10px] text-neutral-400 font-bold uppercase tracking-widest mb-3">
+                <span class="badge badge-gray">{berita.data.category}</span>
+                <span style="color:var(--brand)">{formatDate(berita.data.date)}</span>
+              </div>
+              <h3 class="font-black text-xl text-neutral-900 leading-tight mb-4 group-hover:text-[var(--brand)] transition-colors">{berita.data.title}</h3>
+              <div class="mt-auto">
+                <span class="text-sm font-semibold text-neutral-500 group-hover:text-[var(--brand)] transition-colors inline-flex items-center gap-1">
+                  Baca selengkapnya <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
   </div>
 </Layout>

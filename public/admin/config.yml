@@ -1,0 +1,22 @@
+backend:
+  name: github
+  repo: taufikoji/astro
+  branch: main
+
+media_folder: "public/images/berita"
+public_folder: "/astro/images/berita"
+
+collections:
+  - name: "berita"
+    label: "Berita & Artikel"
+    folder: "src/content/berita"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Judul Berita", name: "title", widget: "string"}
+      - {label: "Tanggal Publish", name: "date", widget: "datetime"}
+      - {label: "Penulis", name: "author", widget: "string", default: "Admin STMK Trisakti"}
+      - {label: "Kategori", name: "category", widget: "select", options: ["Akademik", "Kemahasiswaan", "Prestasi", "Pengumuman", "Lainnya"], default: "Pengumuman"}
+      - {label: "Tags", name: "tags", widget: "list", required: false, hint: "Pisahkan dengan koma (contoh: desain, lomba, mahasiswa)"}
+      - {label: "Gambar Cover", name: "image", widget: "image", required: false}
+      - {label: "Isi Konten", name: "body", widget: "markdown"}
