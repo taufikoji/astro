@@ -4,7 +4,7 @@ date: "2026-05-01"
 author: "Tim PMB STMK Trisakti"
 category: "PMB"
 tags: ["penerimaan", "PMB", "kampus"]
-image: "/images/berita/pmb-2026.jpg"
+image: "/images/berita/pmb-2026.svg"
 ---
 
 STMK Trisakti resmi membuka pendaftaran mahasiswa baru untuk tahun akademik 2026. Calon mahasiswa dapat mendaftar melalui laman PMB atau datang langsung ke kantor penerimaan.
