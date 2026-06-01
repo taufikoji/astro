@@ -23,7 +23,7 @@ const formatDate = (dateString: string | Date) => {
 };
 ---
 
-<Layout title={`${entry.data.title} | Berita STMK Trisakti`} description={entry.data.title}>
+<Layout title={`${entry.data.title} | Berita STMK Trisakti`} description={entry.data.title} image={url(entry.data.image || '/images/og-image.jpg')}>
   
   <PageHeader
     label={entry.data.category}
@@ -58,8 +58,12 @@ const formatDate = (dateString: string | Date) => {
       
       <div class="flex gap-2">
         <span class="text-xs font-bold text-neutral-400 uppercase tracking-widest mr-2 flex items-center">Bagikan:</span>
-        <a href={`https://wa.me/?text=${encodeURIComponent(entry.data.title + ' ' + Astro.url)}`} target="_blank" class="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-[#25D366] hover:text-white transition-colors">WA</a>
-        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(entry.data.title)}&url=${encodeURIComponent(Astro.url.href)}`} target="_blank" class="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-neutral-900 hover:text-white transition-colors">X</a>
+        <a href={`https://wa.me/?text=${encodeURIComponent(entry.data.title + ' ' + Astro.url)}`} target="_blank" class="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-green-100 hover:text-green-600 transition-colors" title="Bagikan ke WhatsApp">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.78.46 3.53 1.33 5.07L2.07 22l5.41-1.42c1.44.96 3.2 1.54 5.09 1.54 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.18 3.03 14.72 2 12.04 2m.06 17.67c-1.6 0-3.14-.41-4.5-1.21l-.3-.17-3.2.85.87-3.12-.19-.32c-.85-1.41-1.28-3.05-1.28-4.7 0-4.35 3.55-7.9 7.9-7.9 2.1 0 4.08.82 5.56 2.3s2.3 3.46 2.3 5.56c0 4.35-3.56 7.9-7.9 7.9"/></svg>
+        </a>
+        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(entry.data.title)}&url=${encodeURIComponent(Astro.url.href)}`} target="_blank" class="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-blue-100 hover:text-blue-600 transition-colors" title="Bagikan ke Twitter">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 9-5 9-5"/></svg>
+        </a>
       </div>
     </div>
   </article>
