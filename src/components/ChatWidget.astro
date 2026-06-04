@@ -1,0 +1,103 @@
+---
+---
+
+<style>
+  .chat-fab {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 60;
+  }
+  .chat-panel {
+    position: fixed;
+    right: 20px;
+    bottom: 76px;
+    width: 360px;
+    max-width: calc(100% - 48px);
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    z-index: 60;
+    overflow: hidden;
+    display: none;
+  }
+  .chat-panel.open { display: block; }
+  .chat-messages { height: 340px; overflow:auto; padding: 12px; }
+  .chat-input { padding: 12px; border-top: 1px solid #f1f1f1; }
+  .bubble { padding: 8px 10px; border-radius: 6px; margin-bottom: 8px; max-width: 82%; }
+  .bubble.user { background: #f3f4f6; margin-left: auto; }
+  .bubble.bot { background: #eef2ff; margin-right: auto; }
+</style>
+
+<div class="chat-fab">
+  <button id="chat-toggle" class="btn-primary" aria-expanded="false">Chat with AI</button>
+</div>
+
+<div id="chat-panel" class="chat-panel" role="dialog" aria-label="Chat with AI">
+  <div class="p-4 border-b border-neutral-100 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded bg-[var(--brand)] flex items-center justify-center text-white font-black">AI</div>
+      <div>
+        <div class="text-sm font-black">Asisten STMK Trisakti</div>
+        <div class="text-xs text-neutral-400">Jawab singkat & sopan. Ketik pertanyaan Anda.</div>
+      </div>
+    </div>
+    <button id="chat-close" aria-label="Close chat" class="text-neutral-500">✕</button>
+  </div>
+  <div id="chat-messages" class="chat-messages">
+    <!-- messages appended here -->
+  </div>
+  <div class="chat-input">
+    <form id="chat-form">
+      <input id="chat-input" name="message" placeholder="Tanyakan tentang PMB, program studi, fasilitas..." class="w-full border border-neutral-200 px-3 py-2" />
+    </form>
+  </div>
+</div>
+
+<script>
+  const toggle = document.getElementById('chat-toggle');
+  const panel = document.getElementById('chat-panel');
+  const closeBtn = document.getElementById('chat-close');
+  const form = document.getElementById('chat-form');
+  const messagesEl = document.getElementById('chat-messages');
+  const input = document.getElementById('chat-input');
+
+  function appendMessage(text, who='bot'){
+    const d = document.createElement('div');
+    d.className = `bubble ${who}`;
+    d.textContent = text;
+    messagesEl.appendChild(d);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  toggle.addEventListener('click', ()=>{
+    const open = panel.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  closeBtn.addEventListener('click', ()=> panel.classList.remove('open'));
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const text = input.value.trim();
+    if(!text) return;
+    appendMessage(text, 'user');
+    input.value = '';
+
+    appendMessage('Mencari jawaban...', 'bot');
+    try{
+      const res = await fetch('/api/chat', {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ messages: [{ role: 'user', content: text }] })
+      });
+      const data = await res.json();
+      // remove the pending bubble
+      const pending = messagesEl.querySelector('.bubble.bot:last-child');
+      if(pending && pending.textContent === 'Mencari jawaban...') pending.remove();
+
+      if(data?.reply) appendMessage(data.reply, 'bot');
+      else appendMessage('Maaf, terjadi kesalahan. Silakan coba lagi.', 'bot');
+    }catch(err){
+      appendMessage('Gagal menghubungi server. Silakan coba nanti.', 'bot');
+    }
+  });
+</script>
