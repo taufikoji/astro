@@ -1,0 +1,177 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const tabs = [
+  { label: 'Overview', href: '/fasilitas' },
+  { label: 'Perpustakaan', href: '/fasilitas/perpustakaan' },
+  { label: 'Laboratorium', href: '/fasilitas/laboratorium' },
+  { label: 'Studio Podcast', href: '/fasilitas/podcast' },
+];
+
+const labs = [
+  {
+    nama: 'Lab Fotografi',
+    icon: '📷',
+    warna: 'from-blue-600 to-blue-800',
+    warnaAksen: 'var(--brand)',
+    konsentrasi: ['Advertising', 'Broadcasting'],
+    desc: 'Lab Fotografi yang disediakan untuk menunjang praktik mahasiswa konsentrasi Advertising dan Broadcasting. Dilengkapi dengan peralatan fotografi profesional, lighting studio, dan berbagai properti pemotretan.',
+    fasilitas: [
+      'Kamera DSLR & Mirrorless profesional',
+      'Studio lighting lengkap (strobe, softbox, reflektor)',
+      'Green screen & berbagai backdrop',
+      'Meja still life photography',
+      'Perangkat komputer untuk editing',
+      'Printer foto berformat besar',
+    ],
+  },
+  {
+    nama: 'Lab Komputer',
+    icon: '🖥️',
+    warna: 'from-orange-500 to-orange-700',
+    warnaAksen: 'var(--accent)',
+    konsentrasi: ['Advertising', 'Broadcasting', 'Desain Kemasan'],
+    desc: 'Lab komputer yang disediakan untuk menunjang praktik mahasiswa konsentrasi Advertising, Broadcasting, dan Desain Kemasan. Dilengkapi komputer spesifikasi tinggi dengan software desain terkini.',
+    fasilitas: [
+      'Komputer Windows spesifikasi tinggi',
+      'Software Adobe Creative Suite (Photoshop, Illustrator, Premiere, After Effects)',
+      'Software 3D (Blender, Cinema 4D)',
+      'Monitor kalibrasi warna',
+      'Akses internet dedicated',
+      'Proyektor untuk presentasi',
+    ],
+  },
+  {
+    nama: 'Lab Macintosh',
+    icon: '🍎',
+    warna: 'from-purple-600 to-purple-800',
+    warnaAksen: '#8B5CF6',
+    konsentrasi: ['Advertising', 'Broadcasting', 'Desain Kemasan'],
+    desc: 'Lab komputer Apple Macintosh yang disediakan untuk menunjang praktik mahasiswa konsentrasi Advertising, Broadcasting, dan Desain Kemasan. Lingkungan Mac optimal untuk workflow desain profesional.',
+    fasilitas: [
+      'iMac & MacBook Pro terbaru',
+      'Final Cut Pro & Logic Pro X',
+      'Adobe Creative Suite full license',
+      'Wacom Cintiq drawing tablet',
+      'Monitor Retina display kalibrasi',
+      'Time Machine backup system',
+    ],
+  },
+];
+---
+
+<Layout title="Laboratorium STMK Trisakti" description="Fasilitas laboratorium STMK Trisakti — Lab Fotografi, Lab Komputer, dan Lab Macintosh untuk praktik mahasiswa multimedia.">
+
+  <PageHeader
+    label="Fasilitas Kampus"
+    title="Laboratorium"
+    desc="Fasilitas laboratorium modern untuk mendukung praktik mahasiswa di bidang desain, fotografi, dan multimedia."
+    breadcrumb={[{ label: 'Fasilitas', href: '/fasilitas' }, { label: 'Laboratorium', href: '' }]}
+    tabs={tabs}
+    currentPath={Astro.url.pathname}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+
+    <div class="reveal mb-12">
+      <p class="section-num mb-3">Ruang Praktik</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-4">Laboratorium Berstandar Industri</h2>
+      <p class="text-neutral-500 text-sm leading-relaxed max-w-2xl">
+        STMK Trisakti menyediakan tiga laboratorium utama yang dilengkapi dengan peralatan dan perangkat lunak berstandar industri, memastikan mahasiswa mendapatkan pengalaman praktik yang relevan dengan dunia kerja.
+      </p>
+    </div>
+
+    <!-- Lab cards -->
+    <div class="space-y-8">
+      {labs.map((lab, i) => (
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 rounded-3xl overflow-hidden border border-neutral-100 reveal" style={`transition-delay:${i*80}ms`}>
+          <!-- Left: Gradient header -->
+          <div class={`lg:col-span-4 bg-gradient-to-br ${lab.warna} p-10 flex flex-col justify-between min-h-56`}>
+            <div class="text-5xl mb-4">{lab.icon}</div>
+            <div>
+              <h3 class="text-2xl font-black text-white mb-3">{lab.nama}</h3>
+              <div class="flex flex-wrap gap-2">
+                {lab.konsentrasi.map(k => (
+                  <span class="text-xs px-2.5 py-1 rounded-full bg-white/20 text-white font-medium">{k}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <!-- Right: Content -->
+          <div class="lg:col-span-8 bg-white p-10">
+            <p class="text-neutral-600 text-sm leading-relaxed mb-6">{lab.desc}</p>
+            <h4 class="font-black text-neutral-950 text-sm mb-4">Fasilitas Tersedia:</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {lab.fasilitas.map(f => (
+                <div class="flex items-start gap-2.5">
+                  <div class="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={`background:${lab.warnaAksen}`}></div>
+                  <span class="text-xs text-neutral-600">{f}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Software yang digunakan -->
+    <div class="mt-20 reveal">
+      <p class="section-num mb-3">Ekosistem Digital</p>
+      <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-8">Software Industri yang Digunakan</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {[
+          'Adobe Photoshop', 'Adobe Illustrator', 'Adobe InDesign', 'Adobe Premiere Pro',
+          'Adobe After Effects', 'Adobe Audition', 'Blender 3D', 'Cinema 4D',
+          'Final Cut Pro', 'Logic Pro X', 'AutoCAD', 'CorelDRAW',
+        ].map((sw, i) => (
+          <div class="bg-neutral-50 rounded-xl p-4 text-center hover:bg-blue-50 transition-colors cursor-default reveal" style={`transition-delay:${i*30}ms`}>
+            <p class="text-xs font-semibold text-neutral-700">{sw}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Jadwal & Akses -->
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+      <div class="bg-neutral-950 text-white rounded-2xl p-8">
+        <div class="text-3xl mb-4">🕐</div>
+        <h3 class="font-black text-xl mb-3">Jam Operasional Lab</h3>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-white/60">Senin – Jumat</span>
+            <span class="font-semibold">08.00 – 20.00 WIB</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-white/60">Sabtu</span>
+            <span class="font-semibold">08.00 – 15.00 WIB</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-white/60">Minggu</span>
+            <span class="text-white/40">Tutup</span>
+          </div>
+        </div>
+        <p class="text-xs text-white/40 mt-4">*Jadwal dapat berubah saat periode ujian atau event kampus</p>
+      </div>
+      <div class="rounded-2xl p-8" style="background:var(--brand)">
+        <div class="text-3xl mb-4">📋</div>
+        <h3 class="font-black text-white text-xl mb-3">Syarat Penggunaan Lab</h3>
+        <ul class="space-y-2">
+          {[
+            'Menunjukkan KTM (Kartu Tanda Mahasiswa) aktif',
+            'Mengisi buku presensi lab',
+            'Menjaga kebersihan dan ketertiban ruangan',
+            'Dilarang membawa makanan dan minuman',
+            'Merawat peralatan dengan baik',
+          ].map(s => (
+            <li class="flex items-start gap-2 text-xs text-white/80">
+              <span class="text-white mt-0.5">✓</span>
+              {s}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</Layout>

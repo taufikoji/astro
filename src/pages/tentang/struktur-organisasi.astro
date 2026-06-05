@@ -6,6 +6,7 @@ const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') 
 
 const tabs = [
   { label: 'Profil', href: url('/tentang') },
+  { label: 'Sambutan Ketua', href: url('/tentang/sambutan-ketua') },
   { label: 'Visi & Misi', href: url('/tentang/visi-misi') },
   { label: 'Sejarah', href: url('/tentang/sejarah') },
   { label: 'Struktur Organisasi', href: url('/tentang/struktur-organisasi') },
@@ -58,7 +59,7 @@ const tabs = [
         <div class="border-2 px-10 py-5 text-center" style="border-color:var(--brand);border-radius:2px;min-width:280px">
           <div class="text-[9px] uppercase tracking-widest mb-1 font-bold" style="color:var(--brand)">Pimpinan Tertinggi</div>
           <div class="font-black text-lg text-neutral-950">Ketua STMK Trisakti</div>
-          <div class="text-xs text-neutral-500 mt-1">xxxxxxxxx</div>
+          <div class="text-xs text-neutral-400 mt-1">Budi Suyanto, S.Sn., M.Si.</div>
         </div>
 
         <div class="hidden md:block w-8 h-px bg-neutral-300"></div>
@@ -73,15 +74,13 @@ const tabs = [
       <div class="flex justify-center"><div class="w-px h-6 bg-neutral-300"></div></div>
 
       <!-- Wakil Ketua -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-3xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-2xl mx-auto">
         {[
-          { role: 'Wakil Ketua I', bidang: 'Bidang Akademik', nama: 'xxxxxxxxx' },
-          { role: 'Wakil Ketua II', bidang: 'Adm & Keuangan', nama: 'xxxxxxxxx' },
-          { role: 'Wakil Ketua III', bidang: 'Kemahasiswaan', nama: 'xxxxxxxxx' },
+          { role: 'Wakil Ketua Bidang Akademik & Kemahasiswaan', bidang: '', nama: 'Ferdiansyah Ali, S.E., M.Si.M' },
+          { role: 'Wakil Ketua Bidang Adm. Umum & Keuangan', bidang: '', nama: 'Linda RM. Gurning, ST., M.M.' },
         ].map(wk => (
           <div class="border border-neutral-200 bg-neutral-950 text-white px-5 py-4 text-center" style="border-radius:2px">
             <div class="text-[9px] text-neutral-500 uppercase tracking-widest mb-0.5 font-bold">{wk.role}</div>
-            <div class="font-black text-sm">{wk.bidang}</div>
             <div class="text-[10px] text-neutral-400 mt-1">{wk.nama}</div>
           </div>
         ))}

@@ -1,0 +1,151 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { getTestimoni, getFeaturedImage, initials, stripHtml, type WPTestimoni } from '../../lib/wordpress';
+
+const tabs = [
+  { label: 'Overview', href: '/karir-alumni' },
+  { label: 'Job Vacancy', href: '/karir-alumni/job-vacancy' },
+  { label: 'Testimoni', href: '/karir-alumni/testimoni' },
+];
+
+const wpTestimoni = await getTestimoni();
+const useWP = wpTestimoni.length > 0;
+
+// Fallback data statis
+type StaticT = { nama: string; posisi: string; perusahaan: string; prodi: string; angkatan: string; kutipan: string; cerita: string; inisial: string; warna: string };
+const staticTestimoni: StaticT[] = [
+  { nama: 'Veronika Desi', posisi: 'Travel Blogger', perusahaan: 'Freelance', prodi: 'DKV', angkatan: '2015', kutipan: 'Selama kuliah aku merasa senang dan seperti keluarga dengan kedekatan antara dosen dan mahasiswa/i.', cerita: 'Kedekatan antara dosen dan mahasiswa di STMK Trisakti membuat proses belajar menjadi sangat menyenangkan.', inisial: 'VD', warna: 'from-pink-400 to-rose-500' },
+  { nama: 'Anggia Kurnia Dewi', posisi: 'Compositing Artist', perusahaan: 'Rara & Nusa', prodi: 'DKV', angkatan: '2016', kutipan: 'Trisakti School of Multimedia memberikan pengalaman pendidikan yang luar biasa dalam pengetahuan.', cerita: 'Pendidikan di STMK Trisakti memberikan fondasi teknis yang sangat kuat dalam bidang animasi dan compositing.', inisial: 'AK', warna: 'from-purple-400 to-purple-600' },
+  { nama: 'B. Tinambunan', posisi: 'Sr. Artist', perusahaan: 'Ruang Guru', prodi: 'DKV', angkatan: '2014', kutipan: 'TMM tetap menjadi institusi pendidikan yang terjangkau dan berkualitas yang mampu melahirkan penggiat industri kreatif.', cerita: 'STMK Trisakti berhasil membuktikan bahwa pendidikan berkualitas tidak harus mahal.', inisial: 'BT', warna: 'from-blue-400 to-blue-600' },
+  { nama: 'Suciati', posisi: 'Video Editor', perusahaan: 'Suara.com', prodi: 'DKV', angkatan: '2017', kutipan: 'Sistem pembelajaran yang baik dan bagus serta dosen-dosennya oke. Relasi saya pun terbentuk dengan baik.', cerita: 'Yang paling berharga dari STMK Trisakti adalah network yang terbentuk.', inisial: 'SC', warna: 'from-teal-400 to-emerald-600' },
+  { nama: 'Ruslan Efendy', posisi: 'Multimedia Practitioner', perusahaan: 'Freelance', prodi: 'DKV', angkatan: '2013', kutipan: 'Memberikan kontribusi terbaik untuk karya mahasiswa yang menempuh pendidikan di kampus.', cerita: 'Sebagai praktisi multimedia independen, ilmu dari STMK Trisakti menjadi modal utama.', inisial: 'RE', warna: 'from-orange-400 to-orange-600' },
+];
+
+const gradients = [
+  'from-pink-400 to-rose-500', 'from-purple-400 to-purple-600',
+  'from-blue-400 to-blue-600', 'from-teal-400 to-emerald-600',
+  'from-orange-400 to-orange-600', 'from-green-400 to-green-600',
+];
+---
+
+<Layout title="Testimoni Alumni STMK Trisakti" description="Cerita sukses dan testimoni alumni STMK Trisakti yang berkarir di industri kreatif Indonesia.">
+
+  <PageHeader
+    label="Karir & Alumni"
+    title="Testimoni Alumni"
+    desc="Mereka yang pernah duduk di bangku yang sama kini berkarir di industri kreatif terbaik Indonesia."
+    breadcrumb={[{ label: 'Karir & Alumni', href: '/karir-alumni' }, { label: 'Testimoni', href: '' }]}
+    tabs={tabs}
+    currentPath={Astro.url.pathname}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+
+    {useWP && (
+      <p class="text-xs text-neutral-400 mb-6 flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-green-400 inline-block"></span>
+        Data testimoni diambil dari WordPress CMS
+      </p>
+    )}
+
+    <!-- Quote besar -->
+    <div class="text-center mb-20 reveal">
+      <div class="text-6xl mb-6 opacity-20" style="color:var(--brand)">"</div>
+      <p class="text-2xl md:text-3xl font-black text-neutral-950 tracking-tight max-w-3xl mx-auto leading-tight">
+        Alumni kami bukan hanya bekerja di industri kreatif — mereka ikut membangunnya.
+      </p>
+    </div>
+
+    <!-- Grid dari WP -->
+    {useWP && (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+        {wpTestimoni.map((t: WPTestimoni, i: number) => {
+          const foto  = getFeaturedImage(t);
+          const grad  = gradients[i % gradients.length];
+          const nama  = t.title.rendered;
+          const inits = initials(nama);
+          return (
+            <div class="bg-white border border-neutral-100 rounded-3xl overflow-hidden card-hover reveal" style={`transition-delay:${i*60}ms`}>
+              <div class={`bg-gradient-to-br ${grad} p-6 flex items-center gap-4`}>
+                {foto ? (
+                  <img src={foto} alt={nama} class="w-14 h-14 rounded-2xl object-cover shrink-0" loading="lazy" />
+                ) : (
+                  <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-white font-black text-lg shrink-0">{inits}</div>
+                )}
+                <div>
+                  <p class="font-black text-white text-sm">{nama}</p>
+                  {t.meta.posisi && <p class="text-white/80 text-xs">{t.meta.posisi}{t.meta.perusahaan ? ` · ${t.meta.perusahaan}` : ''}</p>}
+                  {(t.meta.angkatan || t.meta.prodi) && (
+                    <p class="text-white/60 text-xs mt-0.5">
+                      {t.meta.angkatan ? `Angkatan ${t.meta.angkatan}` : ''}
+                      {t.meta.prodi ? ` · ${t.meta.prodi}` : ''}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div class="p-6">
+                {t.meta.kutipan_singkat && (
+                  <blockquote class="text-sm font-semibold text-neutral-800 italic mb-4 leading-relaxed">
+                    "{t.meta.kutipan_singkat}"
+                  </blockquote>
+                )}
+                <p class="text-xs text-neutral-500 leading-relaxed">{stripHtml(t.content.rendered)}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    )}
+
+    <!-- Fallback data statis -->
+    {!useWP && (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+        {staticTestimoni.map((t, i) => (
+          <div class="bg-white border border-neutral-100 rounded-3xl overflow-hidden card-hover reveal" style={`transition-delay:${i*60}ms`}>
+            <div class={`bg-gradient-to-br ${t.warna} p-6 flex items-center gap-4`}>
+              <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-white font-black text-lg shrink-0">{t.inisial}</div>
+              <div>
+                <p class="font-black text-white text-sm">{t.nama}</p>
+                <p class="text-white/80 text-xs">{t.posisi} · {t.perusahaan}</p>
+                <p class="text-white/60 text-xs mt-0.5">Angkatan {t.angkatan} · {t.prodi}</p>
+              </div>
+            </div>
+            <div class="p-6">
+              <blockquote class="text-sm font-semibold text-neutral-800 italic mb-4 leading-relaxed">"{t.kutipan}"</blockquote>
+              <p class="text-xs text-neutral-500 leading-relaxed">{t.cerita}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- CTA -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16 reveal">
+      <div class="rounded-2xl p-8 text-white" style="background:var(--brand)">
+        <div class="text-3xl mb-4">🤝</div>
+        <h3 class="font-black text-xl mb-2">Bergabung Komunitas Alumni</h3>
+        <p class="text-white/70 text-sm leading-relaxed mb-5">Tetap terhubung dengan sesama alumni dan civitas akademika STMK Trisakti.</p>
+        <a href="https://wa.me/6287742997808" target="_blank" rel="noopener" class="inline-block bg-white font-black text-blue-900 text-sm px-5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors">
+          Daftar via WhatsApp
+        </a>
+      </div>
+      <div class="rounded-2xl border border-neutral-200 p-8">
+        <div class="text-3xl mb-4">✍️</div>
+        <h3 class="font-black text-neutral-950 text-xl mb-2">Bagikan Ceritamu</h3>
+        <p class="text-neutral-500 text-sm leading-relaxed mb-5">Kamu alumni STMK Trisakti dan ingin kisah suksesmu menginspirasi adik angkatan?</p>
+        <a href="mailto:alumni@trisaktimultimedia.ac.id" class="text-sm font-black flex items-center gap-2 transition-colors hover:opacity-70" style="color:var(--brand)">
+          alumni@trisaktimultimedia.ac.id →
+        </a>
+      </div>
+    </div>
+
+    <div class="rounded-3xl p-10 md:p-14 text-center reveal" style="background:linear-gradient(135deg, #1B3A7A, #1e40af)">
+      <p class="text-white/60 text-xs font-semibold uppercase tracking-widest mb-4">Data Tracer Study 2024</p>
+      <h2 class="text-4xl font-black text-white mb-2">95% Lulusan Terserap Industri</h2>
+      <p class="text-white/70 text-sm max-w-xl mx-auto mb-10">95% alumni STMK Trisakti berhasil bekerja di bidang relevan dalam waktu kurang dari 6 bulan setelah wisuda.</p>
+      <a href="/akademik/alumni" class="inline-block bg-white font-black text-blue-900 px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">Lihat Data Lengkap</a>
+    </div>
+
+  </div>
+</Layout>

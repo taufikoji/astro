@@ -4,17 +4,28 @@ import PageHeader from '../../components/PageHeader.astro';
 
 const tabs = [
   { label: 'Profil', href: '/tentang' },
+  { label: 'Sambutan Ketua', href: '/tentang/sambutan-ketua' },
   { label: 'Visi & Misi', href: '/tentang/visi-misi' },
   { label: 'Sejarah', href: '/tentang/sejarah' },
   { label: 'Struktur Organisasi', href: '/tentang/struktur-organisasi' },
 ];
 
 const misi = [
-  { num: '01', title: 'Menyelenggarakan Pendidikan Berkualitas', desc: 'Menyelenggarakan pendidikan tinggi multimedia yang berkualitas dengan kurikulum berbasis Outcome-Based Education (OBE) yang relevan dengan perkembangan industri kreatif nasional dan internasional.' },
-  { num: '02', title: 'Mengembangkan Penelitian & Inovasi', desc: 'Melaksanakan kegiatan penelitian dan pengembangan ilmu pengetahuan di bidang multimedia, desain, dan teknologi grafika yang memberikan kontribusi nyata bagi masyarakat dan industri.' },
-  { num: '03', title: 'Melaksanakan Pengabdian kepada Masyarakat', desc: 'Menerapkan hasil penelitian dan keahlian multimedia untuk kegiatan pengabdian kepada masyarakat yang bermakna, khususnya dalam pengembangan UMKM kreatif dan komunitas lokal.' },
-  { num: '04', title: 'Membangun Kemitraan Strategis', desc: 'Mengembangkan kerjasama yang saling menguntungkan dengan industri, pemerintah, dan institusi pendidikan nasional maupun internasional untuk meningkatkan kualitas pendidikan dan peluang mahasiswa.' },
-  { num: '05', title: 'Membentuk Karakter & Soft Skills', desc: 'Membina mahasiswa menjadi pribadi yang berintegritas, inovatif, berjiwa wirausaha, dan mampu berkolaborasi lintas budaya di era globalisasi.' },
+  {
+    num: '01',
+    title: 'Pendidikan, Penelitian & Pengabdian',
+    desc: 'Menyelenggarakan pendidikan, penelitian dan pengabdian kepada masyarakat yang bertumpu kepada kreatifitas, budaya, dan teknologi.',
+  },
+  {
+    num: '02',
+    title: 'Pengembangan & Penyebarluasan Ilmu',
+    desc: 'Melakukan pengembangan dan penyebarluasan ilmu pengetahuan, seni, budaya, dan teknologi dalam upaya untuk meningkatkan taraf kehidupan masyarakat.',
+  },
+  {
+    num: '03',
+    title: 'Organisasi Sehat & Jaringan Kerjasama',
+    desc: 'Membangun organisasi yang sehat, otonom dan mandiri, serta mengembangkan jaringan kerjasama dengan industri dan kemitraan yang berkelanjutan.',
+  },
 ];
 
 const sasaran = [
@@ -45,16 +56,17 @@ const sasaran = [
       <p class="section-num mb-4">Visi</p>
       <div class="border-l-[3px] pl-8 py-2" style="border-color:var(--brand)">
         <blockquote class="text-2xl md:text-3xl font-black text-neutral-950 tracking-tight leading-snug max-w-3xl">
-          "Menjadi Perguruan Tinggi Multimedia Terkemuka di Asia Tenggara yang Menghasilkan Lulusan Kreatif, Kompeten, dan Berkarakter pada Tahun 2030"
+          "Menjadi perguruan tinggi media komunikasi yang berkualitas global dan pusat pengembangan kreatifitas, budaya dan teknologi"
         </blockquote>
-        <p class="text-neutral-400 text-sm mt-4 font-semibold uppercase tracking-widest">Visi STMK Trisakti 2025–2030</p>
+        <p class="text-neutral-400 text-sm mt-4 font-semibold uppercase tracking-widest">Visi STMK Trisakti</p>
       </div>
     </div>
 
     <!-- MISI -->
     <div>
       <p class="section-num mb-4 reveal">Misi</p>
-      <h2 class="text-3xl md:text-4xl font-black text-neutral-950 tracking-tight mb-10 reveal">Misi STMK Trisakti</h2>
+      <h2 class="text-3xl md:text-4xl font-black text-neutral-950 tracking-tight mb-2 reveal">Misi STMK Trisakti</h2>
+      <p class="text-neutral-500 text-sm mb-10 reveal">Tiga misi utama yang memandu seluruh kegiatan akademik, penelitian, dan kemasyarakatan STMK Trisakti.</p>
       <div class="space-y-0 border-t border-neutral-200">
         {misi.map((m, i) => (
           <div class="flex gap-6 md:gap-10 py-8 border-b border-neutral-200 group
@@ -99,7 +111,7 @@ const sasaran = [
     <!-- SASARAN -->
     <div class="reveal">
       <p class="section-num mb-4">Sasaran Strategis</p>
-      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-8">Sasaran 2025–2030</h2>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-8">Sasaran Strategis</h2>
       <div class="overflow-hidden border border-neutral-200" style="border-radius:2px">
         <table class="w-full table-pro">
           <thead>

@@ -1,0 +1,175 @@
+---
+/**
+ * HalftoneCanvas — Animated halftone dot grid
+ *
+ * Meniru pola screen angle CMYK pada mesin cetak offset.
+ * Dua gelombang sinus dengan sudut berbeda saling berinterferensi
+ * menciptakan pola moire yang hidup dan bergerak pelan.
+ *
+ * Cocok sebagai background hero untuk kampus Desain & Teknologi Grafika.
+ */
+interface Props {
+  id?:       string;
+  opacity?:  number;
+  spacing?:  number;   // jarak antar titik (px) — default 22
+  speed?:    number;   // kecepatan animasi 0–1 — default 0.35
+  maxSize?:  number;   // ukuran titik terbesar relatif terhadap spacing — default 0.42
+  color?:    string;   // warna titik — default 'white'
+  color2?:   string;   // warna aksen (optional) — default sama
+}
+
+const {
+  id       = 'ht-' + Math.random().toString(36).slice(2, 6),
+  opacity  = 1,
+  spacing  = 22,
+  speed    = 0.35,
+  maxSize  = 0.42,
+  color    = 'white',
+  color2   = '',
+} = Astro.props;
+---
+
+<canvas
+  id={id}
+  data-spacing={spacing}
+  data-speed={speed}
+  data-max-size={maxSize}
+  data-color={color}
+  data-color2={color2 || color}
+  class="absolute inset-0 w-full h-full pointer-events-none select-none"
+  style={`opacity:${opacity}; z-index:1`}
+></canvas>
+
+<script>
+class HalftoneEngine {
+  canvas:  HTMLCanvasElement;
+  ctx:     CanvasRenderingContext2D;
+  spacing: number;
+  speed:   number;
+  maxSize: number;
+  color:   string;
+  color2:  string;
+  W:       number;
+  H:       number;
+  animId:  number | null;
+  start:   number | null;
+
+  constructor(el: HTMLCanvasElement) {
+    this.canvas  = el;
+    this.ctx     = el.getContext('2d')!;
+    this.spacing = parseFloat(el.dataset.spacing  ?? '22');
+    this.speed   = parseFloat(el.dataset.speed    ?? '0.35');
+    this.maxSize = parseFloat(el.dataset.maxSize  ?? '0.42');
+    this.color   = el.dataset.color  ?? 'white';
+    this.color2  = el.dataset.color2 ?? this.color;
+    this.W = this.H = 0;
+    this.animId = null;
+    this.start  = null;
+    this.resize();
+    window.addEventListener('resize', () => this.resize(), { passive: true });
+  }
+
+  resize() {
+    const p = this.canvas.parentElement!;
+    this.W = this.canvas.width  = p.offsetWidth  || window.innerWidth;
+    this.H = this.canvas.height = p.offsetHeight || 500;
+  }
+
+  frame(ts: number) {
+    if (!this.start) this.start = ts;
+    const t = (ts - this.start) * 0.001 * this.speed;  // seconds, scaled
+
+    const { ctx, W, H, spacing, maxSize, color, color2 } = this;
+    const maxR = spacing * maxSize;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // ── Screen-angle waves (mimicking CMYK halftone angles) ──
+    //   Wave A: 45° — "black" channel
+    //   Wave B: 15° — "cyan" channel
+    //   Wave C: radial pulse from center — editorial flourish
+
+    const a45 = Math.PI / 4;
+    const a15 = Math.PI / 12;
+
+    // Slow breathing envelope (global pulse every ~10 s)
+    const breathe = 0.82 + 0.18 * Math.sin(t * 0.20);
+
+    const rows = Math.ceil(H / spacing) + 2;
+    const cols = Math.ceil(W / spacing) + 2;
+
+    const cx = W * 0.52;   // slight off-center bias toward campus photo
+    const cy = H * 0.50;
+
+    for (let row = -1; row < rows; row++) {
+      // Stagger alternating rows (classic halftone offset)
+      const xOffset = (row % 2 === 0) ? 0 : spacing * 0.5;
+
+      for (let col = -1; col < cols; col++) {
+        const x = col * spacing + xOffset - spacing * 0.5;
+        const y = row * spacing;
+
+        // — Wave A: diagonal 45° —
+        const projA = x * Math.cos(a45) + y * Math.sin(a45);
+        const wA = Math.sin(projA * 0.055 + t * 1.8);
+
+        // — Wave B: shallow 15° traveling opposite direction —
+        const projB = x * Math.cos(a15) + y * Math.sin(a15);
+        const wB = Math.sin(projB * 0.048 - t * 1.2 + 0.9);
+
+        // — Wave C: radial from hero focal point —
+        const dx = (x - cx) / W;
+        const dy = (y - cy) / H;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const wC = Math.sin(dist * 9.5 - t * 0.9);
+
+        // Combine: weighted sum → normalise to 0–1
+        const raw = wA * 0.45 + wB * 0.35 + wC * 0.20;
+        const v   = ((raw + 1) * 0.5) * breathe;     // 0 → 1
+
+        // Non-linear mapping: small dots mostly invisible, big ones pop
+        const mapped = Math.pow(v, 1.6);
+
+        const r     = 0.5 + maxR * mapped;
+        const alpha = 0.06 + 0.16 * mapped;
+
+        if (r < 0.3 || alpha < 0.01) continue;
+
+        // Colour: lerp between color and color2 based on value
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle   = v > 0.65 ? color2 : color;
+
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    ctx.globalAlpha = 1;
+    this.animId = requestAnimationFrame(ts => this.frame(ts));
+  }
+
+  play() {
+    if (this.animId) return;
+    this.animId = requestAnimationFrame(ts => this.frame(ts));
+  }
+
+  pause() {
+    if (this.animId) {
+      cancelAnimationFrame(this.animId);
+      this.animId = null;
+      this.start  = null;
+    }
+  }
+}
+
+// Bootstrap one engine per canvas[data-spacing]
+document.querySelectorAll<HTMLCanvasElement>('canvas[data-spacing]').forEach(el => {
+  const engine = new HalftoneEngine(el);
+  const io = new IntersectionObserver(
+    es => es.forEach(e => e.isIntersecting ? engine.play() : engine.pause()),
+    { threshold: 0 }
+  );
+  io.observe(el);
+});
+</script>

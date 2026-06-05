@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PuzzleCanvas from '../components/PuzzleCanvas.astro';
+import HalftoneCanvas from '../components/HalftoneCanvas.astro';
 const base = import.meta.env.BASE_URL;
 const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
@@ -10,7 +11,7 @@ const programs = [
     title: 'Desain Komunikasi Visual',
     degree: 'S1 · Sarjana Desain',
     href: '/program/dkv',
-    tracks: ['Animasi', 'Periklanan', 'UI/UX Design', 'Ilustrasi Digital'],
+    tracks: ['Animasi dan Games', 'Multimedia Penyiaran', 'Multimedia Periklanan', 'Desain Produk Kemasan'],
     desc: 'Kuasai storytelling visual — dari konsep hingga eksekusi. Program S1 berbasis industri bersama praktisi desain terkemuka.',
   },
   {
@@ -18,41 +19,42 @@ const programs = [
     title: 'Teknologi Grafika',
     degree: 'D4 · Sarjana Terapan',
     href: '/program/teknologi-grafika',
-    tracks: ['Packaging Design', 'Cetak Digital', 'Broadcasting', 'Produksi Digital'],
+    tracks: ['Desain Kemasan', 'Teknologi Cetak', 'Pre-press Digital', 'Produksi Grafika'],
     desc: 'Padukan keahlian desain dengan teknologi produksi grafika modern. Siap kerja sejak hari pertama.',
   },
 ];
 
 const stats = [
-  { num: '2.500+', label: 'Mahasiswa Aktif' },
-  { num: '5.000+', label: 'Alumni Profesional' },
-  { num: '25+',    label: 'Tahun Pengalaman' },
-  { num: '150+',   label: 'Mitra Industri' },
+  { num: '32+',    label: 'Tahun Pengalaman' },
+  { num: 'BAN-PT', label: 'Akreditasi Baik Sekali' },
+  { num: '2',      label: 'Program Studi Unggulan' },
+  { num: '95%',    label: 'Serapan Kerja Alumni' },
 ];
 
+// Ganti ID di bawah dengan ID video YouTube karya mahasiswa STMK Trisakti yang sesungguhnya
 const videos = [
   {
-    id: 'dQw4w9WgXcQ',
-    title: 'Showreel DKV 2025 — Animasi & Motion Graphics',
+    id: '',
+    title: 'Showreel Mahasiswa DKV — Animasi & Motion Graphics',
     category: 'Animasi',
     featured: true,
   },
   {
-    id: 'dQw4w9WgXcQ',
-    title: 'Packaging Design — Final Project 2025',
+    id: '',
+    title: 'Packaging Design — Karya Tugas Akhir Teknologi Grafika',
     category: 'Teknologi Grafika',
     featured: false,
   },
   {
-    id: 'dQw4w9WgXcQ',
-    title: 'Kampanye Sosial — Tugas Akhir DKV',
+    id: '',
+    title: 'Kampanye Sosial — Tugas Akhir DKV Multimedia Periklanan',
     category: 'Periklanan',
     featured: false,
   },
   {
-    id: 'dQw4w9WgXcQ',
-    title: 'UI/UX App Design — Student Project',
-    category: 'UI/UX',
+    id: '',
+    title: 'Broadcasting Multimedia — Produksi Program TV Mahasiswa',
+    category: 'Broadcasting',
     featured: false,
   },
 ];
@@ -65,9 +67,9 @@ const news = [
 ];
 
 const partners = [
-  'Kompas Gramedia', 'Dentsu Creative', 'MNC Group', 'Trans Media',
-  'Nuon Digital', 'Narasi TV', 'BBH Indonesia', 'Flock Studio',
-  'VCREATIVE+', 'TBWA Indonesia', 'Grey Indonesia', 'Isobar',
+  'Starbucks Indonesia', 'Damai Indah Golf', 'Dillco Group', 'ELEMGE',
+  'PT Okho Tri Teknologi', 'Putra Putri Budaya Banten', 'SCG Indonesia',
+  'Ruang Guru', 'Suara.com', 'Rara & Nusa',
 ];
 
 const whyList = [
@@ -112,8 +114,8 @@ const whyList = [
     </div>
   </div>
 
-  <!-- ② Animated puzzle canvas on top of overlay -->
-  <PuzzleCanvas id="hero-puzzle" pieceSize={110} strokeColor="white" opacity={0.09} />
+  <!-- ② Halftone dot animation -->
+  <HalftoneCanvas id="hero-ht" opacity={0.72} spacing={24} speed={0.30} maxSize={0.50} color="white" color2="#F97316" />
 
   <!-- ③ Red brand bar — left edge -->
   <div class="absolute top-0 left-0 bottom-0 w-[3px]" style="background:var(--brand); z-index:1"></div>
@@ -281,7 +283,7 @@ const whyList = [
         <span style="color:rgba(255,255,255,0.35)">desain dijalani.</span>
       </p>
       <p class="text-neutral-500 text-base mt-8 max-w-xl leading-relaxed">
-        STMK Trisakti adalah tempat di mana kreativitas bertemu industri nyata. Lebih dari 25 tahun kami membuktikan bahwa pendidikan terbaik terjadi ketika kampus dan industri berjalan beriringan.
+        STMK Trisakti adalah tempat di mana kreativitas bertemu industri nyata. Lebih dari 32 tahun kami membuktikan bahwa pendidikan terbaik terjadi ketika kampus dan industri berjalan beriringan.
       </p>
     </div>
   </div>
@@ -309,17 +311,24 @@ const whyList = [
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 reveal">
       <!-- Featured -->
       <div class="lg:col-span-2 relative overflow-hidden bg-neutral-900" style="border-radius:2px">
-        <div class="relative aspect-video">
-          <iframe
-            id="featured-video"
-            class="absolute inset-0 w-full h-full"
-            src={`https://www.youtube.com/embed/${videos[0].id}?rel=0&modestbranding=1`}
-            title={videos[0].title}
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        </div>
+        {videos[0].id ? (
+          <div class="relative aspect-video">
+            <iframe
+              id="featured-video"
+              class="absolute inset-0 w-full h-full"
+              src={`https://www.youtube.com/embed/${videos[0].id}?rel=0&modestbranding=1`}
+              title={videos[0].title}
+              style="border:0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        ) : (
+          <div class="aspect-video flex flex-col items-center justify-center gap-3 bg-neutral-800">
+            <svg class="w-12 h-12 text-neutral-600" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <p class="text-neutral-500 text-xs text-center px-6">Video karya mahasiswa akan ditampilkan di sini.<br/>Hubungi admin untuk menambahkan ID YouTube.</p>
+          </div>
+        )}
         <div class="absolute bottom-0 left-0 right-0 p-5 pointer-events-none"
              style="background:linear-gradient(to top,rgba(9,9,9,0.9) 0%,transparent 100%)">
           <span class="text-[10px] font-black uppercase tracking-widest" style="color:var(--brand)">{videos[0].category}</span>
@@ -333,21 +342,20 @@ const whyList = [
           <div
             class="relative group cursor-pointer bg-neutral-900 overflow-hidden flex-1"
             style="border-radius:2px"
-            onclick={`document.getElementById('featured-video').src='https://www.youtube.com/embed/${v.id}?autoplay=1&rel=0&modestbranding=1'`}
           >
-            <div class="relative w-full" style="padding-bottom:56.25%">
-              <img
-                src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`}
-                alt={v.title}
-                class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-75 transition-opacity duration-300"
-                loading="lazy"
-              />
-              <!-- Play -->
+            <div class="relative w-full aspect-video flex items-center justify-center bg-neutral-800">
+              {v.id ? (
+                <img
+                  src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`}
+                  alt={v.title}
+                  class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-75 transition-opacity duration-300"
+                  loading="lazy"
+                />
+              ) : (
+                <svg class="w-8 h-8 text-neutral-700" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              )}
               <div class="absolute inset-0 flex items-center justify-center">
-                <div class="w-9 h-9 flex items-center justify-center transition-colors"
-                     style="background:rgba(255,255,255,0.15)"
-                     onmouseenter="this.style.background='var(--brand)'"
-                     onmouseleave="this.style.background='rgba(255,255,255,0.15)'">
+                <div class="w-9 h-9 flex items-center justify-center" style="background:rgba(255,255,255,0.10)">
                   <svg class="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                 </div>
               </div>
@@ -362,8 +370,8 @@ const whyList = [
     </div>
 
     <p class="text-neutral-700 text-xs mt-5 reveal">
-      Ganti ID video YouTube di atas dengan karya mahasiswa STMK Trisakti yang sesungguhnya ·
-      <a href={url('/kontak')} class="text-neutral-500 hover:text-white transition-colors">Submit karya →</a>
+      Ingin karyamu ditampilkan di sini? ·
+      <a href={url('/kontak')} class="text-neutral-500 hover:text-white transition-colors">Hubungi kami →</a>
     </p>
   </div>
 </section>
@@ -385,7 +393,7 @@ const whyList = [
           <span class="accent-u">Karir dimulai<br/>di sini.</span>
         </h2>
         <p class="text-neutral-500 text-sm leading-relaxed mb-8">
-          Lebih dari 25 tahun kami mencetak profesional kreatif yang langsung diserap industri. Kurikulum, dosen, dan fasilitas dirancang bersama perusahaan — bukan di menara gading.
+          Lebih dari 32 tahun kami mencetak profesional kreatif yang langsung diserap industri. Kurikulum, dosen, dan fasilitas dirancang bersama perusahaan — bukan di menara gading.
         </p>
         <a href={url('/tentang')} class="btn-dark">
           Tentang Kampus
@@ -551,14 +559,14 @@ const whyList = [
     <div class="max-w-3xl">
       <div class="w-8 h-[2px] mb-10" style="background:var(--brand)"></div>
       <blockquote class="text-2xl md:text-3xl font-bold text-white tracking-tight leading-[1.3] mb-10">
-        "Dosen-dosen STMK Trisakti bukan hanya pengajar — mereka praktisi yang masih aktif di industri. Ilmu yang saya dapat langsung bisa diterapkan dari hari pertama kerja."
+        "TMM tetap menjadi institusi pendidikan yang terjangkau dan berkualitas yang mampu melahirkan penggiat industri kreatif."
       </blockquote>
       <div class="flex items-center gap-4">
         <div class="w-10 h-10 flex items-center justify-center font-black text-white text-sm shrink-0"
              style="background:var(--brand)">R</div>
         <div>
-          <div class="text-white font-semibold text-sm">xxxxxxxxx</div>
-          <div class="text-neutral-500 text-xs">Senior Art Director, Ogilvy Indonesia · Alumni DKV 2020</div>
+          <div class="text-white font-semibold text-sm">B. Tinambunan</div>
+          <div class="text-neutral-500 text-xs">Senior Artist, Ruang Guru · Alumni DKV STMK Trisakti</div>
         </div>
       </div>
     </div>
@@ -571,7 +579,7 @@ const whyList = [
 ══════════════════════════════════════════════════ -->
 <section class="py-16 border-t border-neutral-200" style="background:var(--surface)">
   <div class="max-w-screen-xl mx-auto px-8 md:px-14">
-    <p class="section-num text-center mb-8 reveal">150+ Mitra Industri & Pengguna Lulusan</p>
+    <p class="section-num text-center mb-8 reveal">Mitra Industri & Pengguna Lulusan</p>
     <div class="flex flex-wrap justify-center gap-2 md:gap-3 reveal">
       {partners.map(p => (
         <div class="border border-neutral-200 text-neutral-500 text-xs font-semibold px-4 py-2.5

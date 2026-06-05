@@ -2,66 +2,147 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
-
-export async function getStaticPaths() {
-  const berita = await getCollection('berita');
-  return berita.map(entry => ({
-    params: { slug: entry.id },
-    props: { entry },
-  }));
-}
-
-const { entry } = Astro.props;
-const { Content } = await render(entry);
+import {
+  getPosts,
+  getPostBySlug,
+  getFeaturedImage,
+  getFirstCategory,
+  getAuthorName,
+  formatDate,
+  type WPPost,
+} from '../../lib/wordpress';
 
 const base = import.meta.env.BASE_URL;
 const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
-const formatDate = (dateString: string | Date) => {
-  const d = new Date(dateString);
-  return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+// ────────────────────────────────────────────────────────────────────
+// getStaticPaths: coba WP dulu, fallback ke Content Collections
+// ────────────────────────────────────────────────────────────────────
+export async function getStaticPaths() {
+  // Coba WordPress
+  const wpPosts = await getPosts({ per_page: '100' });
+  if (wpPosts.length > 0) {
+    return wpPosts.map(post => ({
+      params: { slug: post.slug },
+      props: { source: 'wp' as const, wpPost: post, localEntry: null },
+    }));
+  }
+
+  // Fallback ke Content Collections
+  const localBerita = await getCollection('berita');
+  return localBerita.map(entry => ({
+    params: { slug: entry.id },
+    props: { source: 'local' as const, wpPost: null, localEntry: entry },
+  }));
+}
+
+// ────────────────────────────────────────────────────────────────────
+// Page props
+// ────────────────────────────────────────────────────────────────────
+const { source, wpPost: initialWpPost, localEntry } = Astro.props as {
+  source: 'wp' | 'local';
+  wpPost: WPPost | null;
+  localEntry: Awaited<ReturnType<typeof getCollection<'berita'>>>[number] | null;
 };
+
+// Jika dari WP, re-fetch untuk data terlengkap (dengan _embedded)
+let wpPost = initialWpPost;
+if (source === 'wp' && wpPost) {
+  const fresh = await getPostBySlug(wpPost.slug);
+  if (fresh) wpPost = fresh;
+}
+
+// Local content rendering
+const localContent = localEntry ? await render(localEntry) : null;
+const LocalContent = localContent?.Content;
+
+// Derived values
+const formatLocalDate = (d: string | Date) =>
+  new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const title     = source === 'wp' ? wpPost!.title.rendered         : localEntry!.data.title;
+const date      = source === 'wp' ? formatDate(wpPost!.date)       : formatLocalDate(localEntry!.data.date);
+const category  = source === 'wp' ? getFirstCategory(wpPost!)      : localEntry!.data.category;
+const author    = source === 'wp' ? getAuthorName(wpPost!)         : localEntry!.data.author;
+const image     = source === 'wp' ? getFeaturedImage(wpPost!)      : (localEntry!.data.image ? url(localEntry!.data.image) : null);
+const tags: string[] = source === 'local' ? (localEntry!.data.tags ?? []) : [];
 ---
 
-<Layout title={`${entry.data.title} | Berita STMK Trisakti`} description={entry.data.title}>
-  
+<Layout title={`${title} | Berita STMK Trisakti`} description={title}>
+
   <PageHeader
-    label={entry.data.category}
-    title={entry.data.title}
-    desc={`${formatDate(entry.data.date)} · Oleh ${entry.data.author}`}
-    breadcrumb={[{ label: 'Berita', href: url('/berita') }, { label: entry.data.title, href: '' }]}
+    label={category}
+    title={title}
+    desc={`${date} · Oleh ${author}`}
+    breadcrumb={[{ label: 'Berita', href: url('/berita') }, { label: title, href: '' }]}
   />
 
   <article class="max-w-screen-md mx-auto px-8 md:px-0 py-20">
-    {entry.data.tags && entry.data.tags.length > 0 && (
+
+    {tags.length > 0 && (
       <div class="flex flex-wrap gap-2 mb-8 reveal">
-        {entry.data.tags.map((tag: string) => (
+        {tags.map((tag: string) => (
           <span class="badge badge-gray">#{tag}</span>
         ))}
       </div>
     )}
-    {entry.data.image && (
+
+    {image && (
       <div class="mb-12 border border-neutral-200 p-2 bg-white reveal">
-        <img src={url(entry.data.image)} alt={entry.data.title} class="w-full h-auto object-cover" />
+        <img src={image} alt={title} class="w-full h-auto object-cover" />
       </div>
     )}
 
-    <div class="prose prose-neutral max-w-none prose-headings:font-black prose-a:text-[var(--brand)] reveal stagger">
-      <Content />
-    </div>
+    {/* WordPress HTML content */}
+    {source === 'wp' && wpPost && (
+      <div
+        class="prose prose-neutral max-w-none prose-headings:font-black prose-a:text-[var(--brand)] reveal stagger wp-content"
+        set:html={wpPost.content.rendered}
+      />
+    )}
+
+    {/* Local Markdown content */}
+    {source === 'local' && LocalContent && (
+      <div class="prose prose-neutral max-w-none prose-headings:font-black prose-a:text-[var(--brand)] reveal stagger">
+        <LocalContent />
+      </div>
+    )}
 
     <div class="mt-20 pt-8 border-t border-neutral-200 flex justify-between items-center reveal">
       <a href={url('/berita')} class="btn-outline inline-flex">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
         Kembali ke Berita
       </a>
-      
+
       <div class="flex gap-2">
         <span class="text-xs font-bold text-neutral-400 uppercase tracking-widest mr-2 flex items-center">Bagikan:</span>
-        <a href={`https://wa.me/?text=${encodeURIComponent(entry.data.title + ' ' + Astro.url)}`} target="_blank" class="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-[#25D366] hover:text-white transition-colors">WA</a>
-        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(entry.data.title)}&url=${encodeURIComponent(Astro.url.href)}`} target="_blank" class="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-neutral-900 hover:text-white transition-colors">X</a>
+        <a
+          href={`https://wa.me/?text=${encodeURIComponent(title + ' ' + Astro.url)}`}
+          target="_blank"
+          class="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-[#25D366] hover:text-white transition-colors"
+        >WA</a>
+        <a
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(Astro.url.href)}`}
+          target="_blank"
+          class="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-neutral-900 hover:text-white transition-colors"
+        >X</a>
       </div>
     </div>
   </article>
 
 </Layout>
+
+<style>
+  /* Perbaikan tampilan konten WordPress Gutenberg */
+  .wp-content :global(figure) { margin: 1.5rem 0; }
+  .wp-content :global(figure img) { width: 100%; height: auto; }
+  .wp-content :global(figcaption) { text-align: center; font-size: 0.75rem; color: #737373; margin-top: 0.5rem; }
+  .wp-content :global(.wp-block-image) { margin: 1.5rem 0; }
+  .wp-content :global(.wp-block-embed) { margin: 1.5rem 0; }
+  .wp-content :global(.wp-block-embed iframe) { width: 100%; aspect-ratio: 16/9; border: 0; }
+  .wp-content :global(.wp-block-gallery) { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin: 1.5rem 0; }
+  .wp-content :global(.wp-block-pullquote) { border-top: 4px solid var(--brand); border-bottom: 4px solid var(--brand); padding: 1rem 0; margin: 2rem 0; text-align: center; }
+  .wp-content :global(.wp-block-pullquote blockquote) { font-size: 1.25rem; font-weight: 800; font-style: italic; }
+</style>

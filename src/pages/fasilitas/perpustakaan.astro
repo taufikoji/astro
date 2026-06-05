@@ -1,0 +1,150 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const tabs = [
+  { label: 'Overview', href: '/fasilitas' },
+  { label: 'Perpustakaan', href: '/fasilitas/perpustakaan' },
+  { label: 'Laboratorium', href: '/fasilitas/laboratorium' },
+  { label: 'Studio Podcast', href: '/fasilitas/podcast' },
+];
+
+const layanan = [
+  { icon: '📚', judul: 'Peminjaman Buku Teks', desc: 'Koleksi buku wajib dan anjuran untuk seluruh mata kuliah DKV dan Teknologi Grafika.' },
+  { icon: '🔖', judul: 'Layanan Referensi', desc: 'Akses koleksi referensi, ensiklopedia, kamus, dan buku-buku akademik yang tidak dipinjamkan.' },
+  { icon: '✍️', judul: 'Bantuan Penulisan Akademik', desc: 'Bimbingan teknis penulisan laporan, skripsi, tugas akhir, dan karya ilmiah.' },
+  { icon: '📰', judul: 'Majalah & Surat Kabar', desc: 'Koleksi majalah desain, multimedia, dan surat kabar nasional terkini.' },
+  { icon: '🎬', judul: 'Materi Audiovisual', desc: 'Koleksi DVD, film pendek, animasi, dan referensi audiovisual bidang multimedia.' },
+  { icon: '🌐', judul: 'Akses Internet', desc: 'Tersedia akses internet gratis bagi anggota perpustakaan.' },
+  { icon: '📖', judul: 'Jurnal Ilmiah', desc: 'Akses jurnal nasional dan internasional bidang desain, komunikasi, dan teknologi grafika.' },
+];
+
+const jam = [
+  { hari: 'Senin – Jumat', waktu: '08.30 – 18.00 WIB' },
+  { hari: 'Sabtu', waktu: '08.30 – 15.00 WIB' },
+  { hari: 'Minggu & Hari Libur Nasional', waktu: 'Tutup' },
+];
+
+const peminjaman = [
+  { kategori: 'Mahasiswa', batas: '2 buku', durasi: '1 minggu' },
+  { kategori: 'Dosen & Tenaga Kependidikan', batas: '10 buku', durasi: '1 bulan (dapat diperpanjang)' },
+];
+---
+
+<Layout title="Perpustakaan STMK Trisakti" description="Perpustakaan STMK Trisakti — koleksi buku, jurnal, dan materi audiovisual untuk civitas akademika.">
+
+  <PageHeader
+    label="Fasilitas Kampus"
+    title="Perpustakaan"
+    desc="Pusat sumber belajar dengan koleksi lengkap bidang desain, multimedia, komunikasi, dan teknologi grafika."
+    breadcrumb={[{ label: 'Fasilitas', href: '/fasilitas' }, { label: 'Perpustakaan', href: '' }]}
+    tabs={tabs}
+    currentPath={Astro.url.pathname}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+
+    <!-- Intro -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20 reveal">
+      <div>
+        <p class="section-num mb-3">Pusat Sumber Belajar</p>
+        <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-4">Perpustakaan STMK Trisakti</h2>
+        <p class="text-neutral-500 text-sm leading-relaxed mb-4">
+          Perpustakaan STMK Trisakti menyediakan koleksi lengkap yang mendukung kegiatan belajar-mengajar dan penelitian. Dengan sistem open access, sivitas akademika dapat langsung menelusuri koleksi secara mandiri.
+        </p>
+        <p class="text-neutral-500 text-sm leading-relaxed mb-6">
+          Koleksi kami mencakup buku wajib, anjuran, referensi, majalah desain internasional, surat kabar, buletin, jurnal ilmiah, dan materi audiovisual yang relevan dengan program studi DKV dan Teknologi Grafika.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="https://library.trisaktimultimedia.ac.id" target="_blank" rel="noopener" class="btn-primary text-sm">
+            Katalog Online (SLIMS)
+          </a>
+          <a href="https://trisaktimultimedia.ecampuz.com/gtpustaka_portal/" target="_blank" rel="noopener" class="btn-secondary text-sm">
+            Digilibs
+          </a>
+        </div>
+      </div>
+      <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-10 flex items-center justify-center min-h-64">
+        <div class="text-center">
+          <div class="text-7xl mb-4">📚</div>
+          <p class="font-black text-blue-900 text-lg">Open Access System</p>
+          <p class="text-blue-600 text-sm">Akses koleksi secara mandiri</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Jam Operasional -->
+    <div class="mb-16 reveal">
+      <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-6">Jam Operasional</h2>
+      <div class="border border-neutral-200 rounded-2xl overflow-hidden">
+        {jam.map((j, i) => (
+          <div class={`flex items-center justify-between px-6 py-4 ${i < jam.length - 1 ? 'border-b border-neutral-100' : ''} ${j.waktu === 'Tutup' ? 'bg-neutral-50' : 'bg-white'}`}>
+            <span class="font-medium text-neutral-700 text-sm">{j.hari}</span>
+            <span class={`font-black text-sm ${j.waktu === 'Tutup' ? 'text-neutral-400' : ''}`} style={j.waktu !== 'Tutup' ? 'color:var(--brand)' : ''}>
+              {j.waktu}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Aturan Peminjaman -->
+    <div class="mb-16 reveal">
+      <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-6">Ketentuan Peminjaman</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {peminjaman.map(p => (
+          <div class="bg-white border border-neutral-100 rounded-2xl p-6">
+            <p class="font-black text-neutral-950 mb-3">{p.kategori}</p>
+            <div class="space-y-2">
+              <div class="flex items-center gap-3">
+                <span class="text-xs px-2.5 py-1 rounded-full font-medium" style="background:var(--brand);color:white">Batas Pinjam</span>
+                <span class="text-sm text-neutral-600">{p.batas}</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-xs px-2.5 py-1 rounded-full font-medium bg-orange-500 text-white">Durasi</span>
+                <span class="text-sm text-neutral-600">{p.durasi}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="text-xs text-neutral-400 mt-3">* Kartu anggota diperlukan untuk mengakses perpustakaan. Keanggotaan terbuka untuk mahasiswa, dosen, dan tenaga kependidikan.</p>
+    </div>
+
+    <!-- Layanan -->
+    <div class="reveal">
+      <p class="section-num mb-3">Apa yang Kami Sediakan</p>
+      <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-8">Layanan Perpustakaan</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        {layanan.map((l, i) => (
+          <div class="card-hover bg-white border border-neutral-100 rounded-2xl p-6 reveal" style={`transition-delay:${i*40}ms`}>
+            <div class="text-3xl mb-3">{l.icon}</div>
+            <h3 class="font-black text-neutral-950 text-sm mb-2">{l.judul}</h3>
+            <p class="text-xs text-neutral-500 leading-relaxed">{l.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Katalog Online -->
+    <div class="mt-20 grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+      <div class="rounded-2xl p-8 text-white" style="background:var(--brand)">
+        <div class="text-3xl mb-4">🔍</div>
+        <h3 class="font-black text-xl mb-2">SLIMS Online Catalog</h3>
+        <p class="text-white/70 text-sm mb-5">Telusuri koleksi buku dan referensi perpustakaan secara online melalui sistem katalog SLIMS.</p>
+        <a href="https://library.trisaktimultimedia.ac.id" target="_blank" rel="noopener" class="inline-block bg-white text-blue-900 font-black text-sm px-5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors">
+          Buka Katalog →
+        </a>
+      </div>
+      <div class="rounded-2xl p-8 bg-orange-500 text-white">
+        <div class="text-3xl mb-4">💻</div>
+        <h3 class="font-black text-xl mb-2">Digilibs Portal</h3>
+        <p class="text-white/70 text-sm mb-5">Akses koleksi digital, e-book, dan jurnal melalui portal Digilibs STMK Trisakti.</p>
+        <a href="https://trisaktimultimedia.ecampuz.com/gtpustaka_portal/" target="_blank" rel="noopener" class="inline-block bg-white text-orange-700 font-black text-sm px-5 py-2.5 rounded-xl hover:bg-orange-50 transition-colors">
+          Buka Digilibs →
+        </a>
+      </div>
+    </div>
+
+  </div>
+</Layout>

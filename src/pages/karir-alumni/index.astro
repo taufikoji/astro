@@ -1,0 +1,127 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const tabs = [
+  { label: 'Overview', href: '/karir-alumni' },
+  { label: 'Job Vacancy', href: '/karir-alumni/job-vacancy' },
+  { label: 'Testimoni', href: '/karir-alumni/testimoni' },
+];
+
+const stats = [
+  { num: '95%', label: 'Lulusan Terserap Kerja' },
+  { num: '<6', label: 'Bulan Waktu Tunggu Kerja' },
+  { num: '200+', label: 'Mitra Industri' },
+  { num: '3.000+', label: 'Alumni Aktif' },
+];
+
+const bidangKarir = [
+  { icon: '🎨', judul: 'Desain Grafis', desc: 'Brand designer, graphic designer, UI/UX designer di agensi, startup, maupun perusahaan besar.' },
+  { icon: '🎬', judul: 'Animasi & Motion', desc: 'Animator, motion graphic artist, visual effects artist di studio animasi dan rumah produksi.' },
+  { icon: '📡', judul: 'Broadcasting', desc: 'Video editor, content creator, produser, cameraman di media televisi, digital, dan online.' },
+  { icon: '📦', judul: 'Desain Kemasan', desc: 'Packaging designer, structural designer di perusahaan FMCG, percetakan, dan manufaktur.' },
+  { icon: '🖨️', judul: 'Industri Percetakan', desc: 'Pre-press operator, color specialist, production manager di industri grafika dan percetakan.' },
+  { icon: '💼', judul: 'Wirausaha Kreatif', desc: 'Mendirikan studio desain, agensi kreatif, atau bisnis percetakan sendiri.' },
+];
+
+const mitraIndustri = [
+  'Kompas Gramedia', 'Tempo Media', 'MNC Group', 'Trans Media', 'Elang Mahkota Teknologi',
+  'Indosat Ooredoo', 'Telkomsel', 'Bank BCA', 'Bank Mandiri', 'Unilever Indonesia',
+  'P&G Indonesia', 'Danone Indonesia', 'Indofood', 'Wings Group', 'Mayora Group',
+  'Mattel Indonesia', 'Hasbro', 'Bluebird Group', 'Tokopedia', 'Gojek',
+];
+---
+
+<Layout title="Karir & Alumni STMK Trisakti" description="Karir dan alumni STMK Trisakti — informasi lowongan kerja, testimoni, dan jaringan alumni industri kreatif Indonesia.">
+
+  <PageHeader
+    label="Karir & Alumni"
+    title="Karir & Alumni"
+    desc="Membangun jembatan antara talenta kreatif STMK Trisakti dengan peluang terbaik di industri."
+    breadcrumb={[{ label: 'Karir & Alumni', href: '' }]}
+    tabs={tabs}
+    currentPath={Astro.url.pathname}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-20 reveal">
+      {stats.map((s, i) => (
+        <div class="text-center p-6 bg-neutral-50 rounded-2xl hover:shadow-md transition-shadow reveal" style={`transition-delay:${i*50}ms`}>
+          <div class="text-4xl font-black mb-1" style="color:var(--brand)">{s.num}</div>
+          <div class="text-xs text-neutral-500">{s.label}</div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Bidang karir -->
+    <div class="mb-20 reveal">
+      <p class="section-num mb-3">Prospek Karir</p>
+      <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-4">Peluang Karir Lulusan</h2>
+      <p class="text-neutral-500 text-sm leading-relaxed max-w-2xl mb-10">
+        Lulusan STMK Trisakti tersebar di berbagai sektor industri kreatif — dari media, periklanan, animasi, broadcasting, hingga wirausaha mandiri.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {bidangKarir.map((b, i) => (
+          <div class="card-hover bg-white border border-neutral-100 rounded-2xl p-6 reveal" style={`transition-delay:${i*50}ms`}>
+            <div class="text-3xl mb-4">{b.icon}</div>
+            <h3 class="font-black text-neutral-950 text-sm mb-2">{b.judul}</h3>
+            <p class="text-xs text-neutral-500 leading-relaxed">{b.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Quick links -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20 reveal">
+      <a href="/karir-alumni/job-vacancy" class="card-hover block rounded-3xl overflow-hidden border border-neutral-100">
+        <div class="bg-gradient-to-br from-blue-600 to-blue-800 p-8">
+          <div class="text-4xl mb-3">💼</div>
+          <h3 class="text-2xl font-black text-white mb-2">Job Vacancy</h3>
+          <p class="text-white/70 text-sm">Temukan lowongan kerja dari mitra industri khusus untuk lulusan STMK Trisakti.</p>
+        </div>
+        <div class="bg-white px-8 py-4">
+          <span class="text-sm font-black flex items-center gap-2" style="color:var(--brand)">
+            Lihat Lowongan
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </div>
+      </a>
+      <a href="/karir-alumni/testimoni" class="card-hover block rounded-3xl overflow-hidden border border-neutral-100">
+        <div class="bg-gradient-to-br from-orange-500 to-orange-700 p-8">
+          <div class="text-4xl mb-3">💬</div>
+          <h3 class="text-2xl font-black text-white mb-2">Testimoni Alumni</h3>
+          <p class="text-white/70 text-sm">Kisah sukses alumni STMK Trisakti yang kini berkarir di industri kreatif Indonesia.</p>
+        </div>
+        <div class="bg-white px-8 py-4">
+          <span class="text-sm font-black flex items-center gap-2 text-orange-500">
+            Baca Cerita Mereka
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Mitra Industri -->
+    <div class="reveal">
+      <p class="section-num mb-3">Jaringan Kami</p>
+      <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-8">Mitra Industri</h2>
+      <div class="flex flex-wrap gap-3">
+        {mitraIndustri.map((m, i) => (
+          <span
+            class="text-sm px-4 py-2 rounded-full border border-neutral-200 text-neutral-600 hover:border-blue-300 hover:text-blue-700 transition-colors cursor-default reveal"
+            style={`transition-delay:${i*20}ms`}
+          >
+            {m}
+          </span>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</Layout>

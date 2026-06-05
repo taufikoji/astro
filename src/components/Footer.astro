@@ -59,6 +59,7 @@ const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') 
             links: [
               { label: 'Desain Komunikasi Visual', href: url('/program/dkv') },
               { label: 'Teknologi Grafika', href: url('/program/teknologi-grafika') },
+              { label: 'Dosen', href: url('/program/dosen') },
               { label: 'Kurikulum & CPL', href: url('/program') },
             ],
           },
@@ -69,25 +70,28 @@ const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') 
               { label: 'Penelitian & PKM', href: url('/akademik/penelitian') },
               { label: 'Kemahasiswaan', href: url('/akademik/kemahasiswaan') },
               { label: 'Alumni', href: url('/akademik/alumni') },
+              { label: 'Jurnal', href: url('/jurnal') },
             ],
           },
           {
             title: 'Institusi',
             links: [
-              { label: 'Tentang STMK Trisakti', href: url('/tentang') },
+              { label: 'Profil & Sejarah', href: url('/tentang') },
+              { label: 'Sambutan Ketua', href: url('/tentang/sambutan-ketua') },
               { label: 'Visi & Misi', href: url('/tentang/visi-misi') },
               { label: 'Akreditasi BAN-PT', href: url('/akreditasi') },
               { label: 'Struktur Organisasi', href: url('/tentang/struktur-organisasi') },
             ],
           },
           {
-            title: 'Mahasiswa',
+            title: 'Mahasiswa & Alumni',
             links: [
               { label: 'PMB 2026/2027', href: url('/pmb') },
-              { label: 'Beasiswa', href: url('/pmb#beasiswa') },
               { label: 'Fasilitas', href: url('/fasilitas') },
-              { label: 'Berita', href: url('/berita') },
-              { label: 'Kontak', href: url('/kontak') },
+              { label: 'Perpustakaan', href: url('/fasilitas/perpustakaan') },
+              { label: 'Job Vacancy', href: url('/karir-alumni/job-vacancy') },
+              { label: 'Galeri Karya', href: url('/galeri') },
+              { label: 'Berita & Artikel', href: url('/berita') },
             ],
           },
         ].map(col => (

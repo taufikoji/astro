@@ -1,0 +1,116 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const tabs = [
+  { label: 'Profil', href: '/tentang' },
+  { label: 'Sambutan Ketua', href: '/tentang/sambutan-ketua' },
+  { label: 'Visi & Misi', href: '/tentang/visi-misi' },
+  { label: 'Sejarah', href: '/tentang/sejarah' },
+  { label: 'Struktur Organisasi', href: '/tentang/struktur-organisasi' },
+];
+---
+
+<Layout title="Sambutan Ketua STMK Trisakti" description="Sambutan Ketua Sekolah Tinggi Media Komunikasi Trisakti — Budi Suyanto, S.Sn., M.Si.">
+
+  <PageHeader
+    label="Profil Institusi"
+    title="Sambutan Ketua"
+    desc="Pesan dan harapan dari pimpinan STMK Trisakti untuk civitas akademika dan masyarakat."
+    breadcrumb={[{ label: 'Tentang', href: '/tentang' }, { label: 'Sambutan Ketua', href: '' }]}
+    tabs={tabs}
+    currentPath={Astro.url.pathname}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+
+      <!-- Foto & Identitas -->
+      <div class="lg:col-span-4 reveal">
+        <div class="sticky top-28">
+          <div class="relative mb-6">
+            <div class="w-full aspect-[3/4] bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl overflow-hidden flex items-end justify-center">
+              <div class="w-full h-4/5 bg-gradient-to-t from-blue-900/60 to-transparent absolute bottom-0 rounded-b-2xl"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                <p class="text-xs font-semibold uppercase tracking-widest opacity-80 mb-1">Ketua STMK Trisakti</p>
+                <h2 class="text-xl font-black">Budi Suyanto, S.Sn., M.Si.</h2>
+              </div>
+              <!-- Placeholder avatar -->
+              <div class="w-36 h-36 rounded-full bg-blue-200 flex items-center justify-center mb-20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="absolute -bottom-4 -right-4 w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg" style="background:var(--accent)">
+              <span class="text-white font-black text-2xl">25+</span>
+            </div>
+          </div>
+          <p class="text-xs text-neutral-400 text-center mt-8">Tahun Pengabdian STMK Trisakti</p>
+        </div>
+      </div>
+
+      <!-- Konten Sambutan -->
+      <div class="lg:col-span-8 reveal" style="transition-delay:100ms">
+        <p class="section-num mb-4">Sambutan Pimpinan</p>
+        <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-2">Salam dari Ketua</h2>
+        <p class="text-4xl font-black italic mb-8" style="color:var(--brand)">"Creativity is Power to Act...!"</p>
+
+        <div class="prose prose-neutral max-w-none text-sm leading-relaxed text-neutral-600 space-y-5">
+          <p>
+            Assalamu'alaikum Warahmatullahi Wabarakatuh, salam sejahtera bagi kita semua.
+          </p>
+          <p>
+            Selamat datang di Sekolah Tinggi Media Komunikasi Trisakti (STMK Trisakti), kampus multimedia yang telah berdiri dan berkontribusi dalam dunia pendidikan tinggi Indonesia sejak tahun 1986 di bawah naungan Yayasan Trisakti.
+          </p>
+          <p>
+            Selama lebih dari tiga dekade, STMK Trisakti telah menjadi bagian integral dari perkembangan industri kreatif Indonesia. Kami memahami bahwa kreativitas bukan sekadar bakat alami, melainkan sebuah kekuatan yang harus terus diasah, dikembangkan, dan diarahkan untuk menghasilkan karya-karya yang bermakna dan berdampak nyata.
+          </p>
+          <p>
+            Melalui dua program studi unggulan kami — <strong>Desain Komunikasi Visual (S1)</strong> dan <strong>Teknologi Grafika (D4)</strong> — kami berkomitmen untuk menghasilkan lulusan yang tidak hanya mahir secara teknis, tetapi juga memiliki jiwa kewirausahaan dan kepekaan terhadap kebutuhan industri.
+          </p>
+          <p>
+            Program inkubator bisnis, kemitraan dengan berbagai pelaku industri kreatif — dari media, percetakan, periklanan hingga penerbitan — menjadi wujud nyata komitmen kami untuk menjembatani dunia pendidikan dengan dunia kerja. Hampir seluruh lulusan kami berhasil berkiprah di sektor industri kreatif, baik sebagai profesional maupun wirausahawan.
+          </p>
+          <p>
+            Kami terus berinovasi dalam kurikulum, fasilitas, dan metode pembelajaran. Penerapan konsep <em>Merdeka Belajar-Kampus Merdeka (MBKM)</em> menjadi landasan kami dalam mempersiapkan mahasiswa menghadapi tantangan era digital yang terus berkembang.
+          </p>
+          <p>
+            Kepada seluruh mahasiswa, alumni, dosen, tenaga kependidikan, orang tua, dan mitra kami — terima kasih atas kepercayaan dan dukungan yang telah diberikan. Mari kita terus bergandengan tangan membangun ekosistem pendidikan multimedia yang unggul, inovatif, dan berdaya saing global.
+          </p>
+          <p>
+            Wassalamu'alaikum Warahmatullahi Wabarakatuh.
+          </p>
+        </div>
+
+        <div class="mt-10 pt-8 border-t border-neutral-200">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-xl flex items-center justify-center" style="background:var(--brand)">
+              <span class="text-white text-xl font-black">BS</span>
+            </div>
+            <div>
+              <p class="font-black text-neutral-950 text-base">Budi Suyanto, S.Sn., M.Si.</p>
+              <p class="text-sm text-neutral-500">Ketua STMK Trisakti</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Stats bawah -->
+    <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 reveal" style="transition-delay:200ms">
+      {[
+        { num: '1986', label: 'Tahun Berdiri' },
+        { num: '2', label: 'Program Studi' },
+        { num: '~95%', label: 'Serapan Kerja Lulusan' },
+        { num: 'A', label: 'Akreditasi BAN-PT' },
+      ].map(s => (
+        <div class="text-center p-6 bg-neutral-50 rounded-2xl hover:shadow-md transition-shadow">
+          <div class="text-3xl font-black mb-1" style="color:var(--brand)">{s.num}</div>
+          <div class="text-xs text-neutral-500">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>

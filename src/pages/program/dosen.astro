@@ -1,0 +1,205 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { getDosen, getFeaturedImage, initials, type WPDosen } from '../../lib/wordpress';
+
+const tabs = [
+  { label: 'Overview', href: '/program' },
+  { label: 'DKV', href: '/program/dkv' },
+  { label: 'Teknologi Grafika', href: '/program/teknologi-grafika' },
+  { label: 'Dosen', href: '/program/dosen' },
+];
+
+// ── Coba WP dulu, fallback ke data statis ──
+const wpDosen = await getDosen();
+const useWP = wpDosen.length > 0;
+
+// Data statis fallback
+type DosenItem = { nama: string; gelar: string; jabatan: string; bidang: string; prodi: string; foto?: string };
+
+const staticDosen: { DKV: DosenItem[]; TG: DosenItem[]; Umum: DosenItem[] } = {
+  DKV: [
+    { nama: 'Budi Suyanto', gelar: 'S.Sn., M.Si.', jabatan: 'Ketua STMK / Dosen DKV', bidang: 'Desain Grafis & Manajemen', prodi: 'DKV' },
+    { nama: 'Budiman', gelar: 'S.Kom., M.I.Kom.', jabatan: 'Dosen DKV', bidang: 'Ilmu Komunikasi & Teknologi', prodi: 'DKV' },
+    { nama: 'Dedi Tri Hudaya', gelar: 'S.Sos., M.Si.', jabatan: 'Dosen DKV', bidang: 'Sosial & Komunikasi', prodi: 'DKV' },
+    { nama: 'Dra. Friska N.S.', gelar: 'M.M.', jabatan: 'Dosen DKV', bidang: 'Manajemen', prodi: 'DKV' },
+    { nama: 'Ferdiansyah Ali', gelar: 'S.E., M.Si.', jabatan: 'Dosen DKV', bidang: 'Ekonomi & Manajemen', prodi: 'DKV' },
+    { nama: 'Irene Hasian', gelar: 'M.Kom.', jabatan: 'Dosen DKV', bidang: 'Ilmu Komputer', prodi: 'DKV' },
+    { nama: 'Marta Eriska', gelar: 'S.Des., M.Sn.', jabatan: 'Dosen DKV', bidang: 'Desain & Seni', prodi: 'DKV' },
+    { nama: 'Yahya Dewanto', gelar: 'S.Sn., M.M.', jabatan: 'Dosen DKV', bidang: 'Seni & Manajemen', prodi: 'DKV' },
+  ],
+  TG: [
+    { nama: 'Linda RM Gurning', gelar: 'ST., M.M.', jabatan: 'Dosen Teknologi Grafika', bidang: 'Teknik & Manajemen', prodi: 'TG' },
+    { nama: 'Rumbel Galingging', gelar: 'M.Ds.', jabatan: 'Dosen Teknologi Grafika', bidang: 'Desain', prodi: 'TG' },
+    { nama: 'Anto Purwadi', gelar: 'S.Pd., M.M.', jabatan: 'Dosen Teknologi Grafika', bidang: 'Pendidikan & Manajemen', prodi: 'TG' },
+    { nama: 'Soelinto', gelar: 'SE., M.M.', jabatan: 'Dosen Teknologi Grafika', bidang: 'Ekonomi & Manajemen', prodi: 'TG' },
+  ],
+  Umum: [
+    { nama: 'Yanuarius Andri S', gelar: 'ST., MT.', jabatan: 'Dosen Mata Kuliah', bidang: 'Statistik & Metodologi Penelitian', prodi: 'Umum' },
+    { nama: 'Adi Segara', gelar: 'ST., M.Kom.', jabatan: 'Dosen Mata Kuliah', bidang: 'Grafika Komputer', prodi: 'Umum' },
+    { nama: 'Toni Sitompul', gelar: 'S.E., M.M.', jabatan: 'Dosen Mata Kuliah', bidang: 'Ekonomi Teknik', prodi: 'Umum' },
+  ],
+};
+
+// ── Kelompokkan WP data ──
+function groupWP(list: WPDosen[]) {
+  const dkv  = list.filter(d => d.meta.prodi === 'DKV');
+  const tg   = list.filter(d => d.meta.prodi === 'TG');
+  const umum = list.filter(d => !d.meta.prodi || d.meta.prodi === 'Umum' || (d.meta.prodi !== 'DKV' && d.meta.prodi !== 'TG'));
+  return { dkv, tg, umum };
+}
+const grouped = groupWP(wpDosen);
+---
+
+<Layout title="Dosen STMK Trisakti" description="Daftar dosen pengajar STMK Trisakti — Program Studi DKV dan Teknologi Grafika.">
+
+  <PageHeader
+    label="Tenaga Pengajar"
+    title="Dosen"
+    desc="Dosen-dosen berpengalaman yang membimbing mahasiswa STMK Trisakti menuju karir di industri kreatif."
+    breadcrumb={[{ label: 'Program', href: '/program' }, { label: 'Dosen', href: '' }]}
+    tabs={tabs}
+    currentPath={Astro.url.pathname}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+
+    {useWP && (
+      <p class="text-xs text-neutral-400 mb-8 flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-green-400 inline-block"></span>
+        Data dosen diambil dari WordPress CMS
+      </p>
+    )}
+
+    <!-- DOSEN DKV -->
+    <div class="reveal mb-16">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-1 h-10 rounded-full" style="background:var(--brand)"></div>
+        <div>
+          <p class="section-num">Program Studi</p>
+          <h2 class="text-2xl font-black text-neutral-950 tracking-tight">Desain Komunikasi Visual (S1)</h2>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {(useWP ? grouped.dkv : staticDosen.DKV).map((d, i) => {
+          const nama   = useWP ? (d as WPDosen).title.rendered : (d as DosenItem).nama;
+          const gelar  = useWP ? (d as WPDosen).meta.gelar ?? '' : (d as DosenItem).gelar;
+          const bidang = useWP ? (d as WPDosen).meta.bidang_keahlian ?? '' : (d as DosenItem).bidang;
+          const foto   = useWP ? getFeaturedImage(d as WPDosen) : null;
+          return (
+            <div class="card-hover bg-white border border-neutral-100 rounded-2xl overflow-hidden reveal" style={`transition-delay:${i*50}ms`}>
+              {foto ? (
+                <div class="aspect-square overflow-hidden bg-neutral-100">
+                  <img src={foto} alt={nama} class="w-full h-full object-cover object-top" loading="lazy" />
+                </div>
+              ) : (
+                <div class="w-full aspect-square flex items-center justify-center text-white font-black text-2xl" style="background:var(--brand)">
+                  {initials(nama)}
+                </div>
+              )}
+              <div class="p-5">
+                <h3 class="font-black text-neutral-950 text-sm leading-tight mb-0.5">{nama}</h3>
+                <p class="text-xs font-medium mb-2" style="color:var(--brand)">{gelar}</p>
+                <p class="text-xs text-neutral-500 leading-relaxed">{bidang}</p>
+                <div class="mt-3 pt-3 border-t border-neutral-100">
+                  <span class="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 font-medium">DKV</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- DOSEN TG -->
+    <div class="reveal mb-16">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-1 h-10 rounded-full" style="background:var(--accent)"></div>
+        <div>
+          <p class="section-num">Program Studi</p>
+          <h2 class="text-2xl font-black text-neutral-950 tracking-tight">Teknologi Grafika (D4)</h2>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {(useWP ? grouped.tg : staticDosen.TG).map((d, i) => {
+          const nama   = useWP ? (d as WPDosen).title.rendered : (d as DosenItem).nama;
+          const gelar  = useWP ? (d as WPDosen).meta.gelar ?? '' : (d as DosenItem).gelar;
+          const bidang = useWP ? (d as WPDosen).meta.bidang_keahlian ?? '' : (d as DosenItem).bidang;
+          const foto   = useWP ? getFeaturedImage(d as WPDosen) : null;
+          return (
+            <div class="card-hover bg-white border border-neutral-100 rounded-2xl overflow-hidden reveal" style={`transition-delay:${i*50}ms`}>
+              {foto ? (
+                <div class="aspect-square overflow-hidden bg-neutral-100">
+                  <img src={foto} alt={nama} class="w-full h-full object-cover object-top" loading="lazy" />
+                </div>
+              ) : (
+                <div class="w-full aspect-square flex items-center justify-center text-white font-black text-2xl" style="background:var(--accent)">
+                  {initials(nama)}
+                </div>
+              )}
+              <div class="p-5">
+                <h3 class="font-black text-neutral-950 text-sm leading-tight mb-0.5">{nama}</h3>
+                <p class="text-xs font-medium mb-2" style="color:var(--accent)">{gelar}</p>
+                <p class="text-xs text-neutral-500 leading-relaxed">{bidang}</p>
+                <div class="mt-3 pt-3 border-t border-neutral-100">
+                  <span class="text-xs px-2.5 py-1 rounded-full bg-orange-50 text-orange-700 font-medium">Teknologi Grafika</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- DOSEN UMUM -->
+    <div class="reveal">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-1 h-10 rounded-full bg-purple-500"></div>
+        <div>
+          <p class="section-num">Lintas Program Studi</p>
+          <h2 class="text-2xl font-black text-neutral-950 tracking-tight">Mata Kuliah Umum</h2>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {(useWP ? grouped.umum : staticDosen.Umum).map((d, i) => {
+          const nama   = useWP ? (d as WPDosen).title.rendered : (d as DosenItem).nama;
+          const gelar  = useWP ? (d as WPDosen).meta.gelar ?? '' : (d as DosenItem).gelar;
+          const bidang = useWP ? (d as WPDosen).meta.bidang_keahlian ?? '' : (d as DosenItem).bidang;
+          const foto   = useWP ? getFeaturedImage(d as WPDosen) : null;
+          return (
+            <div class="card-hover bg-white border border-neutral-100 rounded-2xl overflow-hidden reveal" style={`transition-delay:${i*50}ms`}>
+              {foto ? (
+                <div class="aspect-square overflow-hidden bg-neutral-100">
+                  <img src={foto} alt={nama} class="w-full h-full object-cover object-top" loading="lazy" />
+                </div>
+              ) : (
+                <div class="w-full aspect-square flex items-center justify-center text-white font-black text-2xl bg-purple-500">
+                  {initials(nama)}
+                </div>
+              )}
+              <div class="p-5">
+                <h3 class="font-black text-neutral-950 text-sm leading-tight mb-0.5">{nama}</h3>
+                <p class="text-xs font-medium text-purple-600 mb-2">{gelar}</p>
+                <p class="text-xs text-neutral-500 leading-relaxed">{bidang}</p>
+                <div class="mt-3 pt-3 border-t border-neutral-100">
+                  <span class="text-xs px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 font-medium">Mata Kuliah Umum</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="mt-20 rounded-3xl p-10 md:p-14 text-white text-center reveal" style="background:var(--brand)">
+      <p class="text-sm font-semibold uppercase tracking-widest opacity-70 mb-3">Bergabung Bersama Kami</p>
+      <h2 class="text-3xl font-black mb-4">Ingin Berkarir di STMK Trisakti?</h2>
+      <p class="text-white/70 text-sm max-w-xl mx-auto mb-8">
+        Kami membuka kesempatan bagi akademisi dan praktisi industri kreatif yang berdedikasi untuk bergabung sebagai dosen atau tenaga kependidikan.
+      </p>
+      <a href="/kontak" class="btn-secondary">Hubungi Kami</a>
+    </div>
+
+  </div>
+</Layout>

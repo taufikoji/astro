@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      triggered_by:
+        description: 'Triggered by (CMS publish or manual)'
+        required: false
+        default: 'manual'
 
 permissions:
   contents: read
@@ -35,6 +40,8 @@ jobs:
 
       - name: Build Astro
         run: npm run build
+        env:
+          WORDPRESS_API_URL: ${{ secrets.WORDPRESS_API_URL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -1,0 +1,163 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const tabs = [
+  { label: 'Overview', href: '/fasilitas' },
+  { label: 'Perpustakaan', href: '/fasilitas/perpustakaan' },
+  { label: 'Laboratorium', href: '/fasilitas/laboratorium' },
+  { label: 'Studio Podcast', href: '/fasilitas/podcast' },
+];
+
+const fitur = [
+  { icon: '🎙️', judul: 'Rekaman Audio Profesional', desc: 'Booth rekaman kedap suara dengan mikrofon kondenser profesional untuk kualitas suara broadcast.' },
+  { icon: '🎚️', judul: 'Mixing & Audio Editing', desc: 'Perangkat mixing console dan software DAW (Digital Audio Workstation) berstandar industri.' },
+  { icon: '📡', judul: 'Penyiaran (Broadcasting)', desc: 'Fasilitas streaming langsung untuk siaran radio kampus dan podcast online.' },
+  { icon: '🎵', judul: 'Produksi Musik & Jingle', desc: 'Produksi musik latar, jingle iklan, dan sound branding untuk proyek mahasiswa.' },
+  { icon: '🎤', judul: 'Voice Over & Dubbing', desc: 'Studio yang ideal untuk rekaman voice over, dubbing animasi, dan narasi video.' },
+  { icon: '💻', judul: 'Post-Production', desc: 'Workstation lengkap untuk editing audio, noise reduction, dan mastering.' },
+];
+
+const keahlian = [
+  'Teknik rekaman audio profesional',
+  'Mixing dan mastering audio',
+  'Editing podcast dan voice over',
+  'Produksi konten audio digital',
+  'Penyiaran radio dan streaming',
+  'Sound design untuk animasi & film',
+  'Pembuatan jingle dan scoring musik',
+  'Pengelolaan RSS feed podcast',
+];
+---
+
+<Layout title="Studio Podcast STMK Trisakti" description="Studio Podcast STMK Trisakti — fasilitas rekaman audio, mixing, dan penyiaran profesional untuk mahasiswa multimedia.">
+
+  <PageHeader
+    label="Fasilitas Kampus"
+    title="Studio Podcast"
+    desc="Studio podcast profesional untuk mengembangkan bakat mahasiswa dalam produksi audio, mixing, rekaman suara, dan penyiaran."
+    breadcrumb={[{ label: 'Fasilitas', href: '/fasilitas' }, { label: 'Studio Podcast', href: '' }]}
+    tabs={tabs}
+    currentPath={Astro.url.pathname}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+
+    <!-- Hero section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+      <div class="reveal">
+        <p class="section-num mb-3">Audio Production Facility</p>
+        <h2 class="text-3xl font-black text-neutral-950 tracking-tight mb-4">Studio Podcast Berstandar Industri</h2>
+        <p class="text-neutral-500 text-sm leading-relaxed mb-4">
+          Studio Podcast STMK Trisakti dirancang untuk menunjang praktik mahasiswa dalam mengembangkan bakat mengolah audio, mixing audio, perekaman suara, dan penyiaran.
+        </p>
+        <p class="text-neutral-500 text-sm leading-relaxed mb-6">
+          Dilengkapi dengan peralatan rekaman profesional dan ruang kedap suara, studio ini memberikan pengalaman produksi audio yang setara dengan standar industri penyiaran dan konten digital.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          {['Broadcasting', 'Advertising', 'Animasi & Games'].map(k => (
+            <span class="text-xs px-3 py-1.5 rounded-full font-semibold" style="background:var(--brand);color:white">{k}</span>
+          ))}
+        </div>
+      </div>
+
+      <!-- Visual representasi studio -->
+      <div class="reveal" style="transition-delay:100ms">
+        <div class="bg-neutral-950 rounded-3xl p-8 relative overflow-hidden">
+          <div class="absolute inset-0 opacity-20" style="background: radial-gradient(circle at 30% 50%, var(--brand), transparent 60%)"></div>
+          <div class="relative z-10">
+            <div class="flex items-center gap-2 mb-6">
+              <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+              <span class="text-red-400 text-xs font-semibold uppercase tracking-widest">On Air</span>
+            </div>
+            <div class="text-center py-8">
+              <div class="text-8xl mb-4">🎙️</div>
+              <p class="text-white font-black text-xl">Studio Podcast</p>
+              <p class="text-white/50 text-sm">STMK Trisakti</p>
+            </div>
+            <!-- Fake equalizer bars -->
+            <div class="flex items-end justify-center gap-1 h-12">
+              {[4,7,5,9,6,8,4,7,5,9,6,5,8,4,7,6,9,5,7,4].map((h, i) => (
+                <div
+                  class="w-1.5 rounded-full bg-gradient-to-t from-blue-500 to-cyan-400"
+                  style={`height:${h * 4}px; opacity: ${0.4 + (i % 3) * 0.2}`}
+                ></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fitur -->
+    <div class="mb-20 reveal">
+      <p class="section-num mb-3">Apa yang Bisa Kamu Lakukan</p>
+      <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-8">Fasilitas & Kemampuan Studio</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {fitur.map((f, i) => (
+          <div class="card-hover bg-white border border-neutral-100 rounded-2xl p-6 reveal" style={`transition-delay:${i*50}ms`}>
+            <div class="text-3xl mb-4">{f.icon}</div>
+            <h3 class="font-black text-neutral-950 text-sm mb-2">{f.judul}</h3>
+            <p class="text-xs text-neutral-500 leading-relaxed">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Keahlian yang dipelajari -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-20 reveal">
+      <div>
+        <p class="section-num mb-3">Kompetensi</p>
+        <h2 class="text-2xl font-black text-neutral-950 tracking-tight mb-4">Keahlian yang Kamu Kuasai</h2>
+        <p class="text-neutral-500 text-sm leading-relaxed mb-6">
+          Melalui praktik di Studio Podcast, mahasiswa akan menguasai berbagai keahlian yang dibutuhkan industri konten digital dan penyiaran modern.
+        </p>
+        <div class="space-y-3">
+          {keahlian.map((k, i) => (
+            <div class="flex items-center gap-3 reveal" style={`transition-delay:${i*30}ms`}>
+              <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style="background:var(--brand)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <span class="text-sm text-neutral-700">{k}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-br from-blue-900 to-blue-950 rounded-3xl p-10 text-white">
+        <h3 class="font-black text-xl mb-6">Peralatan Studio</h3>
+        <div class="space-y-4">
+          {[
+            { label: 'Mikrofon', value: 'Condenser & Dynamic Pro' },
+            { label: 'Audio Interface', value: 'Focusrite Scarlett Series' },
+            { label: 'Mixing Console', value: 'Yamaha MG Series' },
+            { label: 'Monitoring', value: 'Studio Monitor Speaker' },
+            { label: 'DAW Software', value: 'Adobe Audition, Audacity, Logic Pro' },
+            { label: 'Akustik Ruangan', value: 'Foam panel kedap suara' },
+            { label: 'Headphone', value: 'Sony MDR-7506 (multiple units)' },
+          ].map(p => (
+            <div class="flex items-start justify-between gap-4 border-b border-white/10 pb-3">
+              <span class="text-white/60 text-xs shrink-0">{p.label}</span>
+              <span class="text-xs font-semibold text-right">{p.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="rounded-3xl p-10 md:p-14 text-center reveal" style="background:linear-gradient(135deg,var(--brand),#2563eb)">
+      <div class="text-5xl mb-4">🎙️</div>
+      <h2 class="text-3xl font-black text-white mb-3">Mulai Produksi Kontenmu</h2>
+      <p class="text-white/70 text-sm max-w-xl mx-auto mb-8">
+        Daftarkan dirimu dan mulai berkarya di Studio Podcast STMK Trisakti. Kuasai skill audio production yang dibutuhkan industri konten digital.
+      </p>
+      <a href="/pmb" class="inline-block bg-white font-black text-blue-900 px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">
+        Daftar Sekarang
+      </a>
+    </div>
+
+  </div>
+</Layout>

@@ -1,0 +1,186 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { getLowongan, parsePersyaratan, type WPLowongan } from '../../lib/wordpress';
+
+const tabs = [
+  { label: 'Overview', href: '/karir-alumni' },
+  { label: 'Job Vacancy', href: '/karir-alumni/job-vacancy' },
+  { label: 'Testimoni', href: '/karir-alumni/testimoni' },
+];
+
+const wpLowongan = await getLowongan();
+const useWP = wpLowongan.length > 0;
+
+// Fallback data statis
+type StaticLowongan = {
+  perusahaan: string; posisi: string; prodi: string; lokasi: string;
+  tipe: string; deadline: string; persyaratan: string[]; kontak: string;
+};
+const staticLowongan: StaticLowongan[] = [
+  {
+    perusahaan: 'Damai Indah Golf', posisi: 'Graphic Designer', prodi: 'DKV',
+    lokasi: 'Jakarta Selatan', tipe: 'Full-time', deadline: '30 Juni 2026',
+    persyaratan: ['Lulusan DKV atau Desain Grafis', 'Menguasai Adobe Illustrator & Photoshop', 'Fresh graduate welcome', 'Portfolio desain yang kuat'],
+    kontak: 'hrd@damaiindahgolf.com',
+  },
+  {
+    perusahaan: 'Dillco Group', posisi: 'Content Creator', prodi: 'DKV',
+    lokasi: 'Jakarta Barat', tipe: 'Full-time', deadline: '15 Juli 2026',
+    persyaratan: ['Lulusan DKV / Broadcasting / Komunikasi', 'Menguasai video editing', 'Kreatif dan up-to-date dengan tren media sosial'],
+    kontak: 'recruitment@dillco.co.id',
+  },
+  {
+    perusahaan: 'ELEMGE', posisi: 'Pre-press Operator', prodi: 'Teknologi Grafika',
+    lokasi: 'Tangerang', tipe: 'Full-time', deadline: '31 Juli 2026',
+    persyaratan: ['Lulusan Teknologi Grafika', 'Menguasai proses pre-press dan color management', 'Familiar dengan InDesign / QuarkXPress'],
+    kontak: 'hrd@elemge.co.id',
+  },
+];
+
+const badgeWarna: Record<string, string> = {
+  'DKV': 'bg-blue-100 text-blue-700',
+  'Teknologi Grafika': 'bg-orange-100 text-orange-700',
+  'TG': 'bg-orange-100 text-orange-700',
+  'Semua': 'bg-neutral-100 text-neutral-600',
+};
+---
+
+<Layout title="Job Vacancy STMK Trisakti" description="Lowongan kerja khusus alumni dan mahasiswa STMK Trisakti dari mitra industri kreatif terpercaya.">
+
+  <PageHeader
+    label="Karir & Alumni"
+    title="Job Vacancy"
+    desc="Lowongan kerja terkurasi dari mitra industri untuk lulusan STMK Trisakti."
+    breadcrumb={[{ label: 'Karir & Alumni', href: '/karir-alumni' }, { label: 'Job Vacancy', href: '' }]}
+    tabs={tabs}
+    currentPath={Astro.url.pathname}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+
+    {useWP && (
+      <p class="text-xs text-neutral-400 mb-6 flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-green-400 inline-block"></span>
+        Data lowongan diambil dari WordPress CMS
+      </p>
+    )}
+
+    <!-- Info banner -->
+    <div class="mb-10 p-5 rounded-2xl flex items-start gap-4 reveal" style="background:color-mix(in srgb, var(--brand) 8%, white)">
+      <div class="text-2xl shrink-0">ℹ️</div>
+      <div>
+        <p class="font-semibold text-sm text-neutral-800 mb-1">Khusus Mahasiswa & Alumni STMK Trisakti</p>
+        <p class="text-xs text-neutral-500 leading-relaxed">
+          Cantumkan bahwa Anda adalah alumni STMK Trisakti dalam surat lamaran. Info lowongan juga tersedia via grup WhatsApp Alumni dan papan pengumuman kampus.
+        </p>
+      </div>
+    </div>
+
+    <!-- Daftar Lowongan dari WP -->
+    {useWP && (
+      <div class="space-y-5 mb-20">
+        {wpLowongan.map((item: WPLowongan, i: number) => {
+          const prodi = item.meta.prodi ?? 'Semua';
+          const syarat = parsePersyaratan(item.meta.persyaratan ?? '');
+          return (
+            <div class="bg-white border border-neutral-100 rounded-2xl p-6 md:p-8 card-hover reveal" style={`transition-delay:${i*60}ms`}>
+              <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                <div class="flex-1">
+                  <div class="flex items-center gap-3 flex-wrap mb-2">
+                    <span class={`text-xs px-2.5 py-1 rounded-full font-semibold ${badgeWarna[prodi] ?? 'bg-neutral-100 text-neutral-600'}`}>{prodi}</span>
+                    {item.meta.tipe && <span class="text-xs px-2.5 py-1 rounded-full bg-neutral-100 text-neutral-600 font-medium">{item.meta.tipe}</span>}
+                  </div>
+                  <h3 class="text-xl font-black text-neutral-950 mb-0.5" set:html={item.title.rendered} />
+                  {item.meta.perusahaan && <p class="font-semibold mb-1" style="color:var(--brand)">{item.meta.perusahaan}</p>}
+                  <div class="flex items-center gap-3 text-xs text-neutral-400 mb-4">
+                    {item.meta.lokasi && <span>📍 {item.meta.lokasi}</span>}
+                    {item.meta.deadline && <><span>·</span><span>⏰ Deadline: {item.meta.deadline}</span></>}
+                  </div>
+                  {syarat.length > 0 && (
+                    <div>
+                      <p class="text-xs font-semibold text-neutral-700 mb-2">Persyaratan:</p>
+                      <ul class="space-y-1">
+                        {syarat.map((s: string) => (
+                          <li class="flex items-start gap-2 text-xs text-neutral-500">
+                            <span class="mt-1 shrink-0" style="color:var(--brand)">✓</span>
+                            {s}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {/* Deskripsi dari WP editor */}
+                  {item.content.rendered.trim() !== '' && !syarat.length && (
+                    <div class="text-xs text-neutral-500 leading-relaxed prose prose-neutral max-w-none" set:html={item.content.rendered} />
+                  )}
+                </div>
+                {item.meta.kontak_email && (
+                  <div class="shrink-0 flex flex-col items-end gap-3">
+                    <a href={`mailto:${item.meta.kontak_email}`} class="btn-primary text-sm whitespace-nowrap">Lamar Sekarang</a>
+                    <span class="text-xs text-neutral-400">{item.meta.kontak_email}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    )}
+
+    <!-- Fallback data statis -->
+    {!useWP && (
+      <div class="space-y-5 mb-20">
+        {staticLowongan.map((l, i) => (
+          <div class="bg-white border border-neutral-100 rounded-2xl p-6 md:p-8 card-hover reveal" style={`transition-delay:${i*60}ms`}>
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+              <div class="flex-1">
+                <div class="flex items-center gap-3 flex-wrap mb-2">
+                  <span class={`text-xs px-2.5 py-1 rounded-full font-semibold ${badgeWarna[l.prodi] ?? ''}`}>{l.prodi}</span>
+                  <span class="text-xs px-2.5 py-1 rounded-full bg-neutral-100 text-neutral-600 font-medium">{l.tipe}</span>
+                </div>
+                <h3 class="text-xl font-black text-neutral-950 mb-0.5">{l.posisi}</h3>
+                <p class="font-semibold mb-1" style="color:var(--brand)">{l.perusahaan}</p>
+                <div class="flex items-center gap-3 text-xs text-neutral-400 mb-4">
+                  <span>📍 {l.lokasi}</span><span>·</span><span>⏰ Deadline: {l.deadline}</span>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold text-neutral-700 mb-2">Persyaratan:</p>
+                  <ul class="space-y-1">
+                    {l.persyaratan.map(p => (
+                      <li class="flex items-start gap-2 text-xs text-neutral-500">
+                        <span class="mt-1 shrink-0" style="color:var(--brand)">✓</span>{p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div class="shrink-0 flex flex-col items-end gap-3">
+                <a href={`mailto:${l.kontak}`} class="btn-primary text-sm whitespace-nowrap">Lamar Sekarang</a>
+                <span class="text-xs text-neutral-400">{l.kontak}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- CTA perusahaan -->
+    <div class="rounded-3xl p-10 md:p-14 reveal" style="background:var(--brand)">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div>
+          <p class="text-white/60 text-xs font-semibold uppercase tracking-widest mb-3">Untuk Perusahaan</p>
+          <h2 class="text-3xl font-black text-white mb-3">Ingin Merekrut Alumni Kami?</h2>
+          <p class="text-white/70 text-sm leading-relaxed">Kirimkan info lowongan ke kami dan akan kami distribusikan ke seluruh jaringan alumni dan mahasiswa tingkat akhir.</p>
+        </div>
+        <div class="flex flex-col gap-4">
+          <a href="/kontak" class="btn-secondary text-center">Kirim Info Lowongan</a>
+          <a href="https://wa.me/6287742997808" target="_blank" rel="noopener" class="text-center bg-white/10 hover:bg-white/20 text-white font-black text-sm px-6 py-3.5 rounded-xl transition-colors">
+            WhatsApp: +62 877 4299 7808
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</Layout>

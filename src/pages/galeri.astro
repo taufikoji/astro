@@ -1,0 +1,149 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { getGaleri, getFeaturedImage, type WPGaleri } from '../lib/wordpress';
+
+const wpGaleri = await getGaleri();
+const useWP = wpGaleri.length > 0;
+
+// Fallback data statis
+type StaticItem = { judul: string; kategori: string; prodi: string; konsentrasi: string; tahun: string; link: string; warna: string; emoji: string };
+const staticGaleri: StaticItem[] = [
+  { judul: 'Beauty Class', kategori: 'Karya Tugas', prodi: 'DKV', konsentrasi: 'Advertising', tahun: '2024', link: '#', warna: 'from-pink-400 to-rose-600', emoji: '💄' },
+  { judul: 'Bintang Sampurna', kategori: 'Karya Tugas Akhir', prodi: 'DKV', konsentrasi: 'Desain Kemasan', tahun: '2024', link: '#', warna: 'from-yellow-400 to-orange-500', emoji: '⭐' },
+  { judul: 'Trisakti Multimedia Expo', kategori: 'Event Kampus', prodi: 'Semua Prodi', konsentrasi: '', tahun: '2024', link: '#', warna: 'from-blue-500 to-blue-700', emoji: '🎪' },
+  { judul: 'Pameran Desain Kemasan', kategori: 'Pameran', prodi: 'Teknologi Grafika', konsentrasi: 'Packaging Design', tahun: '2024', link: '#', warna: 'from-green-400 to-emerald-600', emoji: '📦' },
+  { judul: 'Animasi Pendek "Nusantara"', kategori: 'Karya Tugas Akhir', prodi: 'DKV', konsentrasi: 'Animasi & Games', tahun: '2023', link: '#', warna: 'from-purple-500 to-purple-700', emoji: '🎬' },
+  { judul: 'Kampanye Sosial Anti Hoaks', kategori: 'Karya Tugas', prodi: 'DKV', konsentrasi: 'Advertising', tahun: '2023', link: '#', warna: 'from-teal-400 to-cyan-600', emoji: '📢' },
+];
+
+const kategoriList = ['Semua', 'Karya Tugas', 'Karya Tugas Akhir', 'Event Kampus', 'Pameran'];
+
+// Warna gradien random untuk WP items yang tidak punya gambar
+const gradients = [
+  'from-blue-500 to-blue-700', 'from-orange-400 to-orange-600',
+  'from-purple-500 to-purple-700', 'from-green-400 to-emerald-600',
+  'from-pink-400 to-rose-600', 'from-teal-400 to-cyan-600',
+];
+---
+
+<Layout title="Galeri Karya Mahasiswa STMK Trisakti" description="Galeri karya mahasiswa STMK Trisakti — tugas, tugas akhir, pameran, dan dokumentasi event kampus.">
+
+  <PageHeader
+    label="Karya Mahasiswa"
+    title="Galeri"
+    desc="Koleksi karya terbaik mahasiswa STMK Trisakti — dari tugas harian hingga tugas akhir dan pameran internasional."
+    breadcrumb={[{ label: 'Galeri', href: '' }]}
+    currentPath={Astro.url.pathname}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+
+    {useWP && (
+      <p class="text-xs text-neutral-400 mb-6 flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-green-400 inline-block"></span>
+        Konten diambil dari WordPress CMS
+      </p>
+    )}
+
+    <!-- Filter -->
+    <div class="flex flex-wrap gap-2 mb-10 reveal">
+      {kategoriList.map((k, i) => (
+        <button
+          class={`text-xs font-semibold px-4 py-2 rounded-full border transition-colors ${i === 0 ? 'text-white border-transparent' : 'border-neutral-200 text-neutral-500 hover:border-neutral-400 bg-white'}`}
+          style={i === 0 ? 'background:var(--brand)' : ''}
+        >
+          {k}
+        </button>
+      ))}
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {useWP ? wpGaleri.map((item: WPGaleri, i: number) => {
+        const gambar = getFeaturedImage(item);
+        const grad   = gradients[i % gradients.length];
+        return (
+          <div class="card-hover group rounded-3xl overflow-hidden border border-neutral-100 reveal" style={`transition-delay:${i*50}ms`}>
+            <div class={`${gambar ? '' : `bg-gradient-to-br ${grad}`} aspect-video flex items-center justify-center relative overflow-hidden`}>
+              {gambar ? (
+                <img src={gambar} alt={item.title.rendered} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              ) : (
+                <span class="text-5xl">🎨</span>
+              )}
+              <div class="absolute top-3 right-3">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-black/30 text-white font-medium backdrop-blur-sm">
+                  {item.meta.kategori ?? 'Karya'}
+                </span>
+              </div>
+            </div>
+            <div class="bg-white p-5">
+              <h3 class="font-black text-neutral-950 mb-1">{item.title.rendered}</h3>
+              <div class="flex items-center gap-2 flex-wrap mb-3">
+                {item.meta.prodi && <span class="text-xs text-neutral-500">{item.meta.prodi}</span>}
+                {item.meta.konsentrasi && <><span class="text-neutral-300">·</span><span class="text-xs text-neutral-500">{item.meta.konsentrasi}</span></>}
+                {item.meta.tahun && <><span class="text-neutral-300">·</span><span class="text-xs text-neutral-500">{item.meta.tahun}</span></>}
+              </div>
+              {item.meta.link_drive && item.meta.link_drive !== '#' ? (
+                <a href={item.meta.link_drive} target="_blank" rel="noopener"
+                  class="text-xs font-semibold flex items-center gap-1 transition-colors hover:opacity-70" style="color:var(--brand)">
+                  Lihat Karya
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              ) : (
+                <span class="text-xs text-neutral-300 font-medium">Segera Tersedia</span>
+              )}
+            </div>
+          </div>
+        );
+      }) : staticGaleri.map((k, i) => (
+        <div class="card-hover group rounded-3xl overflow-hidden border border-neutral-100 reveal" style={`transition-delay:${i*50}ms`}>
+          <div class={`bg-gradient-to-br ${k.warna} aspect-video flex items-center justify-center relative`}>
+            <div class="text-6xl">{k.emoji}</div>
+            <div class="absolute top-3 right-3">
+              <span class="text-xs px-2.5 py-1 rounded-full bg-black/30 text-white font-medium backdrop-blur-sm">{k.kategori}</span>
+            </div>
+          </div>
+          <div class="bg-white p-5">
+            <h3 class="font-black text-neutral-950 mb-1">{k.judul}</h3>
+            <div class="flex items-center gap-2 flex-wrap mb-3">
+              <span class="text-xs text-neutral-500">{k.prodi}</span>
+              {k.konsentrasi && <><span class="text-neutral-300">·</span><span class="text-xs text-neutral-500">{k.konsentrasi}</span></>}
+              <span class="text-neutral-300">·</span>
+              <span class="text-xs text-neutral-500">{k.tahun}</span>
+            </div>
+            {k.link !== '#' ? (
+              <a href={k.link} target="_blank" rel="noopener" class="text-xs font-semibold flex items-center gap-1 transition-colors hover:opacity-70" style="color:var(--brand)">
+                Lihat Karya
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            ) : (
+              <span class="text-xs text-neutral-300 font-medium">Segera Tersedia</span>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <div class="mt-20 grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+      <div class="rounded-2xl border border-neutral-200 p-8">
+        <div class="text-3xl mb-4">📤</div>
+        <h3 class="font-black text-neutral-950 text-lg mb-3">Ingin Karyamu Ditampilkan?</h3>
+        <p class="text-neutral-500 text-sm leading-relaxed mb-5">Mahasiswa aktif STMK Trisakti dapat mengajukan karya terbaik melalui email atau langsung ke Biro Akademik.</p>
+        <a href="/kontak" class="btn-primary text-sm">Hubungi Kami</a>
+      </div>
+      <div class="rounded-2xl p-8 text-white" style="background:var(--brand)">
+        <div class="text-3xl mb-4">🏆</div>
+        <h3 class="font-black text-xl mb-3">Pameran Tahunan</h3>
+        <p class="text-white/70 text-sm leading-relaxed mb-5">Setiap tahun STMK Trisakti menyelenggarakan Trisakti Multimedia Expo — ajang pameran karya terbesar yang terbuka untuk umum.</p>
+        <a href="/berita" class="inline-block bg-white font-black text-blue-900 text-sm px-5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors">Info Event Terbaru</a>
+      </div>
+    </div>
+
+  </div>
+</Layout>

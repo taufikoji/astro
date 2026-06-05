@@ -2,19 +2,39 @@
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { getCollection } from 'astro:content';
+import {
+  getPosts,
+  getFeaturedImage,
+  getFirstCategory,
+  formatDate,
+  stripHtml,
+  type WPPost,
+} from '../../lib/wordpress';
 
 const base = import.meta.env.BASE_URL;
 const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
-// Fetch and sort news by date (newest first)
-const semuaBerita = await getCollection('berita');
-const sortedBerita = semuaBerita.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+// ── Coba WordPress terlebih dahulu ──
+const wpPosts = await getPosts({ per_page: '30' });
+const useWP = wpPosts.length > 0;
 
-// Format date
-const formatDate = (dateString: string | Date) => {
-  const d = new Date(dateString);
-  return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-};
+// ── Fallback ke Content Collections ──
+type BeritaItem =
+  | { source: 'wp'; post: WPPost }
+  | { source: 'local'; entry: Awaited<ReturnType<typeof getCollection<'berita'>>>[number] };
+
+let items: BeritaItem[] = [];
+
+if (useWP) {
+  items = wpPosts.map(post => ({ source: 'wp' as const, post }));
+} else {
+  const localBerita = await getCollection('berita');
+  localBerita.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+  items = localBerita.map(entry => ({ source: 'local' as const, entry }));
+}
+
+const formatLocalDate = (d: string | Date) =>
+  new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 
 <Layout title="Berita & Informasi" description="Kumpulan berita, artikel, dan informasi terbaru seputar kegiatan di STMK Trisakti.">
@@ -26,38 +46,85 @@ const formatDate = (dateString: string | Date) => {
   />
 
   <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
-    {sortedBerita.length === 0 ? (
+
+    {useWP && (
+      <p class="text-xs text-neutral-400 mb-6 flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-green-400 inline-block"></span>
+        Konten diambil dari WordPress CMS
+      </p>
+    )}
+
+    {items.length === 0 ? (
       <div class="text-center py-20 bg-neutral-50 border border-neutral-200">
         <p class="text-neutral-500">Belum ada berita yang diterbitkan.</p>
       </div>
     ) : (
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger">
-        {sortedBerita.map(berita => (
-          <a href={url(`/berita/${berita.id}`)} class="group block border border-neutral-200 bg-white hover:border-[var(--brand)] transition-colors overflow-hidden h-full flex flex-col">
-            {berita.data.image && (
-              <div class="aspect-[16/10] overflow-hidden bg-neutral-100 shrink-0">
-                <img src={url(berita.data.image)} alt={berita.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              </div>
-            )}
-            {!berita.data.image && (
-              <div class="aspect-[16/10] bg-neutral-100 flex items-center justify-center shrink-0">
-                <span class="text-neutral-300 font-bold text-xl">STMK</span>
-              </div>
-            )}
-            <div class="p-6 flex flex-col grow">
-              <div class="flex items-center gap-3 text-[10px] text-neutral-400 font-bold uppercase tracking-widest mb-3">
-                <span class="badge badge-gray">{berita.data.category}</span>
-                <span style="color:var(--brand)">{formatDate(berita.data.date)}</span>
-              </div>
-              <h3 class="font-black text-xl text-neutral-900 leading-tight mb-4 group-hover:text-[var(--brand)] transition-colors">{berita.data.title}</h3>
-              <div class="mt-auto">
-                <span class="text-sm font-semibold text-neutral-500 group-hover:text-[var(--brand)] transition-colors inline-flex items-center gap-1">
-                  Baca selengkapnya <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                </span>
-              </div>
-            </div>
-          </a>
-        ))}
+        {items.map(item => {
+          if (item.source === 'wp') {
+            const p = item.post;
+            const img = getFeaturedImage(p);
+            const cat = getFirstCategory(p);
+            const href = url(`/berita/${p.slug}`);
+            return (
+              <a href={href} class="group block border border-neutral-200 bg-white hover:border-[var(--brand)] transition-colors overflow-hidden h-full flex flex-col">
+                {img ? (
+                  <div class="aspect-[16/10] overflow-hidden bg-neutral-100 shrink-0">
+                    <img src={img} alt={p.title.rendered} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  </div>
+                ) : (
+                  <div class="aspect-[16/10] bg-neutral-100 flex items-center justify-center shrink-0">
+                    <span class="text-neutral-300 font-bold text-xl">STMK</span>
+                  </div>
+                )}
+                <div class="p-6 flex flex-col grow">
+                  <div class="flex items-center gap-3 text-[10px] text-neutral-400 font-bold uppercase tracking-widest mb-3">
+                    <span class="badge badge-gray">{cat}</span>
+                    <span style="color:var(--brand)">{formatDate(p.date)}</span>
+                  </div>
+                  <h3 class="font-black text-xl text-neutral-900 leading-tight mb-4 group-hover:text-[var(--brand)] transition-colors"
+                    set:html={p.title.rendered} />
+                  <p class="text-sm text-neutral-500 line-clamp-2 mb-4">{stripHtml(p.excerpt.rendered)}</p>
+                  <div class="mt-auto">
+                    <span class="text-sm font-semibold text-neutral-500 group-hover:text-[var(--brand)] transition-colors inline-flex items-center gap-1">
+                      Baca selengkapnya
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </span>
+                  </div>
+                </div>
+              </a>
+            );
+          } else {
+            const b = item.entry;
+            const href = url(`/berita/${b.id}`);
+            return (
+              <a href={href} class="group block border border-neutral-200 bg-white hover:border-[var(--brand)] transition-colors overflow-hidden h-full flex flex-col">
+                {b.data.image ? (
+                  <div class="aspect-[16/10] overflow-hidden bg-neutral-100 shrink-0">
+                    <img src={url(b.data.image)} alt={b.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  </div>
+                ) : (
+                  <div class="aspect-[16/10] bg-neutral-100 flex items-center justify-center shrink-0">
+                    <span class="text-neutral-300 font-bold text-xl">STMK</span>
+                  </div>
+                )}
+                <div class="p-6 flex flex-col grow">
+                  <div class="flex items-center gap-3 text-[10px] text-neutral-400 font-bold uppercase tracking-widest mb-3">
+                    <span class="badge badge-gray">{b.data.category}</span>
+                    <span style="color:var(--brand)">{formatLocalDate(b.data.date)}</span>
+                  </div>
+                  <h3 class="font-black text-xl text-neutral-900 leading-tight mb-4 group-hover:text-[var(--brand)] transition-colors">{b.data.title}</h3>
+                  <div class="mt-auto">
+                    <span class="text-sm font-semibold text-neutral-500 group-hover:text-[var(--brand)] transition-colors inline-flex items-center gap-1">
+                      Baca selengkapnya
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </span>
+                  </div>
+                </div>
+              </a>
+            );
+          }
+        })}
       </div>
     )}
   </div>
