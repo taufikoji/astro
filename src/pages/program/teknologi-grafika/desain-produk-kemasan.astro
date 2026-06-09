@@ -5,12 +5,12 @@ const base = import.meta.env.BASE_URL;
 const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
 const matkul = [
-  { kode: 'DKV331', nama: 'Desain Kemasan & Branding Produk',  desc: 'Prinsip desain kemasan fungsional dan estetik: struktur, material, tipografi, dan warna untuk identitas produk.' },
-  { kode: 'DKV332', nama: 'Ilustrasi & Seni Kemasan',          desc: 'Teknik ilustrasi komersial, piktogram, dan elemen visual dekoratif khusus untuk permukaan kemasan.' },
-  { kode: 'DKV333', nama: 'Material & Teknologi Cetak',        desc: 'Jenis substrat kemasan, teknik cetak (offset, digital, flexo), finishing, dan pertimbangan keberlanjutan.' },
-  { kode: 'DKV334', nama: 'Desain Produk Digital & 3D',        desc: 'Mockup 3D realistis menggunakan Blender dan Dimension — dari dieline hingga visualisasi rak produk.' },
-  { kode: 'DKV335', nama: 'Strategi Merek & Retail',           desc: 'Psikologi warna rak, shelf impact, visual merchandising, dan riset konsumen untuk keputusan desain kemasan.' },
-  { kode: 'DKV336', nama: 'Proyek Kemasan Terpadu',            desc: 'Pengembangan lini kemasan nyata dari brief FMCG — riset, konsep, prototipe fisik, hingga presentasi klien.' },
+  { kode: 'TG331', nama: 'Desain Kemasan & Branding Produk',  desc: 'Prinsip desain kemasan fungsional dan estetik: struktur, material, tipografi, dan warna untuk identitas produk.' },
+  { kode: 'TG332', nama: 'Ilustrasi & Seni Kemasan',          desc: 'Teknik ilustrasi komersial, piktogram, dan elemen visual dekoratif khusus untuk permukaan kemasan.' },
+  { kode: 'TG333', nama: 'Material & Teknologi Cetak',        desc: 'Jenis substrat kemasan, teknik cetak (offset, digital, flexo), finishing, dan pertimbangan keberlanjutan.' },
+  { kode: 'TG334', nama: 'Desain Produk Digital & 3D',        desc: 'Mockup 3D realistis menggunakan Blender dan Dimension — dari dieline hingga visualisasi rak produk.' },
+  { kode: 'TG335', nama: 'Strategi Merek & Retail',           desc: 'Psikologi warna rak, shelf impact, visual merchandising, dan riset konsumen untuk keputusan desain kemasan.' },
+  { kode: 'TG336', nama: 'Proyek Kemasan Terpadu',            desc: 'Pengembangan lini kemasan nyata dari brief FMCG — riset, konsep, prototipe fisik, hingga presentasi klien.' },
 ];
 
 const karir = [
@@ -24,17 +24,17 @@ const tools = ['Adobe Illustrator', 'Adobe Photoshop', 'Adobe Dimension', 'Blend
 ---
 
 <Layout
-  title="Desain Produk Kemasan — Konsentrasi DKV STMK Trisakti"
-  description="Konsentrasi Desain Produk Kemasan S1 DKV STMK Trisakti. Kuasai desain kemasan, branding produk, material cetak, dan mockup 3D untuk industri FMCG dan retail."
+  title="Desain Produk Kemasan — Konsentrasi Teknologi Grafika STMK Trisakti"
+  description="Konsentrasi Desain Produk Kemasan D4 Teknologi Grafika STMK Trisakti. Kuasai desain kemasan, branding produk, material cetak, dan mockup 3D untuk industri FMCG dan retail."
 >
 
   <PageHeader
-    label="Konsentrasi DKV"
+    label="Konsentrasi Tek. Grafika"
     title="Desain Produk Kemasan"
-    desc="Ciptakan kemasan yang memenangkan hati konsumen di rak — di mana desain bertemu strategi merek."
+    desc="Ciptakan kemasan yang memenangkan hati konsumen di rak — di mana desain bertemu teknologi produksi."
     breadcrumb={[
       { label: 'Program', href: url('/program') },
-      { label: 'DKV', href: url('/program/dkv') },
+      { label: 'Teknologi Grafika', href: url('/program/teknologi-grafika') },
       { label: 'Desain Produk Kemasan', href: '' },
     ]}
     accent="green"
@@ -123,11 +123,9 @@ const tools = ['Adobe Illustrator', 'Adobe Photoshop', 'Adobe Dimension', 'Blend
         </div>
 
         <div class="border border-neutral-200 bg-white p-5" style="border-radius:2px">
-          <h4 class="text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-4">Konsentrasi Lain di DKV</h4>
+          <h4 class="text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-4">Program Terkait</h4>
           {[
-            { label: 'Animasi & Games',       href: url('/program/dkv/animasi-games') },
-            { label: 'Multimedia Penyiaran',  href: url('/program/dkv/multimedia-penyiaran') },
-            { label: 'Multimedia Periklanan', href: url('/program/dkv/multimedia-periklanan') },
+            { label: 'Teknologi Grafika',   href: url('/program/teknologi-grafika') },
           ].map(l => (
             <a href={l.href} class="flex items-center justify-between py-2.5 border-b border-neutral-100 last:border-0 text-sm text-neutral-600 hover:text-[var(--brand)] transition-colors group">
               <span>{l.label}</span>
