@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import {
-  getPosts,
+  getAllPosts,
   getPostBySlug,
   getFeaturedImage,
   getFirstCategory,
@@ -19,8 +19,8 @@ const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') 
 // getStaticPaths: coba WP dulu, fallback ke Content Collections
 // ────────────────────────────────────────────────────────────────────
 export async function getStaticPaths() {
-  // Coba WordPress
-  const wpPosts = await getPosts({ per_page: '100' });
+  // Coba WordPress (semua post, dengan pagination)
+  const wpPosts = await getAllPosts();
   if (wpPosts.length > 0) {
     return wpPosts.map(post => ({
       params: { slug: post.slug },

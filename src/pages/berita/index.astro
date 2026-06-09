@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { getCollection } from 'astro:content';
 import {
-  getPosts,
+  getAllPosts,
   getFeaturedImage,
   getFirstCategory,
   formatDate,
@@ -14,8 +14,8 @@ import {
 const base = import.meta.env.BASE_URL;
 const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
-// ── Coba WordPress terlebih dahulu ──
-const wpPosts = await getPosts({ per_page: '30' });
+// ── Coba WordPress terlebih dahulu (semua post, dengan pagination) ──
+const wpPosts = await getAllPosts();
 const useWP = wpPosts.length > 0;
 
 // ── Fallback ke Content Collections ──

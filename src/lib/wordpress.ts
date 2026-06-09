@@ -172,6 +172,32 @@ export async function getPosts(params: Record<string, string> = {}): Promise<WPP
   return wpFetch<WPPost[]>(`posts?${q}`, []);
 }
 
+/** Ambil SEMUA post dengan pagination otomatis (maks 500 post). */
+export async function getAllPosts(): Promise<WPPost[]> {
+  const all: WPPost[] = [];
+  let page = 1;
+  const perPage = 100;
+  while (true) {
+    try {
+      const q = new URLSearchParams({ _embed: '1', per_page: String(perPage), status: 'publish', page: String(page) });
+      const res = await fetch(`${API}/posts?${q}`, {
+        signal: AbortSignal.timeout(8000),
+        headers: { Accept: 'application/json' },
+      });
+      if (!res.ok) break;
+      const batch: WPPost[] = await res.json();
+      if (!batch.length) break;
+      all.push(...batch);
+      const totalPages = Number(res.headers.get('X-WP-TotalPages') ?? 1);
+      if (page >= totalPages || all.length >= 500) break;
+      page++;
+    } catch {
+      break;
+    }
+  }
+  return all;
+}
+
 export async function getPostBySlug(slug: string): Promise<WPPost | null> {
   const posts = await wpFetch<WPPost[]>(
     `posts?slug=${encodeURIComponent(slug)}&_embed=1&status=publish`,
@@ -181,7 +207,7 @@ export async function getPostBySlug(slug: string): Promise<WPPost | null> {
 }
 
 export async function getAllPostSlugs(): Promise<string[]> {
-  const posts = await getPosts({ per_page: '100', fields: 'slug' });
+  const posts = await getAllPosts();
   return posts.map(p => p.slug);
 }
 
