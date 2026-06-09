@@ -2,6 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { getGaleri, getFeaturedImage, type WPGaleri } from '../lib/wordpress';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
 const wpGaleri = await getGaleri();
 const useWP = wpGaleri.length > 0;
@@ -135,13 +137,13 @@ const gradients = [
         <div class="text-3xl mb-4">📤</div>
         <h3 class="font-black text-neutral-950 text-lg mb-3">Ingin Karyamu Ditampilkan?</h3>
         <p class="text-neutral-500 text-sm leading-relaxed mb-5">Mahasiswa aktif STMK Trisakti dapat mengajukan karya terbaik melalui email atau langsung ke Biro Akademik.</p>
-        <a href="/kontak" class="btn-primary text-sm">Hubungi Kami</a>
+        <a href={url('/kontak')} class="btn-primary text-sm">Hubungi Kami</a>
       </div>
       <div class="rounded-2xl p-8 text-white" style="background:var(--brand)">
         <div class="text-3xl mb-4">🏆</div>
         <h3 class="font-black text-xl mb-3">Pameran Tahunan</h3>
         <p class="text-white/70 text-sm leading-relaxed mb-5">Setiap tahun STMK Trisakti menyelenggarakan Trisakti Multimedia Expo — ajang pameran karya terbesar yang terbuka untuk umum.</p>
-        <a href="/berita" class="inline-block bg-white font-black text-blue-900 text-sm px-5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors">Info Event Terbaru</a>
+        <a href={url('/berita')} class="inline-block bg-white font-black text-blue-900 text-sm px-5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors">Info Event Terbaru</a>
       </div>
     </div>
 

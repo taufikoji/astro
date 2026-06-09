@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
 const tabs = [
   { label: 'Overview', href: '/fasilitas' },
@@ -154,7 +156,7 @@ const keahlian = [
       <p class="text-white/70 text-sm max-w-xl mx-auto mb-8">
         Daftarkan dirimu dan mulai berkarya di Studio Podcast STMK Trisakti. Kuasai skill audio production yang dibutuhkan industri konten digital.
       </p>
-      <a href="/pmb" class="inline-block bg-white font-black text-blue-900 px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">
+      <a href={url('/pmb')} class="inline-block bg-white font-black text-blue-900 px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">
         Daftar Sekarang
       </a>
     </div>

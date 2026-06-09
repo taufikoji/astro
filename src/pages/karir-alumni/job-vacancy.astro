@@ -2,6 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { getLowongan, parsePersyaratan, type WPLowongan } from '../../lib/wordpress';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
 const tabs = [
   { label: 'Overview', href: '/karir-alumni' },
@@ -174,7 +176,7 @@ const badgeWarna: Record<string, string> = {
           <p class="text-white/70 text-sm leading-relaxed">Kirimkan info lowongan ke kami dan akan kami distribusikan ke seluruh jaringan alumni dan mahasiswa tingkat akhir.</p>
         </div>
         <div class="flex flex-col gap-4">
-          <a href="/kontak" class="btn-secondary text-center">Kirim Info Lowongan</a>
+          <a href={url('/kontak')} class="btn-secondary text-center">Kirim Info Lowongan</a>
           <a href="https://wa.me/6287742997808" target="_blank" rel="noopener" class="text-center bg-white/10 hover:bg-white/20 text-white font-black text-sm px-6 py-3.5 rounded-xl transition-colors">
             WhatsApp: +62 877 4299 7808
           </a>

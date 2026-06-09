@@ -2,6 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { getTestimoni, getFeaturedImage, initials, stripHtml, type WPTestimoni } from '../../lib/wordpress';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
 const tabs = [
   { label: 'Overview', href: '/karir-alumni' },
@@ -144,7 +146,7 @@ const gradients = [
       <p class="text-white/60 text-xs font-semibold uppercase tracking-widest mb-4">Data Tracer Study 2024</p>
       <h2 class="text-4xl font-black text-white mb-2">95% Lulusan Terserap Industri</h2>
       <p class="text-white/70 text-sm max-w-xl mx-auto mb-10">95% alumni STMK Trisakti berhasil bekerja di bidang relevan dalam waktu kurang dari 6 bulan setelah wisuda.</p>
-      <a href="/akademik/alumni" class="inline-block bg-white font-black text-blue-900 px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">Lihat Data Lengkap</a>
+      <a href={url('/akademik/alumni')} class="inline-block bg-white font-black text-blue-900 px-8 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">Lihat Data Lengkap</a>
     </div>
 
   </div>

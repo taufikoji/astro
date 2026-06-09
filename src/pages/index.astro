@@ -648,7 +648,7 @@ const whyList = [
     </div>
     <div class="border-t border-neutral-200">
       {news.map((item, i) => (
-        <a href={item.href}
+        <a href={url(item.href)}
            class="flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-5 border-b border-neutral-200 group
                   hover:bg-white hover:-mx-8 hover:px-8 md:hover:-mx-14 md:hover:px-14 transition-all reveal"
            style={`transition-delay:${i*50}ms`}>
@@ -824,8 +824,9 @@ const whyList = [
 
   /* ── Text scramble on ANIMASI headline ── */
   (function () {
-    const target = document.querySelector<HTMLElement>('.glitch-wrap[data-text="ANIMASI"]');
-    if (!target) return;
+    const maybeTarget = document.querySelector<HTMLElement>('.glitch-wrap[data-text="ANIMASI"]');
+    if (!maybeTarget) return;
+    const target: HTMLElement = maybeTarget;
     const chars = '!@#$%^&*+=/\\|?◆※△▲●◉✦★';
     const original = 'ANIMASI';
 
@@ -844,9 +845,7 @@ const whyList = [
             out += chars[Math.floor(Math.random() * chars.length)];
           }
         }
-        target.childNodes[0]
-          ? (target.childNodes[0].textContent = out)
-          : (target.textContent = out);
+        target.textContent = out;
         frame++;
         if (frame > total) clearInterval(id);
       }, 45);
