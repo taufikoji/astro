@@ -11,12 +11,27 @@ const useWP = wpGaleri.length > 0;
 // Fallback data statis
 type StaticItem = { judul: string; kategori: string; prodi: string; konsentrasi: string; tahun: string; link: string; warna: string; emoji: string };
 const staticGaleri: StaticItem[] = [
-  { judul: 'Beauty Class', kategori: 'Karya Tugas', prodi: 'DKV', konsentrasi: 'Advertising', tahun: '2024', link: '#', warna: 'from-pink-400 to-rose-600', emoji: '💄' },
-  { judul: 'Bintang Sampurna', kategori: 'Karya Tugas Akhir', prodi: 'DKV', konsentrasi: 'Desain Kemasan', tahun: '2024', link: '#', warna: 'from-yellow-400 to-orange-500', emoji: '⭐' },
-  { judul: 'Trisakti Multimedia Expo', kategori: 'Event Kampus', prodi: 'Semua Prodi', konsentrasi: '', tahun: '2024', link: '#', warna: 'from-blue-500 to-blue-700', emoji: '🎪' },
-  { judul: 'Pameran Desain Kemasan', kategori: 'Pameran', prodi: 'Teknologi Grafika', konsentrasi: 'Packaging Design', tahun: '2024', link: '#', warna: 'from-green-400 to-emerald-600', emoji: '📦' },
-  { judul: 'Animasi Pendek "Nusantara"', kategori: 'Karya Tugas Akhir', prodi: 'DKV', konsentrasi: 'Animasi & Games', tahun: '2023', link: '#', warna: 'from-purple-500 to-purple-700', emoji: '🎬' },
-  { judul: 'Kampanye Sosial Anti Hoaks', kategori: 'Karya Tugas', prodi: 'DKV', konsentrasi: 'Advertising', tahun: '2023', link: '#', warna: 'from-teal-400 to-cyan-600', emoji: '📢' },
+  // ── Animasi & Games ──────────────────────────────────
+  { judul: 'Animasi Pendek "Nusantara"', kategori: 'Karya Tugas Akhir', prodi: 'DKV', konsentrasi: 'Animasi & Games', tahun: '2025', link: '#', warna: 'from-purple-500 to-violet-700', emoji: '🎬' },
+  { judul: 'Game 2D "Benteng Terakhir"', kategori: 'Karya Tugas Akhir', prodi: 'DKV', konsentrasi: 'Animasi & Games', tahun: '2024', link: '#', warna: 'from-indigo-500 to-blue-700', emoji: '🎮' },
+  { judul: 'Motion Graphic Hari Kemerdekaan', kategori: 'Karya Tugas', prodi: 'DKV', konsentrasi: 'Animasi & Games', tahun: '2024', link: '#', warna: 'from-red-500 to-rose-700', emoji: '🎞️' },
+  // ── Multimedia Penyiaran ─────────────────────────────
+  { judul: 'Dokumenter "Kota Tua Jakarta"', kategori: 'Karya Tugas Akhir', prodi: 'DKV', konsentrasi: 'Multimedia Penyiaran', tahun: '2025', link: '#', warna: 'from-amber-400 to-yellow-600', emoji: '🎥' },
+  { judul: 'Podcast Visual — Kreasi Budaya', kategori: 'Karya Tugas', prodi: 'DKV', konsentrasi: 'Multimedia Penyiaran', tahun: '2024', link: '#', warna: 'from-orange-400 to-amber-600', emoji: '🎙️' },
+  { judul: 'Short Film "Satu Langkah"', kategori: 'Karya Tugas', prodi: 'DKV', konsentrasi: 'Multimedia Penyiaran', tahun: '2023', link: '#', warna: 'from-slate-500 to-gray-700', emoji: '🎦' },
+  // ── Multimedia Periklanan ────────────────────────────
+  { judul: 'Kampanye "Jaga Bumi" — Social Media', kategori: 'Karya Tugas', prodi: 'DKV', konsentrasi: 'Multimedia Periklanan', tahun: '2025', link: '#', warna: 'from-teal-400 to-cyan-600', emoji: '📢' },
+  { judul: 'Rebranding Kopi Lokal Nusantara', kategori: 'Karya Tugas Akhir', prodi: 'DKV', konsentrasi: 'Multimedia Periklanan', tahun: '2024', link: '#', warna: 'from-brown-400 to-amber-700', emoji: '☕' },
+  { judul: 'Iklan TV 30 Detik — Anti Hoaks', kategori: 'Karya Tugas', prodi: 'DKV', konsentrasi: 'Multimedia Periklanan', tahun: '2023', link: '#', warna: 'from-sky-400 to-blue-600', emoji: '📺' },
+  // ── Desain Produk Kemasan ────────────────────────────
+  { judul: 'Kemasan Jamu Herbal Modern', kategori: 'Karya Tugas Akhir', prodi: 'DKV', konsentrasi: 'Desain Produk Kemasan', tahun: '2025', link: '#', warna: 'from-green-400 to-emerald-600', emoji: '🌿' },
+  { judul: 'Bintang Sampurna — Snack Line', kategori: 'Karya Tugas', prodi: 'DKV', konsentrasi: 'Desain Produk Kemasan', tahun: '2024', link: '#', warna: 'from-yellow-400 to-orange-500', emoji: '⭐' },
+  // ── Teknologi Grafika ────────────────────────────────
+  { judul: 'Pameran Cetak Saring Nusantara', kategori: 'Pameran', prodi: 'Teknologi Grafika', konsentrasi: 'Packaging Design', tahun: '2025', link: '#', warna: 'from-rose-400 to-pink-600', emoji: '🖨️' },
+  { judul: 'Majalah Layout "Trisakti Kreatif"', kategori: 'Karya Tugas Akhir', prodi: 'Teknologi Grafika', konsentrasi: '', tahun: '2024', link: '#', warna: 'from-lime-400 to-green-600', emoji: '📰' },
+  // ── Event Kampus ─────────────────────────────────────
+  { judul: 'Trisakti Multimedia Exposphere 2026', kategori: 'Event Kampus', prodi: 'Semua Prodi', konsentrasi: '', tahun: '2026', link: '#', warna: 'from-blue-500 to-blue-800', emoji: '🎪' },
+  { judul: 'Global Packaging Expo — Nice PIK2', kategori: 'Event Kampus', prodi: 'Semua Prodi', konsentrasi: '', tahun: '2026', link: '#', warna: 'from-fuchsia-500 to-purple-700', emoji: '🏆' },
 ];
 
 const kategoriList = ['Semua', 'Karya Tugas', 'Karya Tugas Akhir', 'Event Kampus', 'Pameran'];
