@@ -7,6 +7,7 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  darkNav?: boolean;
 }
 
 const base = import.meta.env.BASE_URL;
@@ -14,7 +15,8 @@ const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') 
 const {
   title,
   description = 'STMK Trisakti – Sekolah Tinggi Media Komunikasi Trisakti, kampus multimedia terdepan di Jakarta. Program Desain Komunikasi Visual dan Teknologi Grafika berstandar industri.',
-  image = url('/images/og-image.jpg')
+  image = url('/images/og-image.jpg'),
+  darkNav = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, 'https://www.trisaktimultimedia.ac.id');
@@ -78,7 +80,10 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.trisaktimultimedia
       })}
     </script>
   </head>
-  <body class="bg-[#FAFAF8] antialiased">
+  <body class="bg-[#FAFAF8] antialiased" data-dark-nav={darkNav ? 'true' : undefined}>
+    <!-- Cursor glow — follows mouse, low opacity radial gradient -->
+    <div id="cursor-glow" aria-hidden="true"></div>
+
     <Header />
     <main>
       <slot />
@@ -86,6 +91,32 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.trisaktimultimedia
     <Footer />
 
     <script>
+      // ── 3D tilt effect for .tilt-card elements ──
+      function initTilt() {
+        document.querySelectorAll<HTMLElement>('.tilt-card').forEach(card => {
+          if (card.dataset.tiltInit) return;
+          card.dataset.tiltInit = '1';
+          let raf = 0;
+          card.addEventListener('mousemove', (e: MouseEvent) => {
+            cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(() => {
+              const rect = card.getBoundingClientRect();
+              const x = (e.clientX - rect.left) / rect.width - 0.5;
+              const y = (e.clientY - rect.top) / rect.height - 0.5;
+              card.style.transform = `perspective(900px) rotateX(${-y*8}deg) rotateY(${x*8}deg) scale(1.015)`;
+              card.style.transition = 'transform 0.08s ease-out';
+            });
+          });
+          card.addEventListener('mouseleave', () => {
+            cancelAnimationFrame(raf);
+            card.style.transform = 'perspective(900px) rotateX(0) rotateY(0) scale(1)';
+            card.style.transition = 'transform 0.55s cubic-bezier(0.23,1,0.32,1)';
+          });
+        });
+      }
+      initTilt();
+      document.addEventListener('astro:page-load', initTilt);
+
       // ── Intersection Observer: reveal + stagger ──
       const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -97,11 +128,31 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.trisaktimultimedia
 
       document.querySelectorAll('.reveal, .stagger, .num-pop').forEach(el => io.observe(el));
 
-      // ── Sticky header ──
+      // ── Cursor glow ──
+      const glowEl = document.getElementById('cursor-glow') as HTMLElement | null;
+      if (glowEl) {
+        let glowRaf = 0;
+        document.addEventListener('mousemove', (e: MouseEvent) => {
+          cancelAnimationFrame(glowRaf);
+          glowRaf = requestAnimationFrame(() => {
+            glowEl.style.left = e.clientX + 'px';
+            glowEl.style.top  = e.clientY + 'px';
+            glowEl.style.opacity = '1';
+          });
+        }, { passive: true });
+        document.addEventListener('mouseleave', () => { glowEl.style.opacity = '0'; });
+      }
+
+      // ── Sticky header — dark-nav aware ──
       const header = document.getElementById('main-header');
-      window.addEventListener('scroll', () => {
-        header?.classList.toggle('shadow-md', window.scrollY > 20);
-      }, { passive: true });
+      const isDarkNav = document.body.dataset.darkNav === 'true';
+      const onScroll = () => {
+        const scrolled = window.scrollY > 60;
+        header?.classList.toggle('scrolled', scrolled);
+        if (!isDarkNav) header?.classList.toggle('shadow-sm', scrolled);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
 
       // ── Animated number counter ──
       function animateCounter(el: HTMLElement) {

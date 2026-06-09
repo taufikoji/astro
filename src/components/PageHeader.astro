@@ -1,5 +1,4 @@
 ---
-import PuzzleCanvas from './PuzzleCanvas.astro';
 const base = import.meta.env.BASE_URL;
 const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
 
@@ -10,42 +9,70 @@ interface Props {
   breadcrumb?: { label: string; href: string }[];
   tabs?: { label: string; href: string }[];
   currentPath?: string;
+  accent?: 'red' | 'cyan' | 'purple' | 'amber' | 'green';
 }
 
-const { label, title, desc, breadcrumb = [], tabs = [], currentPath = '' } = Astro.props;
+const {
+  label, title, desc,
+  breadcrumb = [],
+  tabs = [],
+  currentPath = '',
+  accent = 'red',
+} = Astro.props;
+
+const accentColors: Record<string, { blob1: string; blob2: string; bar: string; glow: string; tabActive: string }> = {
+  red:    { blob1: 'rgba(200,16,46,0.45)',   blob2: 'rgba(200,80,255,0.20)',  bar: 'var(--brand)',      glow: 'rgba(200,16,46,0.6)',   tabActive: 'var(--brand)' },
+  cyan:   { blob1: 'rgba(0,229,255,0.35)',   blob2: 'rgba(200,16,46,0.20)',   bar: 'var(--neon-cyan)',  glow: 'rgba(0,229,255,0.6)',   tabActive: 'var(--neon-cyan)' },
+  purple: { blob1: 'rgba(200,80,255,0.40)',  blob2: 'rgba(0,229,255,0.18)',   bar: 'var(--neon-purple)',glow: 'rgba(200,80,255,0.6)',  tabActive: 'var(--neon-purple)' },
+  amber:  { blob1: 'rgba(255,171,0,0.38)',   blob2: 'rgba(200,16,46,0.20)',   bar: 'var(--neon-amber)', glow: 'rgba(255,171,0,0.6)',   tabActive: 'var(--neon-amber)' },
+  green:  { blob1: 'rgba(0,230,118,0.35)',   blob2: 'rgba(0,229,255,0.18)',   bar: 'var(--neon-green)', glow: 'rgba(0,230,118,0.6)',   tabActive: 'var(--neon-green)' },
+};
+const ac = accentColors[accent];
 ---
 
-<!-- ── Page Header ── -->
-<div class="relative overflow-hidden" style="background:var(--dark)">
+<div class="relative overflow-hidden" style="background:#09090E; min-height: 220px;">
 
-  <!-- Animated puzzle background -->
-  <PuzzleCanvas pieceSize={80} strokeColor="white" opacity={0.08} />
+  <!-- Aurora blobs -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+    <div class="aurora-blob" style={`width:600px;height:500px;top:-120px;left:-80px;background:radial-gradient(circle,${ac.blob1} 0%,transparent 65%);animation:aurora-1 18s ease-in-out infinite;`}></div>
+    <div class="aurora-blob" style={`width:500px;height:400px;top:-80px;right:-60px;background:radial-gradient(circle,${ac.blob2} 0%,transparent 65%);animation:aurora-3 22s ease-in-out infinite;`}></div>
+    <div class="aurora-blob opacity-50" style="width:300px;height:300px;bottom:-80px;left:40%;background:radial-gradient(circle,rgba(200,80,255,0.15) 0%,transparent 65%);animation:aurora-2 25s ease-in-out infinite;"></div>
+  </div>
 
-  <!-- Red left bar -->
-  <div class="absolute top-0 left-0 bottom-0 w-[3px]" style="background:var(--brand); z-index:2"></div>
+  <!-- Grid overlay -->
+  <div class="absolute inset-0 hero-grid opacity-30 pointer-events-none" aria-hidden="true"></div>
 
-  <!-- Bottom fade -->
-  <div class="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
-       style="background:linear-gradient(to top,var(--dark) 0%,transparent 100%); z-index:2"></div>
+  <!-- Accent bar — left edge -->
+  <div class="absolute top-0 left-0 bottom-0 w-[3px] z-10 pointer-events-none"
+       style={`background:${ac.bar};box-shadow:0 0 15px ${ac.glow};`}
+       aria-hidden="true"></div>
 
-  <!-- Large faint title echo behind -->
-  <div class="absolute right-0 bottom-0 overflow-hidden leading-none select-none pointer-events-none"
-       aria-hidden="true">
-    <span class="font-black text-white opacity-[0.025] block"
-          style="font-size:clamp(5rem,18vw,16rem);letter-spacing:-0.04em;line-height:0.85;transform:translateY(20%)">
+  <!-- Bottom gradient fade -->
+  <div class="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
+       style="background:linear-gradient(to top,#09090E 0%,transparent 100%); z-index:2"
+       aria-hidden="true"></div>
+
+  <!-- Large echo text in background -->
+  <div class="absolute right-4 bottom-0 overflow-hidden leading-none select-none pointer-events-none"
+       style="z-index:1" aria-hidden="true">
+    <span class="font-black text-white block"
+          style="font-size:clamp(4rem,14vw,11rem);letter-spacing:-0.05em;line-height:0.85;transform:translateY(25%);opacity:0.025;">
       {title.split(' ')[0].toUpperCase()}
     </span>
   </div>
 
-  <div class="relative max-w-screen-xl mx-auto px-8 md:px-14 pt-14 pb-12" style="z-index:2">
+  <!-- Content -->
+  <div class="relative max-w-screen-xl mx-auto px-8 md:px-14 pt-12 pb-10" style="z-index:3">
 
     <!-- Breadcrumb -->
     {breadcrumb.length > 0 && (
-      <nav class="flex items-center gap-2 mb-7 fade-up" style="animation-delay:0ms">
-        <a href={url('/')} class="text-neutral-600 hover:text-white transition-colors text-xs font-medium">Beranda</a>
+      <nav class="flex items-center gap-2 mb-6 fade-up" aria-label="Breadcrumb" style="animation-delay:0ms">
+        <a href={url('/')} class="text-neutral-600 hover:text-white transition-colors text-xs font-medium">
+          Beranda
+        </a>
         {breadcrumb.map((b) => (
           <>
-            <svg class="w-3 h-3 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-3 h-3 text-neutral-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
             </svg>
             {b.href ? (
@@ -58,20 +85,23 @@ const { label, title, desc, breadcrumb = [], tabs = [], currentPath = '' } = Ast
       </nav>
     )}
 
-    <!-- Label -->
-    <p class="label-tag mb-4 fade-up" style="animation-delay:60ms">{label}</p>
+    <!-- Label pill -->
+    <div class="mb-4 fade-up" style="animation-delay:50ms">
+      <span class="text-[10px] font-black uppercase tracking-[0.16em] px-3 py-1.5 inline-block"
+            style={`color:${ac.bar};background:${ac.glow.replace('0.6','0.12')};border:1px solid ${ac.glow.replace('0.6','0.3')};border-radius:2px`}>
+        {label}
+      </span>
+    </div>
 
     <!-- Title -->
-    <h1
-      class="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight max-w-3xl fade-up"
-      style="animation-delay:120ms"
-    >
+    <h1 class="text-4xl md:text-5xl lg:text-[3.5rem] font-black text-white tracking-tight leading-[1.02] max-w-3xl fade-up"
+        style="animation-delay:100ms">
       {title}
     </h1>
 
     <!-- Desc -->
     {desc && (
-      <p class="text-neutral-400 text-base leading-relaxed mt-4 max-w-xl fade-up" style="animation-delay:180ms">
+      <p class="text-neutral-400 text-sm leading-relaxed mt-4 max-w-xl fade-up" style="animation-delay:160ms">
         {desc}
       </p>
     )}
@@ -79,17 +109,39 @@ const { label, title, desc, breadcrumb = [], tabs = [], currentPath = '' } = Ast
 
   <!-- Sub-nav tabs -->
   {tabs.length > 0 && (
-    <div class="border-t" style="border-color:rgba(255,255,255,0.07)">
-      <div class="max-w-screen-xl mx-auto px-8 md:px-14 flex gap-0 overflow-x-auto">
-        {tabs.map(tab => (
-          <a
-            href={tab.href}
-            class:list={['sub-tab', currentPath === tab.href ? 'active' : '']}
-          >
-            {tab.label}
-          </a>
-        ))}
+    <div class="relative border-t" style="border-color:rgba(255,255,255,0.07); z-index:3">
+      <div class="max-w-screen-xl mx-auto px-8 md:px-14 flex gap-0 overflow-x-auto page-tabs">
+        {tabs.map(tab => {
+          const isActive = currentPath === tab.href || currentPath.startsWith(tab.href + '/');
+          return (
+            <a
+              href={tab.href}
+              class:list={['page-tab', isActive ? 'page-tab-active' : '']}
+              style={isActive ? `--tab-color:${ac.tabActive}` : ''}
+            >
+              {tab.label}
+            </a>
+          );
+        })}
       </div>
     </div>
   )}
 </div>
+
+<style>
+  .page-tab {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    color: rgba(255,255,255,0.45);
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .page-tab:hover { color: rgba(255,255,255,0.85); }
+  .page-tab-active {
+    color: var(--tab-color, var(--brand));
+    border-bottom-color: var(--tab-color, var(--brand));
+  }
+</style>
