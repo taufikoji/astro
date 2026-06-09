@@ -1,0 +1,249 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
+
+const pedoman = [
+  {
+    kategori: 'Pedoman Akademik',
+    warna: 'var(--brand)',
+    items: [
+      { judul: 'Buku Pedoman Akademik 2025/2026', keterangan: 'Peraturan akademik, kurikulum, jadwal, dan ketentuan umum mahasiswa aktif.', type: 'PDF', tahun: '2025' },
+      { judul: 'Kalender Akademik 2025/2026', keterangan: 'Jadwal perkuliahan, UTS, UAS, libur nasional, dan kegiatan akademik penting.', type: 'PDF', tahun: '2025' },
+      { judul: 'Panduan Tugas Akhir (TA)', keterangan: 'Prosedur pengajuan, format penulisan, dan jadwal sidang Tugas Akhir.', type: 'PDF', tahun: '2025' },
+    ],
+  },
+  {
+    kategori: 'Pedoman Penelitian & PKM',
+    warna: 'var(--neon-cyan)',
+    items: [
+      { judul: 'Panduan Penelitian Dosen', keterangan: 'Prosedur pengajuan proposal riset internal, etika penelitian, dan pelaporan.', type: 'PDF', tahun: '2025' },
+      { judul: 'Panduan PKM Mahasiswa', keterangan: 'Jenis PKM, format proposal, batas waktu pengajuan, dan alur penilaian.', type: 'PDF', tahun: '2025' },
+      { judul: 'Panduan Publikasi Ilmiah', keterangan: 'Tata cara submit ke jurnal Sinta, template penulisan, dan daftar jurnal rekanan.', type: 'PDF', tahun: '2024' },
+    ],
+  },
+  {
+    kategori: 'Pedoman Kemahasiswaan',
+    warna: 'var(--neon-purple)',
+    items: [
+      { judul: 'Panduan Organisasi Mahasiswa', keterangan: 'Tata kelola BEM, UKM, dan himpunan — prosedur kegiatan dan pertanggungjawaban.', type: 'PDF', tahun: '2025' },
+      { judul: 'Buku Saku Mahasiswa Baru', keterangan: 'Orientasi kampus, fasilitas, layanan akademik, dan kontak penting untuk maba.', type: 'PDF', tahun: '2025' },
+      { judul: 'Panduan Beasiswa & Prestasi', keterangan: 'Jenis beasiswa tersedia, persyaratan, dan tata cara pendaftaran.', type: 'PDF', tahun: '2025' },
+    ],
+  },
+];
+
+const template = [
+  { judul: 'Template Proposal Tugas Akhir', format: 'DOCX', desc: 'Format resmi proposal TA untuk Program Studi DKV dan Teknologi Grafika.' },
+  { judul: 'Template Laporan Tugas Akhir', format: 'DOCX', desc: 'Format penulisan laporan TA — cover, abstrak, daftar isi, bab, hingga daftar pustaka.' },
+  { judul: 'Template Proposal PKM', format: 'DOCX', desc: 'Format proposal Program Kreativitas Mahasiswa sesuai panduan Kemendikbudristek.' },
+  { judul: 'Template Jurnal STMK Trisakti', format: 'DOCX', desc: 'Format artikel ilmiah untuk publikasi di Jurnal Multimedia & Grafika STMK Trisakti.' },
+  { judul: 'Template Surat Permohonan', format: 'DOCX', desc: 'Surat permohonan umum, cuti akademik, pemindahan jadwal, dan keperluan administratif.' },
+  { judul: 'Form Pengajuan Kerja Praktik', format: 'PDF', desc: 'Formulir pengajuan KP, lembar penilaian pembimbing lapangan, dan format laporan.' },
+];
+
+const p3m = [
+  { label: 'Pengajuan Proposal Riset', tahap: ['Hubungi LPPM', 'Isi form online', 'Review komite', 'Approval Ketua'], waktu: '~2 minggu' },
+  { label: 'Pengajuan PKM Mahasiswa', tahap: ['Download template', 'Isi & konsultasi dosen', 'Submit ke LPPM', 'Seleksi internal'], waktu: 'Mengikuti jadwal Dikti' },
+  { label: 'Publikasi Jurnal Internal', tahap: ['Submit artikel', 'Blind review', 'Revisi (jika perlu)', 'Terbit online'], waktu: '~6 minggu' },
+];
+---
+
+<Layout
+  title="Panduan Akademik STMK Trisakti"
+  description="Pedoman akademik, template dokumen, dan panduan P3M STMK Trisakti. Unduh kalender akademik, panduan TA, dan template resmi sesuai standar kampus."
+>
+
+  <PageHeader
+    label="Layanan Akademik"
+    title="Panduan Akademik"
+    desc="Pedoman, template resmi, dan panduan P3M — semua dokumen penting dalam satu tempat."
+    breadcrumb={[
+      { label: 'Akademik', href: url('/akademik') },
+      { label: 'Panduan Akademik', href: '' },
+    ]}
+    accent="red"
+  />
+
+  <!-- Quick access bar -->
+  <div class="border-b border-neutral-200" style="background:var(--surface)">
+    <div class="max-w-screen-xl mx-auto px-8 md:px-14">
+      <div class="flex items-center gap-0 overflow-x-auto scrollbar-hide">
+        {[
+          { label: 'Pedoman', id: 'pedoman' },
+          { label: 'Template', id: 'template' },
+          { label: 'Alur P3M', id: 'p3m' },
+          { label: 'Kontak Akademik', id: 'kontak' },
+        ].map(t => (
+          <a href={`#${t.id}`}
+             class="shrink-0 px-5 py-4 text-sm font-semibold text-neutral-500 hover:text-neutral-900 border-b-2 border-transparent hover:border-neutral-400 transition-colors whitespace-nowrap">
+            {t.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20 space-y-24">
+
+    <!-- Section 1: Pedoman -->
+    <div id="pedoman" class="reveal">
+      <p class="section-num mb-3">Dokumen Resmi</p>
+      <h2 class="text-3xl font-black tracking-tight text-neutral-950 mb-10">Pedoman & Regulasi</h2>
+
+      <div class="space-y-10">
+        {pedoman.map(group => (
+          <div>
+            <div class="flex items-center gap-3 mb-5">
+              <div class="w-1 h-8 rounded-full" style={`background:${group.warna}`}></div>
+              <h3 class="text-lg font-black text-neutral-950">{group.kategori}</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {group.items.map(item => (
+                <div class="border border-neutral-200 bg-white p-5 hover:border-neutral-300 hover:shadow-sm transition-all" style="border-radius:2px">
+                  <div class="flex items-start justify-between gap-3 mb-3">
+                    <h4 class="font-black text-neutral-950 text-sm leading-tight">{item.judul}</h4>
+                    <span class="shrink-0 text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded-sm"
+                          style={`background:${group.warna}18;color:${group.warna};border:1px solid ${group.warna}40`}>{item.type}</span>
+                  </div>
+                  <p class="text-xs text-neutral-500 leading-relaxed mb-4">{item.keterangan}</p>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[10px] text-neutral-400">Revisi {item.tahun}</span>
+                    <button class="text-xs font-bold flex items-center gap-1 transition-colors"
+                            style={`color:${group.warna}`}>
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                      </svg>
+                      Unduh
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Section 2: Template -->
+    <div id="template" class="reveal">
+      <p class="section-num mb-3">Dokumen Kerja</p>
+      <h2 class="text-3xl font-black tracking-tight text-neutral-950 mb-3">Template Dokumen Resmi</h2>
+      <p class="text-sm text-neutral-500 mb-10 max-w-2xl">Gunakan template ini untuk memastikan dokumen Anda sesuai format standar STMK Trisakti. Jangan gunakan template versi lama.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 stagger">
+        {template.map(t => (
+          <div class="border border-neutral-200 bg-white p-5 hover:border-neutral-300 hover:shadow-sm transition-all group" style="border-radius:2px">
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <h3 class="font-black text-neutral-950 text-sm leading-tight">{t.judul}</h3>
+              <span class="shrink-0 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-sm bg-neutral-100 text-neutral-500">{t.format}</span>
+            </div>
+            <p class="text-xs text-neutral-500 leading-relaxed mb-4">{t.desc}</p>
+            <button class="text-xs font-bold text-neutral-400 group-hover:text-[var(--brand)] flex items-center gap-1 transition-colors">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+              </svg>
+              Unduh Template
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Section 3: Alur P3M -->
+    <div id="p3m" class="reveal">
+      <p class="section-num mb-3">LPPM</p>
+      <h2 class="text-3xl font-black tracking-tight text-neutral-950 mb-3">Alur Pengajuan P3M</h2>
+      <p class="text-sm text-neutral-500 mb-10 max-w-2xl">Panduan langkah-langkah pengajuan untuk penelitian, pengabdian masyarakat, dan publikasi ilmiah.</p>
+
+      <div class="space-y-6">
+        {p3m.map((proses, i) => (
+          <div class="border border-neutral-200 bg-white p-6" style="border-radius:2px">
+            <div class="flex items-center gap-4 mb-5">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center text-white font-black text-sm shrink-0" style="background:var(--brand)">
+                {i + 1}
+              </div>
+              <div>
+                <h3 class="font-black text-neutral-950 text-sm">{proses.label}</h3>
+                <p class="text-[10px] text-neutral-400 mt-0.5">Estimasi waktu: {proses.waktu}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+              {proses.tahap.map((step, j) => (
+                <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-2 px-3 py-2 bg-neutral-50 border border-neutral-200 text-xs font-semibold text-neutral-700" style="border-radius:2px">
+                    <span class="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-black text-white shrink-0" style="background:var(--brand)">
+                      {j + 1}
+                    </span>
+                    {step}
+                  </div>
+                  {j < proses.tahap.length - 1 && (
+                    <svg class="w-4 h-4 text-neutral-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Section 4: Kontak -->
+    <div id="kontak" class="reveal">
+      <p class="section-num mb-3">Butuh Bantuan?</p>
+      <h2 class="text-3xl font-black tracking-tight text-neutral-950 mb-10">Kontak Bagian Akademik</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[
+          {
+            unit: 'Bagian Akademik & Registrasi',
+            telp: '+62 877 4299 7808',
+            email: 'akademik@trisaktimultimedia.ac.id',
+            jam: 'Senin–Jumat, 08.00–16.00 WIB',
+            icon: '🎓',
+          },
+          {
+            unit: 'LPPM (Penelitian & PKM)',
+            telp: '+62 877 4299 7808',
+            email: 'lppm@trisaktimultimedia.ac.id',
+            jam: 'Senin–Jumat, 08.00–15.00 WIB',
+            icon: '🔬',
+          },
+          {
+            unit: 'Kemahasiswaan & Alumni',
+            telp: '+62 877 4299 7808',
+            email: 'kemahasiswaan@trisaktimultimedia.ac.id',
+            jam: 'Senin–Jumat, 08.00–16.00 WIB',
+            icon: '🤝',
+          },
+        ].map(k => (
+          <div class="border border-neutral-200 bg-white p-6" style="border-radius:2px">
+            <div class="text-3xl mb-4">{k.icon}</div>
+            <h3 class="font-black text-neutral-950 text-sm mb-4 leading-tight">{k.unit}</h3>
+            <div class="space-y-2 text-xs text-neutral-500">
+              <p>{k.telp}</p>
+              <p class="text-[var(--brand)]">{k.email}</p>
+              <p class="text-neutral-400">{k.jam}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-10 p-8 text-center" style="background:var(--brand);border-radius:2px">
+        <h3 class="text-xl font-black text-white mb-3">Ada Pertanyaan Lain?</h3>
+        <p class="text-white/70 text-sm mb-6 max-w-md mx-auto">Tim akademik kami siap membantu. Kunjungi kampus atau hubungi kami via WhatsApp untuk respons lebih cepat.</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="https://wa.me/6287742997808" target="_blank" rel="noopener noreferrer"
+             class="btn-secondary">Chat WhatsApp</a>
+          <a href={url('/kontak')} class="btn-outline-white">Halaman Kontak</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</Layout>

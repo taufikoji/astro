@@ -1,0 +1,141 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
+
+const matkul = [
+  { kode: 'DKV321', nama: 'Strategi Kreatif Periklanan',    desc: 'Metodologi brief kreatif, insight konsumen, big idea, dan pengembangan platform komunikasi merek.' },
+  { kode: 'DKV322', nama: 'Desain Iklan Digital & Print',   desc: 'Eksekusi visual iklan lintas media — banner digital, majalah, billboard, dan social media ads.' },
+  { kode: 'DKV323', nama: 'Branding & Identitas Visual',    desc: 'Perancangan identitas merek: logo system, brand guidelines, dan brand experience.' },
+  { kode: 'DKV324', nama: 'Social Media & Content Design',  desc: 'Desain konten untuk Instagram, TikTok, X, dan platform digital — dari brief hingga posting.' },
+  { kode: 'DKV325', nama: 'Kampanye Multi-Platform',        desc: 'Perencanaan dan eksekusi kampanye iklan terpadu di media cetak, digital, dan ambient.' },
+  { kode: 'DKV326', nama: 'Proyek Kreatif Periklanan',      desc: 'Pitching kreatif nyata kepada klien industri — dari riset konsumen hingga presentasi kampanye.' },
+];
+
+const karir = [
+  { title: 'Art Director',          desc: 'Agensi periklanan, in-house agency brand, dan production house untuk arahan visual kampanye.', icon: '🎨' },
+  { title: 'Brand Designer',        desc: 'Konsultansi branding, startup, dan perusahaan yang membangun atau merevitalisasi identitas merek.', icon: '💡' },
+  { title: 'Creative Strategist',   desc: 'Posisi hybrid yang menggabungkan pemikiran strategis dengan eksekusi kreatif di agency digital.', icon: '📊' },
+  { title: 'Social Media Creative', desc: 'Content creator profesional untuk brand FMCG, fashion, tech, dan F&B di seluruh platform.', icon: '📱' },
+];
+
+const tools = ['Adobe Illustrator', 'Adobe Photoshop', 'Figma', 'Adobe InDesign', 'Canva Pro', 'Adobe XD', 'Meta Ads Manager'];
+---
+
+<Layout
+  title="Multimedia Periklanan — Konsentrasi DKV STMK Trisakti"
+  description="Konsentrasi Multimedia Periklanan S1 DKV STMK Trisakti. Kuasai strategi kreatif, desain iklan, branding, dan kampanye multi-platform bersama praktisi periklanan."
+>
+
+  <PageHeader
+    label="Konsentrasi DKV"
+    title="Multimedia Periklanan"
+    desc="Rancang kampanye kreatif yang menggerakkan audiens — dari brief ke karya yang berpengaruh."
+    breadcrumb={[
+      { label: 'Program', href: url('/program') },
+      { label: 'DKV', href: url('/program/dkv') },
+      { label: 'Multimedia Periklanan', href: '' },
+    ]}
+    accent="amber"
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+      <!-- Main -->
+      <div class="lg:col-span-2 space-y-16">
+
+        <!-- About -->
+        <div class="reveal">
+          <p class="section-num mb-4">Tentang Konsentrasi</p>
+          <h2 class="text-3xl font-black tracking-tight text-neutral-950 mb-6 leading-tight">
+            Dari Brief ke Kampanye —<br/>
+            <span style="color:var(--neon-amber)">Kreatif yang Menggerakkan Pasar</span>
+          </h2>
+          <div class="space-y-4 text-sm text-neutral-600 leading-relaxed max-w-2xl">
+            <p>Konsentrasi Multimedia Periklanan menggabungkan pemikiran strategis dan eksekusi kreatif. Mahasiswa belajar membangun ide besar dari riset konsumen, lalu mengeksekusinya menjadi kampanye nyata di berbagai platform — cetak, digital, sosial, dan ambient.</p>
+            <p>Kurikulum dirancang bersama praktisi periklanan aktif dari agensi terkemuka. Mahasiswa akan mengerjakan brief nyata dari klien, pitching di hadapan panel industri, dan membangun portofolio kampanye yang siap untuk dunia kerja.</p>
+          </div>
+        </div>
+
+        <!-- Tools -->
+        <div class="reveal">
+          <p class="section-num mb-4">Tools yang Dipelajari</p>
+          <div class="flex flex-wrap gap-2">
+            {tools.map(t => (
+              <span class="badge-neon-amber text-xs font-bold px-4 py-2" style="border-radius:3px">{t}</span>
+            ))}
+          </div>
+        </div>
+
+        <!-- Mata Kuliah -->
+        <div class="reveal">
+          <p class="section-num mb-4">Mata Kuliah Unggulan</p>
+          <h2 class="text-2xl font-black tracking-tight text-neutral-950 mb-8">6 Mata Kuliah Inti Konsentrasi</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-200 stagger">
+            {matkul.map(m => (
+              <div class="bg-white p-6 hover:bg-[#FAFAF8] transition-colors">
+                <div class="text-[10px] font-black uppercase tracking-widest mb-2" style="color:var(--neon-amber)">{m.kode}</div>
+                <h3 class="font-black text-neutral-950 text-sm mb-2 leading-tight">{m.nama}</h3>
+                <p class="text-xs text-neutral-500 leading-relaxed">{m.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Karir -->
+        <div class="reveal">
+          <p class="section-num mb-4">Prospek Karir</p>
+          <h2 class="text-2xl font-black tracking-tight text-neutral-950 mb-8">Mau Jadi Apa Setelah Lulus?</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 stagger">
+            {karir.map(k => (
+              <div class="border border-neutral-200 bg-white p-6 hover:border-neutral-300 hover:shadow-md transition-all" style="border-radius:2px">
+                <div class="text-3xl mb-3">{k.icon}</div>
+                <h3 class="font-black text-neutral-950 text-sm mb-2">{k.title}</h3>
+                <p class="text-xs text-neutral-500 leading-relaxed">{k.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- CTA mobile -->
+        <div class="lg:hidden reveal">
+          <div class="puzzle-dark p-7" style="background:var(--dark);border-radius:2px">
+            <p class="label-tag mb-3">Tertarik di Periklanan?</p>
+            <h3 class="text-xl font-black text-white mb-4 tracking-tight">Wujudkan Kampanye Kreatifmu</h3>
+            <a href={url('/pmb')} class="btn-primary w-full justify-center mb-3">Daftar Sekarang</a>
+            <a href="https://wa.me/6287742997808" target="_blank" rel="noopener noreferrer"
+               class="btn-outline-white w-full justify-center text-xs py-2.5">Chat WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="hidden lg:block space-y-4">
+        <div class="puzzle-dark p-7" style="background:var(--dark);border-radius:2px;position:sticky;top:80px">
+          <p class="label-tag mb-3">Tertarik di Periklanan?</p>
+          <h3 class="text-xl font-black text-white mb-3 tracking-tight">Wujudkan Kampanye Kreatifmu</h3>
+          <p class="text-neutral-400 text-xs mb-5 leading-relaxed">Belajar langsung dari art director dan brand strategist aktif di industri.</p>
+          <a href={url('/pmb')} class="btn-primary w-full justify-center mb-3">Daftar Sekarang</a>
+          <a href="https://wa.me/6287742997808" target="_blank" rel="noopener noreferrer"
+             class="btn-outline-white w-full justify-center text-xs py-2.5">Chat WhatsApp</a>
+        </div>
+
+        <div class="border border-neutral-200 bg-white p-5" style="border-radius:2px">
+          <h4 class="text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-4">Konsentrasi Lain di DKV</h4>
+          {[
+            { label: 'Animasi & Games',        href: url('/program/dkv/animasi-games') },
+            { label: 'Multimedia Penyiaran',   href: url('/program/dkv/multimedia-penyiaran') },
+            { label: 'Desain Produk Kemasan',  href: url('/program/dkv/desain-produk-kemasan') },
+          ].map(l => (
+            <a href={l.href} class="flex items-center justify-between py-2.5 border-b border-neutral-100 last:border-0 text-sm text-neutral-600 hover:text-[var(--brand)] transition-colors group">
+              <span>{l.label}</span>
+              <svg class="w-3.5 h-3.5 text-neutral-300 group-hover:text-[var(--brand)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

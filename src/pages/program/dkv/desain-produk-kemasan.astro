@@ -1,0 +1,141 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
+
+const matkul = [
+  { kode: 'DKV331', nama: 'Desain Kemasan & Branding Produk',  desc: 'Prinsip desain kemasan fungsional dan estetik: struktur, material, tipografi, dan warna untuk identitas produk.' },
+  { kode: 'DKV332', nama: 'Ilustrasi & Seni Kemasan',          desc: 'Teknik ilustrasi komersial, piktogram, dan elemen visual dekoratif khusus untuk permukaan kemasan.' },
+  { kode: 'DKV333', nama: 'Material & Teknologi Cetak',        desc: 'Jenis substrat kemasan, teknik cetak (offset, digital, flexo), finishing, dan pertimbangan keberlanjutan.' },
+  { kode: 'DKV334', nama: 'Desain Produk Digital & 3D',        desc: 'Mockup 3D realistis menggunakan Blender dan Dimension — dari dieline hingga visualisasi rak produk.' },
+  { kode: 'DKV335', nama: 'Strategi Merek & Retail',           desc: 'Psikologi warna rak, shelf impact, visual merchandising, dan riset konsumen untuk keputusan desain kemasan.' },
+  { kode: 'DKV336', nama: 'Proyek Kemasan Terpadu',            desc: 'Pengembangan lini kemasan nyata dari brief FMCG — riset, konsep, prototipe fisik, hingga presentasi klien.' },
+];
+
+const karir = [
+  { title: 'Packaging Designer',    desc: 'Brand owner FMCG, agensi desain kemasan, dan perusahaan manufaktur lokal & multinasional.', icon: '📦' },
+  { title: 'Brand Identity Designer', desc: 'Konsultansi merek, startup produk lokal, dan divisi in-house brand perusahaan consumer goods.', icon: '🏷️' },
+  { title: 'Product Graphic Designer', desc: 'Kategori F&B, kosmetik, kesehatan, dan produk ritel yang membutuhkan desain label dan kemasan.', icon: '🎨' },
+  { title: 'Print & Pre-Press Artist', desc: 'Percetakan kemasan, vendor packaging, dan studio pre-press untuk persiapan file cetak produksi.', icon: '🖨️' },
+];
+
+const tools = ['Adobe Illustrator', 'Adobe Photoshop', 'Adobe Dimension', 'Blender', 'Adobe InDesign', 'Esko ArtPro', 'Canva Pro'];
+---
+
+<Layout
+  title="Desain Produk Kemasan — Konsentrasi DKV STMK Trisakti"
+  description="Konsentrasi Desain Produk Kemasan S1 DKV STMK Trisakti. Kuasai desain kemasan, branding produk, material cetak, dan mockup 3D untuk industri FMCG dan retail."
+>
+
+  <PageHeader
+    label="Konsentrasi DKV"
+    title="Desain Produk Kemasan"
+    desc="Ciptakan kemasan yang memenangkan hati konsumen di rak — di mana desain bertemu strategi merek."
+    breadcrumb={[
+      { label: 'Program', href: url('/program') },
+      { label: 'DKV', href: url('/program/dkv') },
+      { label: 'Desain Produk Kemasan', href: '' },
+    ]}
+    accent="green"
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+      <!-- Main -->
+      <div class="lg:col-span-2 space-y-16">
+
+        <!-- About -->
+        <div class="reveal">
+          <p class="section-num mb-4">Tentang Konsentrasi</p>
+          <h2 class="text-3xl font-black tracking-tight text-neutral-950 mb-6 leading-tight">
+            Dari Dieline ke Rak —<br/>
+            <span style="color:var(--neon-green)">Kemasan yang Menjual</span>
+          </h2>
+          <div class="space-y-4 text-sm text-neutral-600 leading-relaxed max-w-2xl">
+            <p>Konsentrasi Desain Produk Kemasan melatih mahasiswa menguasai seluruh proses perancangan kemasan — dari memahami brief klien, riset bahan dan teknologi cetak, hingga membangun identitas visual produk yang kuat di pasar. Indonesia adalah salah satu pasar FMCG terbesar di Asia, dan kebutuhan akan desainer kemasan terampil terus tumbuh.</p>
+            <p>Mahasiswa tidak hanya belajar estetika, tetapi juga aspek teknis: struktur kemasan, spesifikasi cetak, material ramah lingkungan, dan bagaimana desain berfungsi di lingkungan rak ritel yang kompetitif. Portofolio lulus mencakup proyek kemasan nyata yang siap ditunjukkan ke industri.</p>
+          </div>
+        </div>
+
+        <!-- Tools -->
+        <div class="reveal">
+          <p class="section-num mb-4">Tools yang Dipelajari</p>
+          <div class="flex flex-wrap gap-2">
+            {tools.map(t => (
+              <span class="badge-neon-green text-xs font-bold px-4 py-2" style="border-radius:3px">{t}</span>
+            ))}
+          </div>
+        </div>
+
+        <!-- Mata Kuliah -->
+        <div class="reveal">
+          <p class="section-num mb-4">Mata Kuliah Unggulan</p>
+          <h2 class="text-2xl font-black tracking-tight text-neutral-950 mb-8">6 Mata Kuliah Inti Konsentrasi</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-200 stagger">
+            {matkul.map(m => (
+              <div class="bg-white p-6 hover:bg-[#FAFAF8] transition-colors">
+                <div class="text-[10px] font-black uppercase tracking-widest mb-2" style="color:var(--neon-green)">{m.kode}</div>
+                <h3 class="font-black text-neutral-950 text-sm mb-2 leading-tight">{m.nama}</h3>
+                <p class="text-xs text-neutral-500 leading-relaxed">{m.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Karir -->
+        <div class="reveal">
+          <p class="section-num mb-4">Prospek Karir</p>
+          <h2 class="text-2xl font-black tracking-tight text-neutral-950 mb-8">Mau Jadi Apa Setelah Lulus?</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 stagger">
+            {karir.map(k => (
+              <div class="border border-neutral-200 bg-white p-6 hover:border-neutral-300 hover:shadow-md transition-all" style="border-radius:2px">
+                <div class="text-3xl mb-3">{k.icon}</div>
+                <h3 class="font-black text-neutral-950 text-sm mb-2">{k.title}</h3>
+                <p class="text-xs text-neutral-500 leading-relaxed">{k.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- CTA mobile -->
+        <div class="lg:hidden reveal">
+          <div class="puzzle-dark p-7" style="background:var(--dark);border-radius:2px">
+            <p class="label-tag mb-3">Tertarik di Desain Kemasan?</p>
+            <h3 class="text-xl font-black text-white mb-4 tracking-tight">Rancang Kemasan yang Memenangkan Pasar</h3>
+            <a href={url('/pmb')} class="btn-primary w-full justify-center mb-3">Daftar Sekarang</a>
+            <a href="https://wa.me/6287742997808" target="_blank" rel="noopener noreferrer"
+               class="btn-outline-white w-full justify-center text-xs py-2.5">Chat WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="hidden lg:block space-y-4">
+        <div class="puzzle-dark p-7" style="background:var(--dark);border-radius:2px;position:sticky;top:80px">
+          <p class="label-tag mb-3">Tertarik di Kemasan?</p>
+          <h3 class="text-xl font-black text-white mb-3 tracking-tight">Rancang Kemasan yang Memenangkan Pasar</h3>
+          <p class="text-neutral-400 text-xs mb-5 leading-relaxed">Belajar dari packaging designer aktif yang bekerja di brand FMCG terkemuka.</p>
+          <a href={url('/pmb')} class="btn-primary w-full justify-center mb-3">Daftar Sekarang</a>
+          <a href="https://wa.me/6287742997808" target="_blank" rel="noopener noreferrer"
+             class="btn-outline-white w-full justify-center text-xs py-2.5">Chat WhatsApp</a>
+        </div>
+
+        <div class="border border-neutral-200 bg-white p-5" style="border-radius:2px">
+          <h4 class="text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-4">Konsentrasi Lain di DKV</h4>
+          {[
+            { label: 'Animasi & Games',       href: url('/program/dkv/animasi-games') },
+            { label: 'Multimedia Penyiaran',  href: url('/program/dkv/multimedia-penyiaran') },
+            { label: 'Multimedia Periklanan', href: url('/program/dkv/multimedia-periklanan') },
+          ].map(l => (
+            <a href={l.href} class="flex items-center justify-between py-2.5 border-b border-neutral-100 last:border-0 text-sm text-neutral-600 hover:text-[var(--brand)] transition-colors group">
+              <span>{l.label}</span>
+              <svg class="w-3.5 h-3.5 text-neutral-300 group-hover:text-[var(--brand)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
