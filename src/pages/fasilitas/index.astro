@@ -1,0 +1,99 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
+
+const tabs = [
+  { label: 'Overview',       href: '/fasilitas' },
+  { label: 'Perpustakaan',   href: '/fasilitas/perpustakaan' },
+  { label: 'Laboratorium',   href: '/fasilitas/laboratorium' },
+  { label: 'Studio Podcast', href: '/fasilitas/podcast' },
+];
+
+const fasilitas = [
+  {
+    num: '01',
+    title: 'Perpustakaan',
+    desc: 'Koleksi buku, jurnal ilmiah, materi audiovisual, dan akses database akademik untuk mendukung riset mahasiswa dan dosen.',
+    href: '/fasilitas/perpustakaan',
+    highlights: ['7.000+ koleksi buku', 'Jurnal nasional & internasional', 'Ruang baca nyaman', 'Akses internet gratis'],
+  },
+  {
+    num: '02',
+    title: 'Laboratorium',
+    desc: 'Lab komputer dan studio kreatif berteknologi tinggi untuk praktik desain, animasi, editing video, dan percetakan profesional.',
+    href: '/fasilitas/laboratorium',
+    highlights: ['Mac & PC workstation', 'Software Adobe CC lengkap', 'Lab fotografi & studio', 'Mesin cetak digital'],
+  },
+  {
+    num: '03',
+    title: 'Studio Podcast',
+    desc: 'Studio rekaman modern untuk praktik penyiaran, podcast, dan produksi audio-video — siap pakai oleh mahasiswa dan komunitas kampus.',
+    href: '/fasilitas/podcast',
+    highlights: ['Perekaman multitrack', 'Akustik profesional', 'Kamera broadcasting', 'Live streaming'],
+  },
+];
+---
+
+<Layout title="Fasilitas STMK Trisakti" description="Fasilitas modern STMK Trisakti — perpustakaan, laboratorium kreatif, dan studio podcast untuk mendukung pendidikan multimedia.">
+
+  <PageHeader
+    label="Infrastruktur Kampus"
+    title="Fasilitas"
+    desc="Fasilitas modern yang dirancang untuk menunjang kreativitas, riset, dan kompetensi profesional mahasiswa STMK Trisakti."
+    breadcrumb={[{ label: 'Fasilitas', href: '' }]}
+    tabs={tabs}
+    currentPath={Astro.url.pathname}
+  />
+
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20">
+
+    <!-- Fasilitas grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-neutral-200 stagger mb-20">
+      {fasilitas.map(f => (
+        <a href={url(f.href)}
+           class="bg-[#FAFAF8] hover:bg-white p-10 group transition-colors flex flex-col justify-between min-h-64">
+          <div class="text-5xl font-black leading-none mb-6" style="color:#eeeeed">{f.num}</div>
+          <div>
+            <h2 class="text-2xl font-black text-neutral-950 mb-3 group-hover:text-[var(--brand)] transition-colors tracking-tight">{f.title}</h2>
+            <p class="text-sm text-neutral-500 leading-relaxed mb-5">{f.desc}</p>
+            <ul class="space-y-1.5 mb-6">
+              {f.highlights.map(h => (
+                <li class="flex items-center gap-2 text-xs text-neutral-500">
+                  <span class="w-1 h-1 rounded-full bg-neutral-400 shrink-0"></span>
+                  {h}
+                </li>
+              ))}
+            </ul>
+            <span class="inline-flex items-center gap-2 text-sm font-bold" style="color:var(--brand)">
+              Lihat Detail
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+      <div class="rounded-2xl border border-neutral-200 p-8">
+        <div class="text-3xl mb-4">🏫</div>
+        <h3 class="font-black text-neutral-950 text-lg mb-3">Kunjungi Kampus</h3>
+        <p class="text-neutral-500 text-sm leading-relaxed mb-5">Kami membuka kesempatan kunjungan kampus bagi calon mahasiswa dan masyarakat umum. Jadwalkan kunjungan Anda sekarang.</p>
+        <a href={url('/kontak')} class="btn-primary text-sm">Hubungi Kami</a>
+      </div>
+      <div class="rounded-2xl p-8 text-white" style="background:var(--brand)">
+        <div class="text-3xl mb-4">🎓</div>
+        <h3 class="font-black text-xl mb-3">Daftar Sekarang</h3>
+        <p class="text-white/70 text-sm leading-relaxed mb-5">Manfaatkan seluruh fasilitas kampus STMK Trisakti. Pendaftaran mahasiswa baru 2026/2027 masih terbuka.</p>
+        <a href={url('/pmb')} class="inline-block bg-white font-black text-[var(--brand)] text-sm px-5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors">
+          Daftar 2026/2027
+        </a>
+      </div>
+    </div>
+
+  </div>
+</Layout>

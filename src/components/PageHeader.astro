@@ -112,10 +112,15 @@ const ac = accentColors[accent];
     <div class="relative border-t" style="border-color:rgba(255,255,255,0.07); z-index:3">
       <div class="max-w-screen-xl mx-auto px-8 md:px-14 flex gap-0 overflow-x-auto page-tabs">
         {tabs.map(tab => {
-          const isActive = currentPath === tab.href || currentPath.startsWith(tab.href + '/');
+          // Normalise: apply url() only if href doesn't already carry the base prefix
+          const basePath = base.replace(/\/$/, '');
+          const tabUrl = (tab.href.startsWith('/') && basePath && !tab.href.startsWith(basePath + '/') && tab.href !== basePath)
+            ? url(tab.href)
+            : tab.href;
+          const isActive = currentPath === tabUrl || currentPath.startsWith(tabUrl + '/');
           return (
             <a
-              href={tab.href}
+              href={tabUrl}
               class:list={['page-tab', isActive ? 'page-tab-active' : '']}
               style={isActive ? `--tab-color:${ac.tabActive}` : ''}
             >
