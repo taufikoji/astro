@@ -126,61 +126,57 @@ const path = Astro.url.pathname;
       <a href={url('/pmb')} class="btn-primary hidden md:inline-flex py-2.5 text-xs">
         Daftar 2026/2027
       </a>
-      <button id="menu-btn" class="lg:hidden p-2 header-menu-btn" aria-label="Menu">
-        <svg id="icon-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <button id="menu-btn" class="lg:hidden p-2 header-menu-btn" aria-label="Buka menu">
+        <svg id="icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
-        <svg id="icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
     </div>
   </div>
-
-  <!-- Mobile menu — fixed overlay, scrollable -->
-  <div id="mobile-menu" class="lg:hidden mobile-menu-wrap">
-    <div class="px-5 py-3 pb-10">
-      {navItems.map(item => (
-        <div class="mobile-nav-group">
-          <a href={item.href}
-             class="mobile-nav-link flex items-center justify-between py-3.5 text-sm font-bold border-b transition-colors"
-             style="border-color:var(--mob-border)">
-            <span>{item.label}</span>
-            {item.children && (
-              <svg class="w-3.5 h-3.5 opacity-40 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
-              </svg>
-            )}
-          </a>
-          {item.children && (
-            <div class="pl-4 pt-1 pb-1">
-              {item.children.map(c => (
-                <a href={c.href}
-                   class="mobile-sub-link block py-2.5 text-sm transition-colors"
-                   style="border-bottom:1px solid var(--mob-sub-border)">
-                  {c.label}
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
-      <div class="pt-5 pb-2">
-        <a href={url('/pmb')} class="btn-primary w-full justify-center text-base py-4">
-          Daftar 2026/2027 →
-        </a>
-      </div>
-      <p class="text-center text-[11px] pt-4" style="color:var(--mob-muted)">+62 877 4299 7808 · Senin–Jumat 08.00–17.00</p>
-    </div>
-  </div>
 </header>
+
+<!--
+  Mobile menu is OUTSIDE <header> intentionally.
+  backdrop-filter on the header creates a new containing block,
+  which breaks position:fixed children on iOS/Android.
+-->
+<div id="mobile-menu" aria-hidden="true">
+  <div id="mobile-menu-inner">
+    {navItems.map(item => (
+      <div>
+        <a href={item.href} class="mob-link">
+          <span>{item.label}</span>
+          {item.children && (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 5l7 7-7 7"/>
+            </svg>
+          )}
+        </a>
+        {item.children && (
+          <div class="mob-sub">
+            {item.children.map(c => (
+              <a href={c.href} class="mob-sub-link">{c.label}</a>
+            ))}
+          </div>
+        )}
+      </div>
+    ))}
+    <div style="padding: 20px 0 8px">
+      <a href={url('/pmb')} class="mob-cta">Daftar 2026/2027 →</a>
+    </div>
+    <p class="mob-foot">+62 877 4299 7808 · info@trisaktimultimedia.ac.id</p>
+  </div>
+</div>
 
 <!-- Spacer so content starts below fixed header -->
 <div class="h-[64px]" id="header-spacer"></div>
 
-<style>
+<style is:global>
 /* ═══════════════════════════════════════
-   LIGHT MODE (default — inner pages)
+   HEADER — light mode (default)
 ═══════════════════════════════════════ */
 #main-header {
   background: rgba(250,250,248,0.97);
@@ -206,13 +202,8 @@ const path = Astro.url.pathname;
 .header-dropdown-link       { color: #525252; border-color: rgba(0,0,0,0.05); }
 .header-dropdown-link:hover { background: #f5f5f3; color: #0a0a0a; }
 
-.mobile-menu-wrap { background: rgba(250,250,248,0.99); max-height: 0; transition: max-height 0.35s ease-out; }
-.mobile-menu-wrap.open { max-height: 700px; }
-.mobile-nav-link { color: #262626; }
-.mobile-nav-link:hover { color: #C8102E; }
-
 /* ═══════════════════════════════════════
-   DARK NAV MODE (homepage + dark-hero pages)
+   HEADER — dark nav mode (homepage)
 ═══════════════════════════════════════ */
 body[data-dark-nav] #main-header {
   background: transparent;
@@ -228,105 +219,134 @@ body[data-dark-nav] #main-header.scrolled {
   border-bottom: 1px solid rgba(255,255,255,0.07);
   box-shadow: 0 4px 32px rgba(0,0,0,0.4);
 }
-
 body[data-dark-nav] .header-nav-link        { color: rgba(255,255,255,0.65); }
-body[data-dark-nav] .header-nav-link:hover  { color: rgba(255,255,255,1); }
-body[data-dark-nav] .header-nav-link.active { color: white; font-weight: 700; }
+body[data-dark-nav] .header-nav-link:hover  { color: #fff; }
+body[data-dark-nav] .header-nav-link.active { color: #fff; font-weight: 700; }
 body[data-dark-nav] .header-secondary       { color: rgba(255,255,255,0.4); }
 body[data-dark-nav] .header-secondary:hover { color: rgba(255,255,255,0.9); }
 body[data-dark-nav] .header-menu-btn        { color: rgba(255,255,255,0.8); }
 
-/* Logo: keep original colors, add white pill backing so it's readable on dark */
+/* Logo: white pill preserves DiktiSaintek branding on dark bg */
 body[data-dark-nav] #header-logo {
   background: rgba(255,255,255,0.93);
   padding: 4px 10px;
   border-radius: 4px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.4);
 }
-
 body[data-dark-nav] .header-dropdown {
   background: rgba(12,11,20,0.97);
   border: 1px solid rgba(255,255,255,0.09);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
 }
 body[data-dark-nav] .header-dropdown-link       { color: rgba(255,255,255,0.6); border-color: rgba(255,255,255,0.06); }
-body[data-dark-nav] .header-dropdown-link:hover { background: rgba(255,255,255,0.05); color: white; }
+body[data-dark-nav] .header-dropdown-link:hover { background: rgba(255,255,255,0.05); color: #fff; }
 
-body[data-dark-nav] .mobile-menu-wrap { background: rgba(9,9,14,0.98); }
-body[data-dark-nav] .mobile-nav-link  { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.06); }
-body[data-dark-nav] .mobile-nav-link:hover { color: var(--neon-cyan); }
-
-/* Spacer: hide on dark-nav pages (hero is full height anyway) */
 body[data-dark-nav] #header-spacer { display: none; }
 
 /* ═══════════════════════════════════════
    MOBILE MENU OVERLAY
+   Outside <header> so backdrop-filter
+   doesn't break position:fixed on iOS
 ═══════════════════════════════════════ */
-.mobile-menu-wrap {
-  /* Fixed overlay, starts below header bar */
+#mobile-menu {
+  display: none; /* JS controls visibility */
   position: fixed;
+  inset: 0;
   top: 64px;
-  left: 0; right: 0; bottom: 0;
   z-index: 49;
-
-  /* Scroll */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-
-  /* Default (light) theme */
   background: #FAFAF8;
-  --mob-border:     rgba(0,0,0,0.08);
-  --mob-sub-border: rgba(0,0,0,0.05);
-  --mob-muted:      #a3a3a3;
-
-  /* Hidden by default */
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-6px);
-  transition: opacity 0.25s ease, transform 0.28s cubic-bezier(0.23,1,0.32,1);
 }
-.mobile-menu-wrap.open {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
+#mobile-menu.open {
+  display: block;
 }
 
-/* Light mode nav links */
-.mobile-nav-link  { color: #1a1a1a; }
-.mobile-nav-link:hover { color: var(--brand); }
-.mobile-sub-link  { color: #525252; }
-.mobile-sub-link:hover { color: #0a0a0a; }
+#mobile-menu-inner {
+  padding: 8px 20px 48px;
+}
+
+.mob-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  text-decoration: none;
+}
+.mob-link:active { color: #C8102E; }
+
+.mob-sub {
+  padding: 4px 0 4px 16px;
+}
+.mob-sub-link {
+  display: block;
+  padding: 10px 0;
+  font-size: 14px;
+  color: #525252;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  text-decoration: none;
+}
+.mob-sub-link:active { color: #C8102E; }
+
+.mob-cta {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  text-align: center;
+  background: #C8102E;
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.mob-cta:active { background: #9e0d24; }
+
+.mob-foot {
+  text-align: center;
+  font-size: 11px;
+  color: #a3a3a3;
+  padding-top: 16px;
+}
 
 /* Dark nav mode */
-body[data-dark-nav] .mobile-menu-wrap {
-  background: rgba(9,9,14,0.98);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  --mob-border:     rgba(255,255,255,0.08);
-  --mob-sub-border: rgba(255,255,255,0.05);
-  --mob-muted:      #404040;
+body[data-dark-nav] #mobile-menu {
+  background: #09090E;
 }
-body[data-dark-nav] .mobile-nav-link  { color: rgba(255,255,255,0.85); }
-body[data-dark-nav] .mobile-nav-link:hover { color: var(--neon-cyan); }
-body[data-dark-nav] .mobile-sub-link  { color: rgba(255,255,255,0.45); }
-body[data-dark-nav] .mobile-sub-link:hover { color: rgba(255,255,255,0.9); }
+body[data-dark-nav] .mob-link {
+  color: rgba(255,255,255,0.85);
+  border-color: rgba(255,255,255,0.08);
+}
+body[data-dark-nav] .mob-sub-link {
+  color: rgba(255,255,255,0.45);
+  border-color: rgba(255,255,255,0.05);
+}
 </style>
 
 <script>
-  const btn    = document.getElementById('menu-btn');
-  const menu   = document.getElementById('mobile-menu');
-  const iconO  = document.getElementById('icon-open');
-  const iconC  = document.getElementById('icon-close');
+  const btn   = document.getElementById('menu-btn');
+  const menu  = document.getElementById('mobile-menu');
+  const iconO = document.getElementById('icon-open');
+  const iconC = document.getElementById('icon-close');
 
   function openMenu() {
-    menu?.classList.add('open');
+    if (!menu) return;
+    menu.classList.add('open');
+    menu.removeAttribute('aria-hidden');
     iconO?.classList.add('hidden');
     iconC?.classList.remove('hidden');
-    document.body.style.overflow = 'hidden'; /* prevent background scroll */
+    document.body.style.overflow = 'hidden';
   }
+
   function closeMenu() {
-    menu?.classList.remove('open');
+    if (!menu) return;
+    menu.classList.remove('open');
+    menu.setAttribute('aria-hidden', 'true');
     iconO?.classList.remove('hidden');
     iconC?.classList.add('hidden');
     document.body.style.overflow = '';
@@ -336,12 +356,12 @@ body[data-dark-nav] .mobile-sub-link:hover { color: rgba(255,255,255,0.9); }
     menu?.classList.contains('open') ? closeMenu() : openMenu();
   });
 
-  /* Close on nav link tap */
-  menu?.querySelectorAll('a[href]').forEach(a => {
+  /* Close on any link tap */
+  menu?.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', closeMenu);
   });
 
-  /* Close when screen becomes desktop */
+  /* Close on resize to desktop */
   window.addEventListener('resize', () => {
     if (window.innerWidth >= 1024) closeMenu();
   }, { passive: true });
