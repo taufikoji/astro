@@ -348,8 +348,7 @@
 /* ══════════════════════════════════════════
    MOBILE NAV
 ══════════════════════════════════════════ */
-#mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out; }
-#mobile-menu.open { max-height: 700px; }
+/* Mobile menu — handled entirely by Header.astro component styles */
 
 /* ══════════════════════════════════════════
    ANIMATIONS

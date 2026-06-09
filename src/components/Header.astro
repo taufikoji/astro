@@ -137,20 +137,27 @@ const path = Astro.url.pathname;
     </div>
   </div>
 
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="lg:hidden overflow-hidden border-t mobile-menu-wrap">
-    <div class="max-w-screen-xl mx-auto px-5 py-4 space-y-0.5">
+  <!-- Mobile menu — fixed overlay, scrollable -->
+  <div id="mobile-menu" class="lg:hidden mobile-menu-wrap">
+    <div class="px-5 py-3 pb-10">
       {navItems.map(item => (
-        <div>
+        <div class="mobile-nav-group">
           <a href={item.href}
-             class="block py-2.5 text-sm font-semibold mobile-nav-link border-b border-neutral-100 transition-colors">
-            {item.label}
+             class="mobile-nav-link flex items-center justify-between py-3.5 text-sm font-bold border-b transition-colors"
+             style="border-color:var(--mob-border)">
+            <span>{item.label}</span>
+            {item.children && (
+              <svg class="w-3.5 h-3.5 opacity-40 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+              </svg>
+            )}
           </a>
           {item.children && (
-            <div class="pl-4 pt-1 pb-2 space-y-0.5">
+            <div class="pl-4 pt-1 pb-1">
               {item.children.map(c => (
                 <a href={c.href}
-                   class="block py-1.5 text-sm text-neutral-500 hover:text-neutral-950 transition-colors">
+                   class="mobile-sub-link block py-2.5 text-sm transition-colors"
+                   style="border-bottom:1px solid var(--mob-sub-border)">
                   {c.label}
                 </a>
               ))}
@@ -158,9 +165,12 @@ const path = Astro.url.pathname;
           )}
         </div>
       ))}
-      <div class="pt-3">
-        <a href={url('/pmb')} class="btn-primary w-full justify-center">Daftar Sekarang</a>
+      <div class="pt-5 pb-2">
+        <a href={url('/pmb')} class="btn-primary w-full justify-center text-base py-4">
+          Daftar 2026/2027 →
+        </a>
       </div>
+      <p class="text-center text-[11px] pt-4" style="color:var(--mob-muted)">+62 877 4299 7808 · Senin–Jumat 08.00–17.00</p>
     </div>
   </div>
 </header>
@@ -248,16 +258,91 @@ body[data-dark-nav] .mobile-nav-link:hover { color: var(--neon-cyan); }
 
 /* Spacer: hide on dark-nav pages (hero is full height anyway) */
 body[data-dark-nav] #header-spacer { display: none; }
+
+/* ═══════════════════════════════════════
+   MOBILE MENU OVERLAY
+═══════════════════════════════════════ */
+.mobile-menu-wrap {
+  /* Fixed overlay, starts below header bar */
+  position: fixed;
+  top: 64px;
+  left: 0; right: 0; bottom: 0;
+  z-index: 49;
+
+  /* Scroll */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+
+  /* Default (light) theme */
+  background: #FAFAF8;
+  --mob-border:     rgba(0,0,0,0.08);
+  --mob-sub-border: rgba(0,0,0,0.05);
+  --mob-muted:      #a3a3a3;
+
+  /* Hidden by default */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 0.25s ease, transform 0.28s cubic-bezier(0.23,1,0.32,1);
+}
+.mobile-menu-wrap.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Light mode nav links */
+.mobile-nav-link  { color: #1a1a1a; }
+.mobile-nav-link:hover { color: var(--brand); }
+.mobile-sub-link  { color: #525252; }
+.mobile-sub-link:hover { color: #0a0a0a; }
+
+/* Dark nav mode */
+body[data-dark-nav] .mobile-menu-wrap {
+  background: rgba(9,9,14,0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  --mob-border:     rgba(255,255,255,0.08);
+  --mob-sub-border: rgba(255,255,255,0.05);
+  --mob-muted:      #404040;
+}
+body[data-dark-nav] .mobile-nav-link  { color: rgba(255,255,255,0.85); }
+body[data-dark-nav] .mobile-nav-link:hover { color: var(--neon-cyan); }
+body[data-dark-nav] .mobile-sub-link  { color: rgba(255,255,255,0.45); }
+body[data-dark-nav] .mobile-sub-link:hover { color: rgba(255,255,255,0.9); }
 </style>
 
 <script>
-  const btn   = document.getElementById('menu-btn');
-  const menu  = document.getElementById('mobile-menu');
-  const open  = document.getElementById('icon-open');
-  const close = document.getElementById('icon-close');
+  const btn    = document.getElementById('menu-btn');
+  const menu   = document.getElementById('mobile-menu');
+  const iconO  = document.getElementById('icon-open');
+  const iconC  = document.getElementById('icon-close');
+
+  function openMenu() {
+    menu?.classList.add('open');
+    iconO?.classList.add('hidden');
+    iconC?.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; /* prevent background scroll */
+  }
+  function closeMenu() {
+    menu?.classList.remove('open');
+    iconO?.classList.remove('hidden');
+    iconC?.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
   btn?.addEventListener('click', () => {
-    const isOpen = menu?.classList.toggle('open');
-    open?.classList.toggle('hidden', !!isOpen);
-    close?.classList.toggle('hidden', !isOpen);
+    menu?.classList.contains('open') ? closeMenu() : openMenu();
   });
+
+  /* Close on nav link tap */
+  menu?.querySelectorAll('a[href]').forEach(a => {
+    a.addEventListener('click', closeMenu);
+  });
+
+  /* Close when screen becomes desktop */
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 1024) closeMenu();
+  }, { passive: true });
 </script>
