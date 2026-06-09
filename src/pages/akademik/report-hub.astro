@@ -1,0 +1,229 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}`;
+
+const care = [
+  {
+    letter: 'C',
+    word: 'Capaian',
+    subtitle: 'Akademik & Pembelajaran',
+    color: 'var(--brand)',
+    neon: '#C8102E',
+    desc: 'Data capaian pembelajaran lulusan, indikator kinerja utama (IKU), dan tingkat keterserapan alumni di industri kreatif.',
+    stats: [
+      { label: 'IPK Rata-rata Lulusan', value: '3.42' },
+      { label: 'Masa Studi Rata-rata', value: '4.1 thn' },
+      { label: 'Serapan Kerja < 6 Bln', value: '92%' },
+    ],
+    docs: [
+      { judul: 'Laporan Capaian Pembelajaran Lulusan 2025', type: 'PDF' },
+      { judul: 'Data IKU STMK Trisakti 2024', type: 'PDF' },
+      { judul: 'Tracer Study Alumni 2023–2024', type: 'PDF' },
+    ],
+  },
+  {
+    letter: 'A',
+    word: 'Akreditasi',
+    subtitle: 'Penjaminan Mutu',
+    color: 'var(--neon-cyan)',
+    neon: '#00E5FF',
+    desc: 'Dokumen akreditasi BAN-PT, laporan evaluasi diri (LED), borang, dan hasil monitoring mutu internal STMK Trisakti.',
+    stats: [
+      { label: 'Status Akreditasi DKV', value: 'Baik Sekali' },
+      { label: 'Status Akreditasi TG', value: 'Baik' },
+      { label: 'Siklus Akreditasi', value: '2023–2028' },
+    ],
+    docs: [
+      { judul: 'SK Akreditasi BAN-PT DKV', type: 'PDF' },
+      { judul: 'Laporan Evaluasi Diri (LED) 2023', type: 'PDF' },
+      { judul: 'Laporan AMI Semester Gasal 2024/2025', type: 'PDF' },
+    ],
+  },
+  {
+    letter: 'R',
+    word: 'Riset',
+    subtitle: 'Penelitian & Publikasi',
+    color: 'var(--neon-purple)',
+    neon: '#C850FF',
+    desc: 'Rekapitulasi output penelitian dosen dan mahasiswa — hibah dikti, publikasi jurnal terindeks Sinta, dan PKM nasional.',
+    stats: [
+      { label: 'Penelitian Aktif', value: '12' },
+      { label: 'Publikasi Terindeks', value: '40+' },
+      { label: 'Hibah Dikti Diterima', value: '8' },
+    ],
+    docs: [
+      { judul: 'Rekap Penelitian & PKM 2024–2025', type: 'PDF' },
+      { judul: 'Daftar Publikasi Jurnal Sinta 2024', type: 'PDF' },
+      { judul: 'Laporan LPPM Tahunan 2024', type: 'PDF' },
+    ],
+  },
+  {
+    letter: 'E',
+    word: 'Evaluasi',
+    subtitle: 'Institusi & Laporan',
+    color: 'var(--neon-green)',
+    neon: '#00E676',
+    desc: 'Laporan keuangan publik, hasil evaluasi program studi, data mahasiswa aktif, dan laporan tahunan institusi.',
+    stats: [
+      { label: 'Mahasiswa Aktif 2025', value: '1.200+' },
+      { label: 'Dosen Tetap', value: '15' },
+      { label: 'Rasio Dosen:Mahasiswa', value: '1:20' },
+    ],
+    docs: [
+      { judul: 'Laporan Tahunan Rektor 2024', type: 'PDF' },
+      { judul: 'Data PDDikti 2024/2025', type: 'PDF' },
+      { judul: 'Laporan Keuangan Publik 2024', type: 'PDF' },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Report Hub STMK Trisakti — C.A.R.E"
+  description="Pusat laporan dan data STMK Trisakti: Capaian Akademik, Akreditasi BAN-PT, Riset & Publikasi, dan Evaluasi Institusi — semua dalam satu hub transparan."
+>
+
+  <PageHeader
+    label="Transparansi Institusi"
+    title="Report Hub"
+    desc="Data dan laporan institusi STMK Trisakti — terbuka untuk mahasiswa, dosen, dan mitra."
+    breadcrumb={[
+      { label: 'Akademik', href: url('/akademik') },
+      { label: 'Report Hub', href: '' },
+    ]}
+    accent="cyan"
+  />
+
+  <!-- C.A.R.E acronym hero -->
+  <div style="background:var(--dark);border-bottom:1px solid rgba(255,255,255,0.06)">
+    <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-16">
+      <div class="flex flex-col items-center gap-4 mb-12 text-center">
+        <p class="label-tag">Framework Pelaporan</p>
+        <div class="flex items-end gap-1 md:gap-2">
+          {care.map(c => (
+            <div class="flex flex-col items-center">
+              <span class="font-black leading-none text-5xl md:text-7xl lg:text-8xl tracking-tighter"
+                    style={`color:${c.color};text-shadow:0 0 40px ${c.neon}40`}>
+                {c.letter}
+              </span>
+              <span class="text-[8px] md:text-[10px] font-black uppercase tracking-widest mt-1"
+                    style={`color:${c.neon}`}>
+                {c.word}
+              </span>
+            </div>
+          ))}
+        </div>
+        <p class="text-neutral-500 text-sm max-w-lg">
+          Capaian · Akreditasi · Riset · Evaluasi — empat pilar transparansi akademik STMK Trisakti
+        </p>
+      </div>
+
+      <!-- Quick stats row -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
+        {care.map(c => (
+          <div class="bg-[#09090E] px-6 py-5 text-center">
+            <div class="text-2xl font-black mb-1" style={`color:${c.color}`}>{c.letter}</div>
+            <div class="text-xs font-bold text-white mb-0.5">{c.word}</div>
+            <div class="text-[10px] text-neutral-600">{c.subtitle}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content — 4 sections -->
+  <div class="max-w-screen-xl mx-auto px-8 md:px-14 py-20 space-y-20">
+
+    {care.map((c, i) => (
+      <div id={c.letter.toLowerCase()} class="reveal">
+
+        <!-- Section header -->
+        <div class="flex items-start gap-6 mb-10">
+          <div class="shrink-0 w-16 h-16 md:w-20 md:h-20 flex items-center justify-center font-black text-3xl md:text-4xl"
+               style={`background:${c.neon}15;border:2px solid ${c.neon}40;border-radius:4px;color:${c.color}`}>
+            {c.letter}
+          </div>
+          <div>
+            <p class="section-num mb-1">{c.letter} — Pilar {i + 1}</p>
+            <h2 class="text-2xl md:text-3xl font-black tracking-tight text-neutral-950 leading-tight">
+              {c.word} <span class="font-light text-neutral-400">{c.subtitle}</span>
+            </h2>
+            <p class="text-sm text-neutral-500 mt-2 max-w-2xl leading-relaxed">{c.desc}</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+          <!-- Stats -->
+          <div class="space-y-3">
+            <h3 class="text-[10px] font-black uppercase tracking-widest mb-4" style={`color:${c.color}`}>
+              Data Kunci
+            </h3>
+            {c.stats.map(s => (
+              <div class="flex items-center justify-between px-4 py-3 border"
+                   style={`border-color:${c.neon}20;background:${c.neon}06;border-radius:2px`}>
+                <span class="text-xs text-neutral-600">{s.label}</span>
+                <span class="font-black text-sm" style={`color:${c.color}`}>{s.value}</span>
+              </div>
+            ))}
+          </div>
+
+          <!-- Dokumen -->
+          <div class="lg:col-span-2">
+            <h3 class="text-[10px] font-black uppercase tracking-widest mb-4" style={`color:${c.color}`}>
+              Dokumen Tersedia
+            </h3>
+            <div class="space-y-3">
+              {c.docs.map(d => (
+                <div class="flex items-center justify-between border border-neutral-200 bg-white px-5 py-4 hover:border-neutral-300 hover:shadow-sm transition-all group"
+                     style="border-radius:2px">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 flex items-center justify-center shrink-0"
+                         style={`background:${c.neon}15;border-radius:2px`}>
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" style={`color:${c.color}`} viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="text-sm font-bold text-neutral-900 leading-tight">{d.judul}</p>
+                      <p class="text-[10px] text-neutral-400 mt-0.5">{d.type} · Tersedia untuk diunduh</p>
+                    </div>
+                  </div>
+                  <button class="shrink-0 flex items-center gap-1.5 text-xs font-bold text-neutral-400 group-hover:text-neutral-700 transition-colors ml-4">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                    </svg>
+                    Unduh
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {i < care.length - 1 && (
+          <div class="mt-16 border-b border-neutral-100"></div>
+        )}
+      </div>
+    ))}
+
+    <!-- Request CTA -->
+    <div class="reveal border border-neutral-200 bg-white p-8 md:p-12 text-center" style="border-radius:2px">
+      <p class="section-num mb-3">Butuh Data Spesifik?</p>
+      <h2 class="text-2xl font-black text-neutral-950 mb-3 tracking-tight">Permintaan Dokumen Resmi</h2>
+      <p class="text-sm text-neutral-500 max-w-lg mx-auto mb-8 leading-relaxed">
+        Jika Anda memerlukan dokumen, data, atau laporan yang tidak tersedia di halaman ini — termasuk untuk keperluan penelitian, akreditasi, atau kemitraan — hubungi Bagian Akademik.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="mailto:akademik@trisaktimultimedia.ac.id"
+           class="btn-primary">Kirim Permintaan</a>
+        <a href={url('/akademik/panduan')} class="btn-outline">Lihat Panduan Akademik</a>
+      </div>
+    </div>
+
+  </div>
+</Layout>
